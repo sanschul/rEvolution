@@ -28,7 +28,7 @@ public class AllChangeSets implements ChangeSetCollection {
 	}
 
 	public void remove() {
-		
+		throw new UnsupportedOperationException(); 
 	}
 
 	public Iterator<ChangeSet> iterator() {
