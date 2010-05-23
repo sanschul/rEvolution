@@ -9,7 +9,7 @@ public class MetricSet {
 	private final String name;
 	private final Hashtable<String, Double> metrics;
 
-	public MetricSet(String name) {
+	MetricSet(String name) {
 		this.name = name;
 		this.metrics = new Hashtable<String, Double>();
 	}
