@@ -6,12 +6,13 @@ import java.util.List;
 
 import org.junit.Test;
 
-import edu.usp.ime.revolution.changeset.AllChangeSets;
-import edu.usp.ime.revolution.changeset.ChangeSet;
+import edu.usp.ime.revolution.changesets.AllChangeSets;
+import edu.usp.ime.revolution.changesets.ChangeSet;
 import edu.usp.ime.revolution.exceptions.SCMException;
 import edu.usp.ime.revolution.scm.SCM;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
+import static edu.usp.ime.revolution.changesets.ChangeSetBuilder.*;
 
 public class AllChangeSetsTest {
 
@@ -34,14 +35,6 @@ public class AllChangeSetsTest {
 		verify(scm).getChangeSetList();
 		verify(scm).getChangeSet("abcd");
 		verify(scm).getChangeSet("efgh");
-	}
-
-	private ChangeSet aChangeSet(final String name) {
-		return new ChangeSet() {
-			public String getName() {
-				return name;
-			}
-		};
 	}
 
 	private List<String> someChangeSets() {

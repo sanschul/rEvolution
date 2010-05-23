@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.changeset;
+package edu.usp.ime.revolution.changesets;
 
 import java.util.Iterator;
 

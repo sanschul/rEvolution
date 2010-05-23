@@ -1,13 +1,12 @@
 package edu.usp.ime.revolution.algorithms;
 
-import java.util.Iterator;
-
 import org.junit.Test;
 
 import edu.usp.ime.revolution.builds.Build;
-import edu.usp.ime.revolution.changeset.ChangeSet;
-import edu.usp.ime.revolution.changeset.ChangeSetCollection;
+import edu.usp.ime.revolution.changesets.ChangeSet;
+import edu.usp.ime.revolution.changesets.ChangeSetCollection;
 import static org.mockito.Mockito.*;
+import static edu.usp.ime.revolution.changesets.ChangeSetBuilder.*;
 
 public class DefaultAnalyzerTest {
 
@@ -22,36 +21,5 @@ public class DefaultAnalyzerTest {
 		analyzer.start(collection);
 		
 		verify(build).build(changeSet);
-	}
-
-	private ChangeSet aChangeSet(final String name) {
-		return new ChangeSet() {
-			public String getName() {
-				return name;
-			}
-		};
-	}
-
-	private ChangeSetCollection aCollectionWith(final ChangeSet changeSet) {
-		return new ChangeSetCollection() {
-			private boolean next = true;
-			
-			public Iterator<ChangeSet> iterator() {
-				return this;
-			}
-			
-			public void remove() {
-				
-			}
-			
-			public ChangeSet next() {
-				return changeSet;
-			}
-			
-			public boolean hasNext() {
-				next = !next;
-				return !next;
-			}
-		};
 	}
 }
