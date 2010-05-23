@@ -1,14 +1,30 @@
 package edu.usp.ime.revolution.metrics;
 
+import static org.junit.Assert.*;
+import edu.usp.ime.revolution.exceptions.MetricSetDoesNotExistException;
 import org.junit.Test;
 
 public class MetricStoreTest {
+	
 	@Test
-	public void ShouldStoreAMetric() {
-		MetricStore store = new MetricStore();
+	public void ShouldHaveAChangeSetId() {
+		MetricStore store = new MetricStore("id");
 		
-		//MetricSet set = store.buildMetricSet("metric set name");
-		//store.metricValue("");
+		assertEquals("id", store.getChangeSetId());
+	}
+	
+	@Test
+	public void ShouldBuildAMetricSet() {
+		MetricStore store = new MetricStore("id");
+		MetricSet set = store.buildSet("some plugin metrics");
+		
+		assertEquals(set, store.getSet("some plugin metrics"));
+	}
+	
+	@Test(expected=MetricSetDoesNotExistException.class)
+	public void ShouldWarnWhenMetricDoesNotExist() {
+		MetricStore store = new MetricStore("id");
+		store.getSet("anyone");
 	}
 
 }
