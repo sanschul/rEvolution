@@ -1,6 +1,7 @@
 package edu.usp.ime.revolution.metrics;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import edu.usp.ime.revolution.exceptions.MetricSetDoesNotExistException;
@@ -9,14 +10,14 @@ public class MetricStore {
 
 	private final String changeSetId;
 	private final List<MetricSet> sets;
+	private final Calendar metricTime;
+	private final Calendar changeSetTime;
 
-	public MetricStore(String changeSetId) {
+	public MetricStore(String changeSetId, Calendar changeSetTime, Calendar metricTime) {
 		this.changeSetId = changeSetId;
+		this.changeSetTime = changeSetTime;
+		this.metricTime = metricTime;
 		this.sets = new ArrayList<MetricSet>();
-	}
-
-	public String getChangeSetId() {
-		return changeSetId;
 	}
 
 	public MetricSet buildSet(String name) {
@@ -34,4 +35,17 @@ public class MetricStore {
 		throw new MetricSetDoesNotExistException();
 	}
 
+	public String getChangeSetId() {
+		return changeSetId;
+	}
+
+	public Calendar getChangeSetTime() {
+		return changeSetTime;
+	}
+
+	public Calendar getMetricTime() {
+		return metricTime;
+	}
+
+	
 }
