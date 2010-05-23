@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.algorithms;
+package edu.usp.ime.revolution.changesets;
 
 import java.util.ArrayList;
 import java.util.Iterator;
