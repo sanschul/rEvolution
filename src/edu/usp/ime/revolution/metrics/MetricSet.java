@@ -2,6 +2,8 @@ package edu.usp.ime.revolution.metrics;
 
 import java.util.Hashtable;
 
+import edu.usp.ime.revolution.exceptions.MetricAlreadyInSetException;
+
 public class MetricSet {
 
 	private final String name;
@@ -17,6 +19,8 @@ public class MetricSet {
 	}
 
 	public void setMetric(String name, double value) {
+		if(metrics.containsKey(name)) throw new MetricAlreadyInSetException();
+		
 		metrics.put(name, value);
 	}
 
