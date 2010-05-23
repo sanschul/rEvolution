@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.changesets;
+package edu.usp.ime.revolution.scm;
 
 public interface ChangeSet {
 

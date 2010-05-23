@@ -3,10 +3,10 @@ package edu.usp.ime.revolution.algorithms;
 import org.junit.Test;
 
 import edu.usp.ime.revolution.builds.Build;
-import edu.usp.ime.revolution.changesets.ChangeSet;
-import edu.usp.ime.revolution.changesets.ChangeSetCollection;
+import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import static org.mockito.Mockito.*;
-import static edu.usp.ime.revolution.changesets.ChangeSetBuilder.*;
+import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
 public class DefaultAnalyzerTest {
 

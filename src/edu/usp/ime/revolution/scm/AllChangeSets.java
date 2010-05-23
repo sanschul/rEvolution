@@ -1,10 +1,9 @@
-package edu.usp.ime.revolution.changesets;
+package edu.usp.ime.revolution.scm;
 
 import java.util.Iterator;
 import java.util.List;
 
 import edu.usp.ime.revolution.exceptions.SCMException;
-import edu.usp.ime.revolution.scm.SCM;
 
 public class AllChangeSets implements ChangeSetCollection {
 

@@ -1,8 +1,8 @@
 package edu.usp.ime.revolution.algorithms;
 
 import edu.usp.ime.revolution.builds.Build;
-import edu.usp.ime.revolution.changesets.ChangeSet;
-import edu.usp.ime.revolution.changesets.ChangeSetCollection;
+import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.ChangeSetCollection;
 
 public class DefaultAnalyzer {
 

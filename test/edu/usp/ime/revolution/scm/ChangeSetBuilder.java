@@ -1,8 +1,9 @@
-package edu.usp.ime.revolution.changesets;
+package edu.usp.ime.revolution.scm;
 
 import java.util.Iterator;
 
-import edu.usp.ime.revolution.changesets.ChangeSet;
+import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.ChangeSetCollection;
 
 public class ChangeSetBuilder {
 	public static ChangeSet aChangeSet(final String name) {

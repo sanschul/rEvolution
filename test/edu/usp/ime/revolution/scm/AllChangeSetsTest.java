@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.changesets;
+package edu.usp.ime.revolution.scm;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.junit.Test;
 
-import edu.usp.ime.revolution.changesets.AllChangeSets;
-import edu.usp.ime.revolution.changesets.ChangeSet;
 import edu.usp.ime.revolution.exceptions.SCMException;
+import edu.usp.ime.revolution.scm.AllChangeSets;
+import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.SCM;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
-import static edu.usp.ime.revolution.changesets.ChangeSetBuilder.*;
+import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
 public class AllChangeSetsTest {
 
