@@ -18,13 +18,13 @@ public class MetricStoreTest {
 		MetricStore store = new MetricStore("id");
 		MetricSet set = store.buildSet("some plugin metrics");
 		
-		assertEquals(set, store.getSet("some plugin metrics"));
+		assertEquals(set, store.getMetricSet("some plugin metrics"));
 	}
 	
 	@Test(expected=MetricSetDoesNotExistException.class)
 	public void ShouldWarnWhenMetricDoesNotExist() {
 		MetricStore store = new MetricStore("id");
-		store.getSet("anyone");
+		store.getMetricSet("anyone");
 	}
 
 }

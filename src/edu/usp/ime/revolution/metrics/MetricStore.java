@@ -26,7 +26,7 @@ public class MetricStore {
 		return newSet;
 	}
 
-	public MetricSet getSet(String name) {
+	public MetricSet getMetricSet(String name) {
 		for(MetricSet set : sets) {
 			if(set.getName().equals(name)) return set;
 		}
