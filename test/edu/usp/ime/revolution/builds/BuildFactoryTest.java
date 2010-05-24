@@ -1,11 +1,11 @@
-package edu.usp.ime.revolution.build;
+package edu.usp.ime.revolution.builds;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Test;
-import edu.usp.ime.revolution.builds.Ant;
 import edu.usp.ime.revolution.builds.BuildFactory;
+import edu.usp.ime.revolution.builds.ant.Ant;
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.config.Configs;
 import edu.usp.ime.revolution.exceptions.BuildNotFoundException;

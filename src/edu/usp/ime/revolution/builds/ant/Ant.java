@@ -1,5 +1,7 @@
-package edu.usp.ime.revolution.builds;
+package edu.usp.ime.revolution.builds.ant;
 
+import edu.usp.ime.revolution.builds.Build;
+import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.scm.ChangeSet;
 
 public class Ant implements Build {
