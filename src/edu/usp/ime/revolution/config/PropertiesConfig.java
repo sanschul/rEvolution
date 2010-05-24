@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import edu.usp.ime.revolution.exceptions.ConfigNotFoundException;
+
 public class PropertiesConfig implements Config {
 
 	private Properties props;
@@ -14,7 +16,10 @@ public class PropertiesConfig implements Config {
 	}
 
 	public String get(String key) {
-		return props.getProperty(key);
+		String value = props.getProperty(key);
+		if(value == null) throw new ConfigNotFoundException("config not found: " + key);
+		
+		return value;
 	}
 
 }
