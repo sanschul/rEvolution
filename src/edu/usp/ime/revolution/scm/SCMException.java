@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.exceptions;
+package edu.usp.ime.revolution.scm;
 
 public class SCMException extends RuntimeException {
 

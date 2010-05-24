@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import edu.usp.ime.revolution.exceptions.ConfigNotFoundException;
 import org.junit.Test;
 
 public class PropertiesConfigTest {

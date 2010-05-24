@@ -8,7 +8,6 @@ import edu.usp.ime.revolution.builds.BuildFactory;
 import edu.usp.ime.revolution.builds.ant.Ant;
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.config.Configs;
-import edu.usp.ime.revolution.exceptions.BuildNotFoundException;
 
 public class BuildFactoryTest {
 

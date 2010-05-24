@@ -3,7 +3,6 @@ package edu.usp.ime.revolution.metrics;
 import java.util.Calendar;
 import java.util.Hashtable;
 
-import edu.usp.ime.revolution.exceptions.MetricAlreadyInSetException;
 
 public class MetricSet {
 

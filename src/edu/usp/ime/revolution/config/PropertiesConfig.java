@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import edu.usp.ime.revolution.exceptions.ConfigNotFoundException;
 
 public class PropertiesConfig implements Config {
 

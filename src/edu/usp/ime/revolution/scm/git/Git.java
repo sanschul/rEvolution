@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import edu.nyu.cs.javagit.api.DotGit;
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
-import edu.usp.ime.revolution.exceptions.SCMException;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.SCM;
+import edu.usp.ime.revolution.scm.SCMException;
 
 public class Git implements SCM {
 

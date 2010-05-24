@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
-import edu.usp.ime.revolution.exceptions.MetricAlreadyInSetException;;
 
 public class MetricSetTest {
 

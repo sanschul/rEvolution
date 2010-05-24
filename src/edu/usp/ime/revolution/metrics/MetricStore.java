@@ -3,7 +3,6 @@ package edu.usp.ime.revolution.metrics;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.usp.ime.revolution.exceptions.MetricSetDoesNotExistException;
 import edu.usp.ime.revolution.scm.ChangeSet;
 
 public class MetricStore {

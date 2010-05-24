@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.exceptions;
+package edu.usp.ime.revolution.builds;
 
 public class BuildNotFoundException extends RuntimeException {
 

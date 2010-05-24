@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
-import edu.usp.ime.revolution.exceptions.MetricSetDoesNotExistException;
 
 public class MetricStoreTest {
 	

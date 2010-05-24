@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.exceptions;
+package edu.usp.ime.revolution.config;
 
 public class ConfigNotFoundException extends RuntimeException {
 
