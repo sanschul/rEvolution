@@ -1,6 +1,6 @@
 package edu.usp.ime.revolution;
 
-import edu.usp.ime.revolution.algorithms.Analyzer;
+import edu.usp.ime.revolution.analyzers.Analyzer;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 
 public class Revolution {

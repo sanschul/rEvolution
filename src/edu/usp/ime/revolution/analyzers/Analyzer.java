@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.algorithms;
+package edu.usp.ime.revolution.analyzers;
 
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 

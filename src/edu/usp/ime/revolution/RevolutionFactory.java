@@ -2,8 +2,8 @@ package edu.usp.ime.revolution;
 
 import java.util.List;
 
-import edu.usp.ime.revolution.algorithms.Analyzer;
-import edu.usp.ime.revolution.algorithms.DefaultAnalyzer;
+import edu.usp.ime.revolution.analyzers.Analyzer;
+import edu.usp.ime.revolution.analyzers.DefaultAnalyzer;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildFactory;
 import edu.usp.ime.revolution.config.Config;

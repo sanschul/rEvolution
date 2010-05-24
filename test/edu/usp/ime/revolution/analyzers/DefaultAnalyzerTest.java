@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.algorithms;
+package edu.usp.ime.revolution.analyzers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.usp.ime.revolution.analyzers.DefaultAnalyzer;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.scm.ChangeSet;
