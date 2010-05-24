@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class PropertiesConfig {
+public class PropertiesConfig implements Config {
 
 	private Properties props;
 
