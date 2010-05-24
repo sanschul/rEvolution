@@ -10,9 +10,9 @@ import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
+import edu.usp.ime.revolution.tools.MetricTool;
 import edu.usp.ime.revolution.metrics.MetricSet;
 import edu.usp.ime.revolution.metrics.MetricStore;
-import edu.usp.ime.revolution.metrics.MetricTool;
 import static org.mockito.Mockito.*;
 import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 

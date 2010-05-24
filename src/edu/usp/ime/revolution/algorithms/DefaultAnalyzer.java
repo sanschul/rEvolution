@@ -5,9 +5,9 @@ import java.util.List;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.metrics.MetricStore;
-import edu.usp.ime.revolution.metrics.MetricTool;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
+import edu.usp.ime.revolution.tools.MetricTool;
 
 public class DefaultAnalyzer implements Analyzer {
 

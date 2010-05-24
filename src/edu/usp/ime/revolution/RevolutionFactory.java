@@ -8,12 +8,12 @@ import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildFactory;
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.metrics.MetricStore;
-import edu.usp.ime.revolution.metrics.MetricTool;
-import edu.usp.ime.revolution.metrics.ToolsFactory;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.ChangeSetCollectionFactory;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SCMFactory;
+import edu.usp.ime.revolution.tools.MetricTool;
+import edu.usp.ime.revolution.tools.ToolsFactory;
 
 public class RevolutionFactory {
 

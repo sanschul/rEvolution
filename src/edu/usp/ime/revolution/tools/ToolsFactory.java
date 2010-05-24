@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.metrics;
+package edu.usp.ime.revolution.tools;
 
 import java.util.ArrayList;
 import java.util.List;
