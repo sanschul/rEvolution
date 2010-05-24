@@ -1,6 +1,6 @@
 package edu.usp.ime.revolution.exceptions;
 
-public class SCMException extends Exception {
+public class SCMException extends RuntimeException {
 
 	public SCMException(Exception e) {
 		super(e);

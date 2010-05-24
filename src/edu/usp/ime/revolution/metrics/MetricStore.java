@@ -1,51 +1,31 @@
 package edu.usp.ime.revolution.metrics;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-
-import edu.usp.ime.revolution.exceptions.MetricSetDoesNotExistException;
 
 public class MetricStore {
 
-	private final String changeSetId;
 	private final List<MetricSet> sets;
-	private final Calendar metricTime;
-	private final Calendar changeSetTime;
 
-	public MetricStore(String changeSetId, Calendar changeSetTime, Calendar metricTime) {
-		this.changeSetId = changeSetId;
-		this.changeSetTime = changeSetTime;
-		this.metricTime = metricTime;
+	public MetricStore() {
 		this.sets = new ArrayList<MetricSet>();
 	}
 
-	public MetricSet buildSet(String name) {
-		MetricSet newSet = new MetricSet(name);
-		sets.add(newSet);
-		
-		return newSet;
-	}
-
-	public MetricSet getMetricSet(String name) {
-		for(MetricSet set : sets) {
-			if(set.getName().equals(name)) return set;
+	public MetricSet setFor(String changeSetId) {
+		MetricSet set = find(changeSetId);
+		if(set == null) {
+			set = new MetricSet(changeSetId);
+			sets.add(set);
 		}
 		
-		throw new MetricSetDoesNotExistException();
+		return set;
 	}
-
-	public String getChangeSetId() {
-		return changeSetId;
-	}
-
-	public Calendar getChangeSetTime() {
-		return changeSetTime;
-	}
-
-	public Calendar getMetricTime() {
-		return metricTime;
-	}
-
 	
+	private MetricSet find(String changeSetId) {
+		for(MetricSet set : sets) {
+			if(set.getName().equals(changeSetId)) return set;
+		}
+		
+		return null;
+	}
 }

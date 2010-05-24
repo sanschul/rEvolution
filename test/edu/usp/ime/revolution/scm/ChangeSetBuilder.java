@@ -8,7 +8,7 @@ import edu.usp.ime.revolution.scm.ChangeSetCollection;
 public class ChangeSetBuilder {
 	public static ChangeSet aChangeSet(final String name) {
 		return new ChangeSet() {
-			public String getName() {
+			public String getId() {
 				return name;
 			}
 		};

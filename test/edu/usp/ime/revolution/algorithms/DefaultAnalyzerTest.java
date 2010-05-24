@@ -48,7 +48,7 @@ public class DefaultAnalyzerTest {
 		analyzer.start(changeSets);
 		
 		verify(tool).calculate(any(ChangeSet.class), any(BuildResult.class), any(MetricSet.class));
-		verify(store).buildSet(any(String.class));
+		verify(store).setFor(any(String.class));
 	}
 
 	private List<MetricTool> aToolListWith(MetricTool tool) {

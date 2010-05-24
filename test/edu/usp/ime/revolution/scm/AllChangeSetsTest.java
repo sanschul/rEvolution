@@ -29,8 +29,8 @@ public class AllChangeSetsTest {
 		ChangeSet cs1 = sets.next();
 		ChangeSet cs2 = sets.next();
 		
-		assertEquals("cs 1", cs1.getName());
-		assertEquals("cs 2", cs2.getName());
+		assertEquals("cs 1", cs1.getId());
+		assertEquals("cs 2", cs2.getId());
 		
 		verify(scm).getChangeSetList();
 		verify(scm).getChangeSet("abcd");

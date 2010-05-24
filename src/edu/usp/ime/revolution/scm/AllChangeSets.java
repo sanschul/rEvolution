@@ -3,15 +3,13 @@ package edu.usp.ime.revolution.scm;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.usp.ime.revolution.exceptions.SCMException;
-
 public class AllChangeSets implements ChangeSetCollection {
 
 	private final SCM scm;
 	private List<String> changeSets;
 	private Iterator<String> iterator;
 
-	public AllChangeSets(SCM scm) throws SCMException {
+	public AllChangeSets(SCM scm) {
 		this.scm = scm;
 		this.changeSets = scm.getChangeSetList();
 		this.iterator = changeSets.iterator();
@@ -22,8 +20,8 @@ public class AllChangeSets implements ChangeSetCollection {
 	}
 
 	public ChangeSet next() {
-		String changeSetName = iterator.next();
-		return scm.getChangeSet(changeSetName);
+		String changeSetId = iterator.next();
+		return scm.getChangeSet(changeSetId);
 	}
 
 	public void remove() {

@@ -9,7 +9,7 @@ import edu.usp.ime.revolution.metrics.MetricTool;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 
-public class DefaultAnalyzer {
+public class DefaultAnalyzer implements Analyzer {
 
 	private final Build build;
 	private final List<MetricTool> tools;
@@ -26,10 +26,9 @@ public class DefaultAnalyzer {
 			BuildResult current = build.build(set);
 			
 			for(MetricTool tool : tools) {
-				tool.calculate(set, current, store.buildSet(tool.getName()));
+				tool.calculate(set, current, store.setFor(set.getId()));
 			}
 		}
-		
 	}
 
 }
