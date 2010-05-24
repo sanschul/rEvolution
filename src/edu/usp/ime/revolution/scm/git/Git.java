@@ -2,7 +2,6 @@ package edu.usp.ime.revolution.scm.git;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import edu.nyu.cs.javagit.api.DotGit;
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
 import edu.usp.ime.revolution.exceptions.SCMException;
@@ -18,8 +17,8 @@ public class Git implements SCM {
 	}
 
 	public ChangeSet getChangeSet(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO implementar get change set
+		return new GitChangeSet(name);
 	}
 
 	public List<String> getChangeSetList() throws SCMException {

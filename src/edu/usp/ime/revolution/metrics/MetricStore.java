@@ -28,4 +28,8 @@ public class MetricStore {
 		
 		throw new MetricSetDoesNotExistException();
 	}
+	
+	public List<MetricSet> getMetricSets() {
+		return sets;
+	}
 }

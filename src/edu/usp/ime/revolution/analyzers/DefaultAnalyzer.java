@@ -33,4 +33,8 @@ public class DefaultAnalyzer implements Analyzer {
 		}
 	}
 
+	public MetricStore getMetricStore() {
+		return store;
+	}
+
 }

@@ -9,11 +9,11 @@ public class MetricSet {
 
 	private final String name;
 	private final Hashtable<String, Double> metrics;
-	private final Calendar time;
+	private final Calendar date;
 
-	MetricSet(String name, Calendar time) {
+	MetricSet(String name, Calendar date) {
 		this.name = name;
-		this.time = time;
+		this.date = date;
 		this.metrics = new Hashtable<String, Double>();
 	}
 
@@ -22,7 +22,7 @@ public class MetricSet {
 	}
 	
 	public Calendar getDate() {
-		return time;
+		return date;
 	}
 
 	public void setMetric(String name, double value) {
