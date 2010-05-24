@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
+import edu.usp.ime.revolution.metrics.MetricSet;
 import edu.usp.ime.revolution.metrics.MetricStore;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
@@ -24,9 +25,10 @@ public class DefaultAnalyzer implements Analyzer {
 	public void start(ChangeSetCollection collection) {
 		for(ChangeSet set : collection) {
 			BuildResult current = build.build(set);
+			MetricSet metricSet = store.setFor(set);
 			
 			for(MetricTool tool : tools) {
-				tool.calculate(set, current, store.setFor(set.getId()));
+				tool.calculate(set, current, metricSet);
 			}
 		}
 	}

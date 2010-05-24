@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
+import edu.usp.ime.revolution.exceptions.MetricSetDoesNotExistException;
 
 public class MetricStoreTest {
 	
@@ -16,12 +18,22 @@ public class MetricStoreTest {
 	
 	@Test
 	public void ShouldBuildAMetricSet() {
-		MetricSet set = store.setFor("cs 1");		
-		set.setMetric("LCOM", 1);
-
-		set = store.setFor("cs 1");
+		MetricSet set = store.setFor(aChangeSet("id"));		
 		
-		assertEquals(1, set.getMetric("LCOM"), 0.01);
+		assertEquals("id", set.getName());
+	}
+	
+	@Test
+	public void ShouldFindASet() {
+		MetricSet set = store.setFor(aChangeSet("id"));
+		MetricSet setFound = store.find("id");
+		
+		assertEquals(setFound, set);
+	}
+	
+	@Test(expected=MetricSetDoesNotExistException.class)
+	public void ShouldWarnIfSetWasNotFound() {
+		store.find("inexistent-set");
 	}
 
 }

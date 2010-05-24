@@ -3,6 +3,9 @@ package edu.usp.ime.revolution.metrics;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.usp.ime.revolution.exceptions.MetricSetDoesNotExistException;
+import edu.usp.ime.revolution.scm.ChangeSet;
+
 public class MetricStore {
 
 	private final List<MetricSet> sets;
@@ -11,21 +14,18 @@ public class MetricStore {
 		this.sets = new ArrayList<MetricSet>();
 	}
 
-	public MetricSet setFor(String changeSetId) {
-		MetricSet set = find(changeSetId);
-		if(set == null) {
-			set = new MetricSet(changeSetId);
-			sets.add(set);
-		}
+	public MetricSet setFor(ChangeSet changeSet) {
+		MetricSet set = new MetricSet(changeSet.getId());
+		sets.add(set);
 		
 		return set;
 	}
 	
-	private MetricSet find(String changeSetId) {
+	public MetricSet find(String changeSetId) {
 		for(MetricSet set : sets) {
 			if(set.getName().equals(changeSetId)) return set;
 		}
 		
-		return null;
+		throw new MetricSetDoesNotExistException();
 	}
 }
