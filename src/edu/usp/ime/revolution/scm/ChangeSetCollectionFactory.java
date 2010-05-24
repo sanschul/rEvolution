@@ -4,7 +4,13 @@ import edu.usp.ime.revolution.config.Config;
 
 public class ChangeSetCollectionFactory {
 
-	public ChangeSetCollection basedOn(Config config, SCM scm) {
+	private final SCM scm;
+
+	public ChangeSetCollectionFactory(SCM scm) {
+		this.scm = scm;
+	}
+
+	public ChangeSetCollection basedOn(Config config) {
 		return new AllChangeSets(scm);
 	}
 

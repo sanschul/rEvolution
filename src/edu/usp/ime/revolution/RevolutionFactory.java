@@ -22,7 +22,7 @@ public class RevolutionFactory {
 		Build build = new BuildFactory().basedOn(config);
 		MetricStore store = new MetricStore();
 		List<MetricTool> tools = new ToolsFactory().basedOn(config);
-		ChangeSetCollection collection = new ChangeSetCollectionFactory().basedOn(config, scm);
+		ChangeSetCollection collection = new ChangeSetCollectionFactory(scm).basedOn(config);
 		
 		Analyzer analyzer = new DefaultAnalyzer(build, store, tools);
 		
