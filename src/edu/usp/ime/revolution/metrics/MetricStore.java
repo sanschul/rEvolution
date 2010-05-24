@@ -15,7 +15,7 @@ public class MetricStore {
 	}
 
 	public MetricSet setFor(ChangeSet changeSet) {
-		MetricSet set = new MetricSet(changeSet.getId());
+		MetricSet set = new MetricSet(changeSet.getId(), changeSet.getTime());
 		sets.add(set);
 		
 		return set;

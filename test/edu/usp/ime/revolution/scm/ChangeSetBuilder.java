@@ -1,5 +1,7 @@
 package edu.usp.ime.revolution.scm;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import edu.usp.ime.revolution.scm.ChangeSet;
@@ -10,6 +12,10 @@ public class ChangeSetBuilder {
 		return new ChangeSet() {
 			public String getId() {
 				return name;
+			}
+
+			public Calendar getTime() {
+				return GregorianCalendar.getInstance();
 			}
 		};
 	}
