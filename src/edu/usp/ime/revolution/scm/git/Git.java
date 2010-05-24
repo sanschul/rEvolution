@@ -21,7 +21,7 @@ public class Git implements SCM {
 		return new GitChangeSet(name);
 	}
 
-	public List<String> getChangeSetList() throws SCMException {
+	public List<String> getChangeSetList() {
 		List<String> changeSets = new LinkedList<String>();
 		try {
 			DotGit git = DotGit.getInstance(repository);

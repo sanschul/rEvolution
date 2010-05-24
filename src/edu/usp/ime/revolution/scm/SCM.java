@@ -4,6 +4,6 @@ import java.util.List;
 
 
 public interface SCM {
-	List<String> getChangeSetList() throws SCMException;
+	List<String> getChangeSetList();
 	ChangeSet getChangeSet(String name);
 }
