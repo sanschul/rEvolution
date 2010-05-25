@@ -1,11 +1,11 @@
 package edu.usp.ime.revolution.persistence;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import edu.usp.ime.revolution.metrics.MetricSet;
@@ -53,11 +53,11 @@ public class SqlitePersistence implements MetricPersistence {
 
 	private int saveChangeSet(MetricSet set) throws SQLException {
 		statement = connection.prepareStatement(
-			"insert into changesets (project, name, date) values (?,?,?)");
+			"insert into changesets (project, name, date) values (?,?,datetime(?))");
 
 		statement.setString(1, projectName);
 		statement.setString(2, set.getName());
-		statement.setDate(3, new Date(set.getDate().getTimeInMillis()));
+		statement.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(set.getDate().getTime()));
 		
 		statement.execute();
 		
