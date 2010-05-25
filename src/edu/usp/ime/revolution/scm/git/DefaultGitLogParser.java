@@ -10,11 +10,13 @@ public class DefaultGitLogParser implements GitLogParser {
 	public List<String> parse(String log) {
 		String[] lines = log.replace("\r\n", "\n").split("\n");
 		List<String> shas = new ArrayList<String>();
+		
 		for(String line : lines) {
-			String[] content = line.split(" ");
-			
-			if(content[0].length() == SHA1_SIZE) {
-				shas.add(content[0]);
+			if(line.startsWith("commit ")) {
+				String[] commitLine = line.split(" ");
+				if(commitLine[1].length() == SHA1_SIZE) {
+					shas.add(commitLine[1]);
+				}	
 			}
 		}
 		
