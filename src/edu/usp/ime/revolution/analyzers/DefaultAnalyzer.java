@@ -7,7 +7,7 @@ import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.metrics.MetricSet;
-import edu.usp.ime.revolution.metrics.MetricStore;
+import edu.usp.ime.revolution.metrics.MetricSetFactory;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.tools.MetricTool;
@@ -16,12 +16,12 @@ public class DefaultAnalyzer implements Analyzer {
 
 	private final Build build;
 	private final List<MetricTool> tools;
-	private final MetricStore store;
+	private final MetricSetFactory metricSetFactory;
 	private final List<AnalyzerObserver> observers;
 
-	public DefaultAnalyzer(Build build, MetricStore store, List<MetricTool> tools) {
+	public DefaultAnalyzer(Build build, MetricSetFactory metricSetFactory, List<MetricTool> tools) {
 		this.build = build;
-		this.store = store;
+		this.metricSetFactory = metricSetFactory;
 		this.tools = tools;
 		this.observers = new ArrayList<AnalyzerObserver>();
 	}
@@ -29,7 +29,7 @@ public class DefaultAnalyzer implements Analyzer {
 	public void start(ChangeSetCollection collection) {
 		for(ChangeSet changeSet : collection) {
 			BuildResult currentBuild = build.build(changeSet);
-			MetricSet metricSet = store.setFor(changeSet);
+			MetricSet metricSet = metricSetFactory.setFor(changeSet);
 			
 			for(MetricTool tool : tools) {
 				tool.calculate(changeSet, currentBuild, metricSet);
@@ -37,10 +37,6 @@ public class DefaultAnalyzer implements Analyzer {
 			
 			notifyAll(changeSet, metricSet);
 		}
-	}
-
-	public MetricStore getMetricStore() {
-		return store;
 	}
 
 	public void addObserver(AnalyzerObserver observer) {

@@ -8,7 +8,7 @@ import edu.usp.ime.revolution.analyzers.observers.ConsoleLog;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildFactory;
 import edu.usp.ime.revolution.config.Config;
-import edu.usp.ime.revolution.metrics.MetricStore;
+import edu.usp.ime.revolution.metrics.MetricSetFactory;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.ChangeSetCollectionFactory;
 import edu.usp.ime.revolution.scm.SCM;
@@ -21,11 +21,11 @@ public class RevolutionFactory {
 	public Revolution basedOn(Config config) {
 		SCM scm = new SCMFactory().basedOn(config);
 		Build build = new BuildFactory().basedOn(config);
-		MetricStore store = new MetricStore();
+		MetricSetFactory metricSetFactory = new MetricSetFactory();
 		List<MetricTool> tools = new ToolsFactory().basedOn(config);
 		ChangeSetCollection collection = new ChangeSetCollectionFactory(scm).basedOn(config);
 		
-		Analyzer analyzer = new DefaultAnalyzer(build, store, tools);
+		Analyzer analyzer = new DefaultAnalyzer(build, metricSetFactory, tools);
 		analyzer.addObserver(new ConsoleLog());
 		
 		return new Revolution(analyzer, collection);

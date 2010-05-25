@@ -16,7 +16,7 @@ import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.tools.MetricTool;
 import edu.usp.ime.revolution.metrics.MetricSet;
-import edu.usp.ime.revolution.metrics.MetricStore;
+import edu.usp.ime.revolution.metrics.MetricSetFactory;
 import static org.mockito.Mockito.*;
 import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
@@ -25,14 +25,14 @@ public class DefaultAnalyzerTest {
 	private ChangeSet changeSet;
 	private ChangeSetCollection changeSets;
 	private Build build;
-	private MetricStore store;
+	private MetricSetFactory store;
 
 	@Before
 	public void SetUp() {
 		changeSet = aChangeSet(new ChangeSetInfo("123", Calendar.getInstance()));
 		changeSets = aCollectionWith(changeSet);
 		build = mock(Build.class);
-		store = mock(MetricStore.class);
+		store = mock(MetricSetFactory.class);
 	}
 	
 	@Test

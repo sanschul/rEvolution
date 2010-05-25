@@ -10,13 +10,13 @@ import org.junit.Test;
 import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
-public class MetricStoreTest {
+public class MetricSetFactoryTest {
 	
-	private MetricStore store;
+	private MetricSetFactory store;
 	
 	@Before
 	public void SetUp() {
-		store = new MetricStore();
+		store = new MetricSetFactory();
 	}
 	
 	@Test
