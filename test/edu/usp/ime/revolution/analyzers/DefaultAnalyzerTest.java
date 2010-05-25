@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.usp.ime.revolution.analyzers.DefaultAnalyzer;
+import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.scm.ChangeSet;
@@ -34,7 +35,7 @@ public class DefaultAnalyzerTest {
 	
 	@Test
 	public void ShouldBuildAllChangeSets() {		
-		DefaultAnalyzer analyzer = new DefaultAnalyzer(build, store, someMetricTools());
+		Analyzer analyzer = new DefaultAnalyzer(build, store, someMetricTools());
 		
 		analyzer.start(changeSets);
 		
@@ -45,11 +46,23 @@ public class DefaultAnalyzerTest {
 	public void ShouldCalculateAllMetrics() {
 		MetricTool tool = mock(MetricTool.class);
 		
-		DefaultAnalyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(tool));
+		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(tool));
 		analyzer.start(changeSets);
 		
 		verify(tool).calculate(any(ChangeSet.class), any(BuildResult.class), any(MetricSet.class));
 		verify(store).setFor(any(ChangeSet.class));
+	}
+	
+	@Test
+	public void ShouldTellAllObserversAboutAChangeSet() {
+		AnalyzerObserver observer = mock(AnalyzerObserver.class);
+		
+		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(mock(MetricTool.class)));
+		analyzer.addObserver(observer);
+
+		analyzer.start(changeSets);
+		
+		verify(observer).notify(any(ChangeSet.class), any(MetricSet.class));
 	}
 
 	private List<MetricTool> aToolListWith(MetricTool tool) {

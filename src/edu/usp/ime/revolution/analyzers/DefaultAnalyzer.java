@@ -1,7 +1,9 @@
 package edu.usp.ime.revolution.analyzers;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.metrics.MetricSet;
@@ -15,11 +17,13 @@ public class DefaultAnalyzer implements Analyzer {
 	private final Build build;
 	private final List<MetricTool> tools;
 	private final MetricStore store;
+	private final List<AnalyzerObserver> observers;
 
 	public DefaultAnalyzer(Build build, MetricStore store, List<MetricTool> tools) {
 		this.build = build;
 		this.store = store;
 		this.tools = tools;
+		this.observers = new ArrayList<AnalyzerObserver>();
 	}
 
 	public void start(ChangeSetCollection collection) {
@@ -30,11 +34,23 @@ public class DefaultAnalyzer implements Analyzer {
 			for(MetricTool tool : tools) {
 				tool.calculate(set, current, metricSet);
 			}
+			
+			notifyAll(set, metricSet);
 		}
 	}
 
 	public MetricStore getMetricStore() {
 		return store;
+	}
+
+	public void addObserver(AnalyzerObserver observer) {
+		observers.add(observer);
+	}
+
+	private void notifyAll(ChangeSet cs, MetricSet set) {
+		for(AnalyzerObserver observer : observers) {
+			observer.notify(cs, set);
+		}
 	}
 
 }
