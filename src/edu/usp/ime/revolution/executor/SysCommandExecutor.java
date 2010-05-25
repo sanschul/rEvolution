@@ -35,7 +35,7 @@ public class SysCommandExecutor
 	private ILogDevice fOuputLogDevice = null;
 	private ILogDevice fErrorLogDevice = null;
 	private String fWorkingDirectory = null;
-	private List fEnvironmentVarList = null;
+	private List<EnvironmentVar> fEnvironmentVarList = null;
 	
 	private StringBuffer fCmdOutput = null;
 	private StringBuffer fCmdError = null;
@@ -59,7 +59,7 @@ public class SysCommandExecutor
 	public void setEnvironmentVar(String name, String value)
 	{
 		if( fEnvironmentVarList == null )
-			fEnvironmentVarList = new ArrayList();
+			fEnvironmentVarList = new ArrayList<EnvironmentVar>();
 		
 		fEnvironmentVarList.add(new EnvironmentVar(name, value));
 	}
@@ -130,7 +130,7 @@ public class SysCommandExecutor
 			return null;
 		
 		String[] envTokenArray = new String[fEnvironmentVarList.size()];
-		Iterator envVarIter = fEnvironmentVarList.iterator();
+		Iterator<EnvironmentVar> envVarIter = fEnvironmentVarList.iterator();
 		int nEnvVarIndex = 0; 
 		while (envVarIter.hasNext() == true)
 		{
@@ -147,20 +147,16 @@ class AsyncStreamReader extends Thread
 {
 	private StringBuffer fBuffer = null;
 	private InputStream fInputStream = null;
-	private String fThreadId = null;
 	private boolean fStop = false;
 	private ILogDevice fLogDevice = null;
-	
-	private String fNewLine = null;
 	
 	public AsyncStreamReader(InputStream inputStream, StringBuffer buffer, ILogDevice logDevice, String threadId)
 	{
 		fInputStream = inputStream;
 		fBuffer = buffer;
-		fThreadId = threadId;
 		fLogDevice = logDevice;
 		
-		fNewLine = System.getProperty("line.separator");
+		System.getProperty("line.separator");
 	}	
 	
 	public String getBuffer() {		
@@ -202,10 +198,6 @@ class AsyncStreamReader extends Thread
 		{
 			//printToConsole(c);//DEBUG
 		}
-	}
-	
-	private synchronized void printToConsole(char c) {
-		System.out.print(c);
 	}
 }
 
