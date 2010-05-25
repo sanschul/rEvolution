@@ -11,16 +11,20 @@ public class ToolsFactory {
 		List<MetricTool> tools = new ArrayList<MetricTool>();
 		
 		int counter = 1;
-		while(config.contains("tools." + counter)) {
-			String toolName = config.get("tools." + counter);
+		while(config.contains(toolConfigName(counter))) {
+			String toolName = config.get(toolConfigName(counter));
 			MetricTool tool = buildTool(toolName);
-			tool.load(config, "tools." + counter);
+			tool.load(config, toolConfigName(counter));
 			tools.add(tool);
 			
 			counter++;
 		}
 		
 		return tools;
+	}
+
+	private String toolConfigName(int counter) {
+		return "tools." + counter;
 	}
 
 	private MetricTool buildTool(String tool) {
