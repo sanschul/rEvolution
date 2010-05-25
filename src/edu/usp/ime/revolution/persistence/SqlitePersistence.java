@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
 
 import edu.usp.ime.revolution.metrics.MetricSet;
@@ -43,7 +42,7 @@ public class SqlitePersistence implements MetricPersistence {
 
 	private void saveMetric(int csId, String name, Double value) throws SQLException {
 		statement = connection.prepareStatement(
-			"INSERT INTO METRICS (CHANGESET, NAME, VALUE) VALUES (?,?,?)");
+			"insert into metrics (changeset, name, value) values (?,?,?)");
 
 		statement.setInt(1, csId);
 		statement.setString(2, name);
@@ -54,19 +53,23 @@ public class SqlitePersistence implements MetricPersistence {
 
 	private int saveChangeSet(MetricSet set) throws SQLException {
 		statement = connection.prepareStatement(
-			"INSERT INTO CHANGESETS (PROJECT, NAME, DATE) VALUES (?,?,?)",
-			Statement.RETURN_GENERATED_KEYS);
+			"insert into changesets (project, name, date) values (?,?,?)");
 
 		statement.setString(1, projectName);
 		statement.setString(2, set.getName());
 		statement.setDate(3, new Date(set.getDate().getTimeInMillis()));
 		
 		statement.execute();
-		ResultSet rs = statement.getGeneratedKeys();
+		
+		statement = connection.prepareStatement("select id from changesets where project=? and name=?");
+		statement.setString(1, projectName);
+		statement.setString(2, set.getName());
+		statement.execute();
+		ResultSet rs = statement.getResultSet();
 		
 		int id = 0;
 		if(rs.next()){
-			id = rs.getInt(1);
+			id = rs.getInt("id");
 		}
 		
 		rs.close();
