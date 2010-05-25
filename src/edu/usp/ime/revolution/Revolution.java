@@ -1,7 +1,6 @@
 package edu.usp.ime.revolution;
 
 import edu.usp.ime.revolution.analyzers.Analyzer;
-import edu.usp.ime.revolution.metrics.MetricSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 
 public class Revolution {
@@ -16,11 +15,6 @@ public class Revolution {
 
 	public void start() {
 		analyzer.start(collection);
-		
-		for(MetricSet set : analyzer.getMetricStore().getMetricSets()) {
-			System.out.println(set.getName());
-		}
-		
 	}
 
 }

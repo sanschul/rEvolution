@@ -1,9 +1,7 @@
 package edu.usp.ime.revolution.scm.git;
 
-import java.util.LinkedList;
 import java.util.List;
-import edu.nyu.cs.javagit.api.DotGit;
-import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
+import edu.usp.ime.revolution.executor.SysCommandExecutor;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SCMException;
@@ -11,9 +9,11 @@ import edu.usp.ime.revolution.scm.SCMException;
 public class Git implements SCM {
 
 	private final String repository;
+	private final GitLogParser logParser;
 
-	public Git(String repository) {
+	public Git(String repository, GitLogParser logParser) {
 		this.repository = repository;
+		this.logParser = logParser;
 	}
 
 	public ChangeSet getChangeSet(String name) {
@@ -22,17 +22,17 @@ public class Git implements SCM {
 	}
 
 	public List<String> getChangeSetList() {
-		List<String> changeSets = new LinkedList<String>();
+		SysCommandExecutor exec = new SysCommandExecutor();
+
 		try {
-			DotGit git = DotGit.getInstance(repository);
-			for(Commit c : git.getLog()) {
-				changeSets.add(c.getSha());
-			}
+			exec.setWorkingDirectory(repository);
+			exec.runCommand("git log --reverse --format=oneline");
+			
+			String output = exec.getCommandOutput();
+			return logParser.parse(output);
 		} catch (Exception e) {
 			throw new SCMException(e);
 		}
-		
-		return changeSets;
 	}
 
 }
