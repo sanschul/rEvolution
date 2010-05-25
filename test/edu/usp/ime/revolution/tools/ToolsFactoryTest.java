@@ -21,4 +21,17 @@ public class ToolsFactoryTest {
 		
 		assertEquals(2, tools.size());
 	}
+	
+	@Test
+	public void ShouldLoadConfig() {
+		Config config = mock(Config.class);
+		when(config.contains("tools.1")).thenReturn(true);
+		when(config.get("tools.1")).thenReturn("number-of-files");
+		when(config.get("tools.1.extension")).thenReturn("java");
+		when(config.contains("tools.2")).thenReturn(false);
+		
+		new ToolsFactory().basedOn(config);
+		
+		verify(config).get("tools.1.extension");
+	}
 }

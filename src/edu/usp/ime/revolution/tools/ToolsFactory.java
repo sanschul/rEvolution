@@ -12,8 +12,10 @@ public class ToolsFactory {
 		
 		int counter = 1;
 		while(config.contains("tools." + counter)) {
-			String tool = config.get("tools." + counter);
-			tools.add(buildTool(tool));
+			String toolName = config.get("tools." + counter);
+			MetricTool tool = buildTool(toolName);
+			tool.load(config, "tools." + counter);
+			tools.add(tool);
 			
 			counter++;
 		}
