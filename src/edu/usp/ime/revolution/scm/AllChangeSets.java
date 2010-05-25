@@ -20,8 +20,8 @@ public class AllChangeSets implements ChangeSetCollection {
 	}
 
 	public ChangeSet next() {
-		ChangeSetInfo changeSetId = iterator.next();
-		return scm.getChangeSet(changeSetId.getId());
+		ChangeSetInfo changeSetInfo = iterator.next();
+		return scm.getChangeSet(changeSetInfo);
 	}
 
 	public void remove() {

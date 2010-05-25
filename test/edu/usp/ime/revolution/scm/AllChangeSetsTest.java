@@ -20,9 +20,11 @@ public class AllChangeSetsTest {
 	@Test
 	public void ShouldIterateIntoAllChangeSets() {
 		SCM scm = mock(SCM.class);
-		when(scm.getChangeSetList()).thenReturn(someChangeSets());
-		when(scm.getChangeSet("abcd")).thenReturn(aChangeSet("cs 1"));
-		when(scm.getChangeSet("efgh")).thenReturn(aChangeSet("cs 2"));
+		
+		List<ChangeSetInfo> changeSets = someChangeSets();
+		when(scm.getChangeSetList()).thenReturn(changeSets);
+		when(scm.getChangeSet(changeSets.get(0))).thenReturn(aChangeSet(changeSets.get(0)));
+		when(scm.getChangeSet(changeSets.get(1))).thenReturn(aChangeSet(changeSets.get(1)));
 		
 		AllChangeSets collection = new AllChangeSets(scm);
 		
@@ -30,13 +32,13 @@ public class AllChangeSetsTest {
 		ChangeSet cs1 = sets.next();
 		ChangeSet cs2 = sets.next();
 		
-		assertEquals("cs 1", cs1.getId());
-		assertEquals("cs 2", cs2.getId());
+		assertEquals("abcd", cs1.getInfo().getId());
+		assertEquals("efgh", cs2.getInfo().getId());
 		assertFalse(sets.hasNext());
 		
 		verify(scm).getChangeSetList();
-		verify(scm).getChangeSet("abcd");
-		verify(scm).getChangeSet("efgh");
+		verify(scm).getChangeSet(changeSets.get(0));
+		verify(scm).getChangeSet(changeSets.get(1));
 	}
 
 	private List<ChangeSetInfo> someChangeSets() {

@@ -8,7 +8,7 @@ import edu.usp.ime.revolution.scm.ChangeSet;
 public class ConsoleLog implements AnalyzerObserver {
 
 	public void notify(ChangeSet cs, MetricSet set) {
-		System.out.println("CS: " + cs.getId() + " " + cs.getTime());
+		System.out.println("CS: " + cs.getInfo().getId() + " " + cs.getInfo().getDate());
 		System.out.println("Number of metrics: " + set.getMetrics().size());
 		
 		for(Map.Entry<String, Double> metric: set.getMetrics().entrySet()) {

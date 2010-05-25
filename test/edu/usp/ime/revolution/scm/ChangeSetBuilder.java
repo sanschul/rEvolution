@@ -1,26 +1,21 @@
 package edu.usp.ime.revolution.scm;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
-
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 
 public class ChangeSetBuilder {
-	public static ChangeSet aChangeSet(final String name) {
+	public static ChangeSet aChangeSet(final ChangeSetInfo info) {
 		return new ChangeSet() {
-			public String getId() {
-				return name;
-			}
 
-			public Calendar getTime() {
-				return GregorianCalendar.getInstance();
+			public ChangeSetInfo getInfo() {
+				return info;
 			}
 
 			public String getPath() {
-				return "/any/path";
+				return "/some/path/to/repo";
 			}
+			
 		};
 	}
 	

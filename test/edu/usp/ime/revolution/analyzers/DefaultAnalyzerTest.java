@@ -1,6 +1,7 @@
 package edu.usp.ime.revolution.analyzers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -12,6 +13,7 @@ import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
+import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.tools.MetricTool;
 import edu.usp.ime.revolution.metrics.MetricSet;
 import edu.usp.ime.revolution.metrics.MetricStore;
@@ -27,7 +29,7 @@ public class DefaultAnalyzerTest {
 
 	@Before
 	public void SetUp() {
-		changeSet = aChangeSet("cs 1");
+		changeSet = aChangeSet(new ChangeSetInfo("123", Calendar.getInstance()));
 		changeSets = aCollectionWith(changeSet);
 		build = mock(Build.class);
 		store = mock(MetricStore.class);

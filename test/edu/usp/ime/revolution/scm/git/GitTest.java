@@ -16,7 +16,7 @@ import edu.usp.ime.revolution.executor.CommandExecutor;
 
 public class GitTest {
 
-	private final String output = "1234567890123456789012345678901234567890 message\n9999999999999999999999999999999999999999 message 2";
+	private final String output = "some/log/here";
 	private final String repository = "/some/path/to/rep";
 	private CommandExecutor exec;
 	private GitLogParser logParser;
@@ -52,11 +52,11 @@ public class GitTest {
 	
 	@Test
 	public void ShouldGoToASpecificChangeSet() throws Exception {
-		String specificChangeSet = "1234";
+		ChangeSetInfo specificChangeSet = new ChangeSetInfo("abcd", Calendar.getInstance());
 		ChangeSet cs = new Git(repository, logParser, exec).getChangeSet(specificChangeSet);
 		
 		assertEquals(repository, cs.getPath());
-		assertEquals(specificChangeSet, cs.getId());
+		assertEquals(specificChangeSet, cs.getInfo());
 		verify(exec).setWorkingDirectory(repository);
 		verify(exec, times(3)).runCommand(any(String.class));		
 	}
@@ -65,7 +65,7 @@ public class GitTest {
 	public void ShouldThrowSCMExceptionIfGetChangeSetFails() throws Exception {
 		when(exec.runCommand(any(String.class))).thenThrow(new Exception());
 		
-		new Git(repository, logParser, exec).getChangeSet("123");
+		new Git(repository, logParser, exec).getChangeSet(new ChangeSetInfo("123", Calendar.getInstance()));
 	}
 
 	private List<ChangeSetInfo> aChangeSetList() {

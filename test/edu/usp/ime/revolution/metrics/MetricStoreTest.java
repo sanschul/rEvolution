@@ -2,8 +2,12 @@ package edu.usp.ime.revolution.metrics;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
 public class MetricStoreTest {
@@ -17,15 +21,15 @@ public class MetricStoreTest {
 	
 	@Test
 	public void ShouldBuildAMetricSet() {
-		MetricSet set = store.setFor(aChangeSet("id"));		
+		MetricSet set = store.setFor(aChangeSet(new ChangeSetInfo("123", Calendar.getInstance())));		
 		
-		assertEquals("id", set.getName());
+		assertEquals("123", set.getName());
 	}
 	
 	@Test
 	public void ShouldFindASet() {
-		MetricSet set = store.setFor(aChangeSet("id"));
-		MetricSet setFound = store.find("id");
+		MetricSet set = store.setFor(aChangeSet(new ChangeSetInfo("123", Calendar.getInstance())));
+		MetricSet setFound = store.find("123");
 		
 		assertEquals(setFound, set);
 	}
