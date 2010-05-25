@@ -21,4 +21,8 @@ public class PropertiesConfig implements Config {
 		return value;
 	}
 
+	public boolean contains(String key) {
+		return props.getProperty(key) != null;
+	}
+
 }

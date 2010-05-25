@@ -1,6 +1,8 @@
 package edu.usp.ime.revolution.config;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,6 +23,14 @@ public class PropertiesConfigTest {
 		PropertiesConfig config = new PropertiesConfig(basedOnConfig());
 		
 		config.get("inexistent-config");
+	}
+	
+	@Test
+	public void ShouldTellWhenConfigExists() throws IOException {
+		PropertiesConfig config = new PropertiesConfig(basedOnConfig());
+		
+		assertTrue(config.contains("scm"));
+		assertFalse(config.contains("invalid-config"));
 	}
 
 	private InputStream basedOnConfig() {
