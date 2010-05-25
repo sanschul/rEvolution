@@ -30,7 +30,7 @@ import java.util.List;
  * 		String cmdOutput = cmdExecutor.getCommandOutput(); 
  * </CODE></PRE></P> 
  */
-public class SysCommandExecutor
+public class SysCommandExecutor implements CommandExecutor
 {	
 	private ILogDevice fOuputLogDevice = null;
 	private ILogDevice fErrorLogDevice = null;
@@ -42,20 +42,32 @@ public class SysCommandExecutor
 	private AsyncStreamReader fCmdOutputThread = null;
 	private AsyncStreamReader fCmdErrorThread = null;	
 	
+	/* (non-Javadoc)
+	 * @see edu.usp.ime.revolution.executor.CommandExecutor#setOutputLogDevice(edu.usp.ime.revolution.executor.ILogDevice)
+	 */
 	public void setOutputLogDevice(ILogDevice logDevice)
 	{
 		fOuputLogDevice = logDevice;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.usp.ime.revolution.executor.CommandExecutor#setErrorLogDevice(edu.usp.ime.revolution.executor.ILogDevice)
+	 */
 	public void setErrorLogDevice(ILogDevice logDevice)
 	{
 		fErrorLogDevice = logDevice;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.usp.ime.revolution.executor.CommandExecutor#setWorkingDirectory(java.lang.String)
+	 */
 	public void setWorkingDirectory(String workingDirectory) {
 		fWorkingDirectory = workingDirectory;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.usp.ime.revolution.executor.CommandExecutor#setEnvironmentVar(java.lang.String, java.lang.String)
+	 */
 	public void setEnvironmentVar(String name, String value)
 	{
 		if( fEnvironmentVarList == null )
@@ -64,14 +76,23 @@ public class SysCommandExecutor
 		fEnvironmentVarList.add(new EnvironmentVar(name, value));
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.usp.ime.revolution.executor.CommandExecutor#getCommandOutput()
+	 */
 	public String getCommandOutput() {		
 		return fCmdOutput.toString();
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.usp.ime.revolution.executor.CommandExecutor#getCommandError()
+	 */
 	public String getCommandError() {
 		return fCmdError.toString();
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.usp.ime.revolution.executor.CommandExecutor#runCommand(java.lang.String)
+	 */
 	public int runCommand(String commandLine) throws Exception
 	{
 		/* run command */
