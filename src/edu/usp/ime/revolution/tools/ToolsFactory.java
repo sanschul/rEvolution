@@ -3,7 +3,7 @@ package edu.usp.ime.revolution.tools;
 import java.util.ArrayList;
 import java.util.List;
 import edu.usp.ime.revolution.config.Config;
-import edu.usp.ime.revolution.tools.files.NumberOfFiles;
+import edu.usp.ime.revolution.tools.files.NumberOfFilesFactory;
 
 public class ToolsFactory {
 
@@ -13,9 +13,8 @@ public class ToolsFactory {
 		int counter = 1;
 		while(config.contains(toolConfigName(counter))) {
 			String toolName = config.get(toolConfigName(counter));
-			MetricTool tool = buildTool(toolName);
-			tool.load(config, toolConfigName(counter));
-			tools.add(tool);
+			SpecificToolFactory toolFactory = buildTool(toolName);
+			tools.add(toolFactory.build(config, toolConfigName(counter)));
 			
 			counter++;
 		}
@@ -27,8 +26,8 @@ public class ToolsFactory {
 		return "tools." + counter;
 	}
 
-	private MetricTool buildTool(String tool) {
-		if(tool.equals("number-of-files")) return new NumberOfFiles();
+	private SpecificToolFactory buildTool(String tool) {
+		if(tool.equals("number-of-files")) return new NumberOfFilesFactory();
 		throw new ToolNotFoundException();
 	}
 
