@@ -31,9 +31,9 @@ public class GitLogParserTest {
 		
 		assertEquals(2, shas.size());
 		assertEquals("4cb75005f86ce1ba7bb5164ca1e0918693a22e42", shas.get(0).getId());
-		assertEquals(sf.format(shas.get(0).getDate().getTime()), "2010-05-24 23:50:53");
+		assertEquals(sf.format(shas.get(0).getTime().getTime()), "2010-05-24 23:50:53");
 		assertEquals("7e4f749e8d321a0c90a3fa403301211d6b0942b0", shas.get(1).getId());
-		assertEquals(sf.format(shas.get(1).getDate().getTime()), "2010-05-24 23:52:01");
+		assertEquals(sf.format(shas.get(1).getTime().getTime()), "2010-05-24 23:52:01");
 	}
 	
 	@Test

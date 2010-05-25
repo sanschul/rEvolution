@@ -13,7 +13,7 @@ public class ChangeSetInfo {
 		
 	}
 
-	public Calendar getDate() {
+	public Calendar getTime() {
 		return date;
 	}
 
