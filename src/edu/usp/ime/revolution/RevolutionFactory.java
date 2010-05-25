@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.usp.ime.revolution.analyzers.Analyzer;
 import edu.usp.ime.revolution.analyzers.DefaultAnalyzer;
+import edu.usp.ime.revolution.analyzers.observers.ConsoleLog;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildFactory;
 import edu.usp.ime.revolution.config.Config;
@@ -25,6 +26,7 @@ public class RevolutionFactory {
 		ChangeSetCollection collection = new ChangeSetCollectionFactory(scm).basedOn(config);
 		
 		Analyzer analyzer = new DefaultAnalyzer(build, store, tools);
+		analyzer.addObserver(new ConsoleLog());
 		
 		return new Revolution(analyzer, collection);
 	}
