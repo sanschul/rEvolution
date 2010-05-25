@@ -5,10 +5,12 @@ import java.util.List;
 import edu.usp.ime.revolution.analyzers.Analyzer;
 import edu.usp.ime.revolution.analyzers.DefaultAnalyzer;
 import edu.usp.ime.revolution.analyzers.observers.ConsoleLog;
+import edu.usp.ime.revolution.analyzers.observers.PersistMetrics;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildFactory;
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.metrics.MetricSetFactory;
+import edu.usp.ime.revolution.persistence.PersistenceFactory;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.ChangeSetCollectionFactory;
 import edu.usp.ime.revolution.scm.SCM;
@@ -27,6 +29,7 @@ public class RevolutionFactory {
 		
 		Analyzer analyzer = new DefaultAnalyzer(build, metricSetFactory, tools);
 		analyzer.addObserver(new ConsoleLog());
+		analyzer.addObserver(new PersistMetrics(new PersistenceFactory().basedOn(config)));
 		
 		return new Revolution(analyzer, collection);
 	}
