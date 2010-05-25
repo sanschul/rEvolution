@@ -20,9 +20,9 @@ public class MetricStore {
 		return set;
 	}
 	
-	public MetricSet find(String changeSetId) {
+	public MetricSet find(String name) {
 		for(MetricSet set : sets) {
-			if(set.getName().equals(changeSetId)) return set;
+			if(set.getName().equals(name)) return set;
 		}
 		
 		throw new MetricSetDoesNotExistException();
