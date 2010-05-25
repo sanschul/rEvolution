@@ -56,7 +56,7 @@ public class GitTest {
 		assertEquals(repository, cs.getPath());
 		assertEquals(specificChangeSet, cs.getId());
 		verify(exec).setWorkingDirectory(repository);
-		verify(exec, times(2)).runCommand(any(String.class));		
+		verify(exec, times(3)).runCommand(any(String.class));		
 	}
 	
 	@Test(expected=SCMException.class)

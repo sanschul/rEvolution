@@ -22,6 +22,7 @@ public class Git implements SCM {
 	public ChangeSet getChangeSet(String name) {
 		try {
 			exec.setWorkingDirectory(repository);
+			exec.runCommand("git checkout master");
 			exec.runCommand("git branch --no-track -f revolution " + name);
 			exec.runCommand("git checkout revolution ");
 		}
