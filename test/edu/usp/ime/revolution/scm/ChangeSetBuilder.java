@@ -17,6 +17,10 @@ public class ChangeSetBuilder {
 			public Calendar getTime() {
 				return GregorianCalendar.getInstance();
 			}
+
+			public String getPath() {
+				return "/any/path";
+			}
 		};
 	}
 	

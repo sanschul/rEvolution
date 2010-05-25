@@ -20,8 +20,16 @@ public class Git implements SCM {
 	}
 
 	public ChangeSet getChangeSet(String name) {
-		// TODO implementar get change set
-		return new GitChangeSet(name);
+		try {
+			exec.setWorkingDirectory(repository);
+			exec.runCommand("git branch --no-track -f revolution " + name);
+			exec.runCommand("git checkout revolution ");
+		}
+		catch(Exception e) {
+			throw new SCMException(e);
+		}
+		
+		return new GitChangeSet(name, repository);
 	}
 
 	public List<String> getChangeSetList() {
