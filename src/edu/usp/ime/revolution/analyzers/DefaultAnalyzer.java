@@ -27,15 +27,15 @@ public class DefaultAnalyzer implements Analyzer {
 	}
 
 	public void start(ChangeSetCollection collection) {
-		for(ChangeSet set : collection) {
-			BuildResult current = build.build(set);
-			MetricSet metricSet = store.setFor(set);
+		for(ChangeSet changeSet : collection) {
+			BuildResult currentBuild = build.build(changeSet);
+			MetricSet metricSet = store.setFor(changeSet);
 			
 			for(MetricTool tool : tools) {
-				tool.calculate(set, current, metricSet);
+				tool.calculate(changeSet, currentBuild, metricSet);
 			}
 			
-			notifyAll(set, metricSet);
+			notifyAll(changeSet, metricSet);
 		}
 	}
 
