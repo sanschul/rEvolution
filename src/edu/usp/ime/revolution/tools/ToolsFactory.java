@@ -13,7 +13,7 @@ public class ToolsFactory {
 		int counter = 1;
 		while(config.contains(toolConfigName(counter))) {
 			String toolName = config.get(toolConfigName(counter));
-			SpecificToolFactory toolFactory = buildTool(toolName);
+			SpecificToolFactory toolFactory = getToolFactory(toolName);
 			tools.add(toolFactory.build(config, toolConfigName(counter)));
 			
 			counter++;
@@ -26,7 +26,7 @@ public class ToolsFactory {
 		return "tools." + counter;
 	}
 
-	private SpecificToolFactory buildTool(String tool) {
+	private SpecificToolFactory getToolFactory(String tool) {
 		if(tool.equals("number-of-files")) return new NumberOfFilesFactory();
 		throw new ToolNotFoundException();
 	}
