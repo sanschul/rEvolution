@@ -1,13 +1,15 @@
 package edu.usp.ime.revolution.metrics;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Map;
 
 
 public class MetricSet {
 
 	private final String name;
-	private final Hashtable<String, Double> metrics;
+	private final Map<String, Double> metrics;
 	private final Calendar date;
 
 	MetricSet(String name, Calendar date) {
@@ -32,6 +34,10 @@ public class MetricSet {
 
 	public double getMetric(String name) {
 		return metrics.get(name);
+	}
+
+	public Map<String, Double> getMetrics() {
+		return Collections.unmodifiableMap(metrics);
 	}
 
 }

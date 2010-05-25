@@ -34,4 +34,15 @@ public class MetricSetTest {
 		set.setMetric("lcom", 1.34);
 		set.setMetric("lcom", 5.1);	
 	}
+	
+	@Test 
+	public void ShouldReturnAllMetrics() {
+		MetricSet set = new MetricSet("set name", GregorianCalendar.getInstance());
+		set.setMetric("lcom", 1);
+		set.setMetric("afferent-coupling", 2);
+		
+		assertEquals(2, set.getMetrics().size());
+		assertEquals(1, set.getMetric("lcom"), 0.01);
+		assertEquals(2, set.getMetric("afferent-coupling"), 0.01);
+	}
 }
