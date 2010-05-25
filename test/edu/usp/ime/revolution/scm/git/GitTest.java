@@ -1,12 +1,14 @@
 package edu.usp.ime.revolution.scm.git;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCMException;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -27,12 +29,12 @@ public class GitTest {
 	
 	@Test
 	public void ShouldReturnChangeSetList() throws Exception {
-		List<String> csList = aChangeSetList();
+		List<ChangeSetInfo> csList = aChangeSetList();
 		
 		when(exec.getCommandOutput()).thenReturn(output);
 		when(logParser.parse(output)).thenReturn(csList);
 		
-		List<String> retrievedList = new Git(repository, logParser, exec).getChangeSetList();
+		List<ChangeSetInfo> retrievedList = new Git(repository, logParser, exec).getChangeSetList();
 		
 		assertEquals(retrievedList, csList);
 		verify(exec).setWorkingDirectory(repository);
@@ -66,10 +68,10 @@ public class GitTest {
 		new Git(repository, logParser, exec).getChangeSet("123");
 	}
 
-	private List<String> aChangeSetList() {
-		List<String> list = new ArrayList<String>();
-		list.add("1234567890123456789012345678901234567890");
-		list.add("9999999999999999999999999999999999999999");
+	private List<ChangeSetInfo> aChangeSetList() {
+		List<ChangeSetInfo> list = new ArrayList<ChangeSetInfo>();
+		list.add(new ChangeSetInfo("1234567890123456789012345678901234567890", Calendar.getInstance()));
+		list.add(new ChangeSetInfo("9999999999999999999999999999999999999999", Calendar.getInstance()));
 		return list;
 	}
 }

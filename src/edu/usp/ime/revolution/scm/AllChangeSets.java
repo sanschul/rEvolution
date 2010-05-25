@@ -6,8 +6,8 @@ import java.util.List;
 public class AllChangeSets implements ChangeSetCollection {
 
 	private final SCM scm;
-	private List<String> changeSets;
-	private Iterator<String> iterator;
+	private List<ChangeSetInfo> changeSets;
+	private Iterator<ChangeSetInfo> iterator;
 
 	public AllChangeSets(SCM scm) {
 		this.scm = scm;
@@ -20,8 +20,8 @@ public class AllChangeSets implements ChangeSetCollection {
 	}
 
 	public ChangeSet next() {
-		String changeSetId = iterator.next();
-		return scm.getChangeSet(changeSetId);
+		ChangeSetInfo changeSetId = iterator.next();
+		return scm.getChangeSet(changeSetId.getId());
 	}
 
 	public void remove() {

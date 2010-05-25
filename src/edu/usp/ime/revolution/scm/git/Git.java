@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.usp.ime.revolution.executor.CommandExecutor;
 import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SCMException;
 
@@ -33,7 +34,7 @@ public class Git implements SCM {
 		return new GitChangeSet(name, repository);
 	}
 
-	public List<String> getChangeSetList() {
+	public List<ChangeSetInfo> getChangeSetList() {
 		try {
 			exec.setWorkingDirectory(repository);
 			exec.runCommand("git log --reverse --format=medium --date=iso");

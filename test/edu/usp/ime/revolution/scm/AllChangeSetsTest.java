@@ -1,6 +1,7 @@
 package edu.usp.ime.revolution.scm;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,10 +39,10 @@ public class AllChangeSetsTest {
 		verify(scm).getChangeSet("efgh");
 	}
 
-	private List<String> someChangeSets() {
-		List<String> changeSets = new ArrayList<String>();
-		changeSets.add("abcd");
-		changeSets.add("efgh");
+	private List<ChangeSetInfo> someChangeSets() {
+		List<ChangeSetInfo> changeSets = new ArrayList<ChangeSetInfo>();
+		changeSets.add(new ChangeSetInfo("abcd", Calendar.getInstance()));
+		changeSets.add(new ChangeSetInfo("efgh", Calendar.getInstance()));
 		return changeSets;
 	}
 }
