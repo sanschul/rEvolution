@@ -20,14 +20,6 @@ public class MetricStore {
 		return set;
 	}
 	
-	public MetricSet find(String name) {
-		for(MetricSet set : sets) {
-			if(set.getName().equals(name)) return set;
-		}
-		
-		throw new MetricSetDoesNotExistException();
-	}
-	
 	public List<MetricSet> getMetricSets() {
 		return sets;
 	}

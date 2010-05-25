@@ -25,18 +25,5 @@ public class MetricStoreTest {
 		
 		assertEquals("123", set.getName());
 	}
-	
-	@Test
-	public void ShouldFindASet() {
-		MetricSet set = store.setFor(aChangeSet(new ChangeSetInfo("123", Calendar.getInstance())));
-		MetricSet setFound = store.find("123");
-		
-		assertEquals(setFound, set);
-	}
-	
-	@Test(expected=MetricSetDoesNotExistException.class)
-	public void ShouldWarnIfSetWasNotFound() {
-		store.find("inexistent-set");
-	}
 
 }
