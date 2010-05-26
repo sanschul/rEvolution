@@ -3,6 +3,7 @@ package edu.usp.ime.revolution.tools.files;
 import java.io.File;
 
 import edu.usp.ime.revolution.builds.BuildResult;
+import edu.usp.ime.revolution.metrics.Metric;
 import edu.usp.ime.revolution.metrics.MetricSet;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.tools.MetricTool;
@@ -24,7 +25,7 @@ public class NumberOfFiles implements MetricTool {
 			if(file.endsWith(extension)) qty++;
 		}
 		
-		set.setMetric(getName(), qty, "N/A", getName());
+		set.setMetric(getName(), qty, Metric.PROJECT_LEVEL, getName());
 	}
 
 	public String getName() {

@@ -6,7 +6,9 @@ public class Metric {
 	private final double value;
 	private final String target;
 	private final String tool;
-
+	
+	public static final String PROJECT_LEVEL = "project";
+	
 	public Metric(String name, double value, String target, String tool) {
 		this.name = name;
 		this.value = value;
