@@ -12,9 +12,9 @@ public class ToolsFactoryTest {
 	public void ShouldAddAllToolsInConfig() {
 		Config config = mock(Config.class);
 		when(config.contains("tools.1")).thenReturn(true);
-		when(config.get("tools.1")).thenReturn("number-of-files");
+		when(config.get("tools.1")).thenReturn("edu.usp.ime.revolution.tools.files.NumberOfFilesFactory");
 		when(config.contains("tools.2")).thenReturn(true);
-		when(config.get("tools.2")).thenReturn("number-of-files");
+		when(config.get("tools.2")).thenReturn("edu.usp.ime.revolution.tools.files.NumberOfFilesFactory");
 		when(config.contains("tools.3")).thenReturn(false);
 		
 		List<MetricTool> tools = new ToolsFactory().basedOn(config);
@@ -26,7 +26,7 @@ public class ToolsFactoryTest {
 	public void ShouldLoadConfig() {
 		Config config = mock(Config.class);
 		when(config.contains("tools.1")).thenReturn(true);
-		when(config.get("tools.1")).thenReturn("number-of-files");
+		when(config.get("tools.1")).thenReturn("edu.usp.ime.revolution.tools.files.NumberOfFilesFactory");
 		when(config.get("tools.1.extension")).thenReturn("java");
 		when(config.contains("tools.2")).thenReturn(false);
 		

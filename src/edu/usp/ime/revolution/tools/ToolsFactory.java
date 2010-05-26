@@ -3,7 +3,6 @@ package edu.usp.ime.revolution.tools;
 import java.util.ArrayList;
 import java.util.List;
 import edu.usp.ime.revolution.config.Config;
-import edu.usp.ime.revolution.tools.files.NumberOfFilesFactory;
 
 public class ToolsFactory {
 
@@ -26,9 +25,14 @@ public class ToolsFactory {
 		return "tools." + counter;
 	}
 
+	@SuppressWarnings("unchecked")
 	private SpecificToolFactory getToolFactory(String tool) {
-		if(tool.equals("number-of-files")) return new NumberOfFilesFactory();
-		throw new ToolNotFoundException();
+		try {
+			Class theClass = Class.forName(tool);
+			return (SpecificToolFactory)theClass.newInstance();
+		} catch (Exception e) {
+			throw new ToolNotFoundException();
+		}
 	}
 
 }

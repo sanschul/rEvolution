@@ -2,7 +2,6 @@ package edu.usp.ime.revolution.scm;
 
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.config.Configs;
-import edu.usp.ime.revolution.scm.git.GitFactory;
 
 public class SCMFactory {
 
@@ -11,12 +10,14 @@ public class SCMFactory {
 		return scmFactory.build(config);		
 	}
 
+	@SuppressWarnings("unchecked")
 	private SpecificSCMFactory getToolFactory(String scmName) {
-		if(scmName.equals("git")) {
-			return new GitFactory();
+		try {
+			Class theClass = Class.forName(scmName);
+			return (SpecificSCMFactory)theClass.newInstance();
+		} catch (Exception e) {
+			throw new SCMNotFoundException();
 		}
-		
-		throw new SCMNotFoundException();
 	}
 
 }

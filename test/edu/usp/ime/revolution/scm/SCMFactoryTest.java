@@ -12,7 +12,7 @@ public class SCMFactoryTest {
 	@Test
 	public void ShouldBuildGit() {
 		Config config = mock(Config.class);
-		when(config.get(Configs.SCM)).thenReturn("git");
+		when(config.get(Configs.SCM)).thenReturn("edu.usp.ime.revolution.scm.git.GitFactory");
 		
 		assertTrue(new SCMFactory().basedOn(config).getClass() == Git.class);
 	}

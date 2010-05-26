@@ -1,6 +1,5 @@
 package edu.usp.ime.revolution.builds;
 
-import edu.usp.ime.revolution.builds.ant.AntFactory;
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.config.Configs;
 
@@ -11,12 +10,14 @@ public class BuildFactory {
 		return buildFactory.build(config);
 	}
 
+	@SuppressWarnings("unchecked")
 	private SpecificBuildFactory getBuildFactory(String name) {
-		if(name.equals("ant")) {
-			return new AntFactory();
+		try {
+			Class theClass = Class.forName(name);
+			return (SpecificBuildFactory)theClass.newInstance();
+		} catch (Exception e) {
+			throw new BuildNotFoundException();
 		}
-		
-		throw new BuildNotFoundException();
 
 	}
 
