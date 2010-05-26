@@ -42,13 +42,14 @@ public class SqlitePersistence implements MetricPersistence {
 
 	private void saveMetric(int csId, Metric metric) throws SQLException {
 		statement = connection.prepareStatement(
-			"insert into metrics (changeset, name, value, target, tool) values (?,?,?,?,?)");
+			"insert into metrics (changeset, name, value, target, level, tool) values (?,?,?,?,?,?)");
 
 		statement.setInt(1, csId);
 		statement.setString(2, metric.getName());
 		statement.setDouble(3, metric.getValue());
 		statement.setString(4, metric.getTarget());
-		statement.setString(5, metric.getTool());
+		statement.setString(5, metric.getLevel());
+		statement.setString(6, metric.getTool());
 		
 		statement.execute();
 	}

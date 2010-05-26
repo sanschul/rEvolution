@@ -25,10 +25,10 @@ public class MetricSet {
 		return date;
 	}
 
-	public void setMetric(String name, double value, String target, String tool) {
+	public void setMetric(String name, double value, String target, String level, String tool) {
 		if(find(name) != null) throw new MetricAlreadyInSetException();
 		
-		Metric newMetric = new Metric(name, value, target, tool);
+		Metric newMetric = new Metric(name, value, target, level, tool);
 		metrics.add(newMetric);
 	}
 

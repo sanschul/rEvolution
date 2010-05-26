@@ -25,7 +25,7 @@ public class NumberOfFiles implements MetricTool {
 			if(file.endsWith(extension)) qty++;
 		}
 		
-		set.setMetric(getName(), qty, Metric.PROJECT_LEVEL, getName());
+		set.setMetric(getName(), qty, "N/A", Metric.PROJECT_LEVEL, getName());
 	}
 
 	public String getName() {
