@@ -1,21 +1,20 @@
 package edu.usp.ime.revolution.metrics;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Hashtable;
-import java.util.Map;
-
+import java.util.List;
 
 public class MetricSet {
 
 	private final String name;
-	private final Map<String, Double> metrics;
+	private final List<Metric> metrics;
 	private final Calendar date;
 
 	MetricSet(String name, Calendar date) {
 		this.name = name;
 		this.date = date;
-		this.metrics = new Hashtable<String, Double>();
+		this.metrics = new ArrayList<Metric>();
 	}
 
 	public String getName() {
@@ -26,18 +25,28 @@ public class MetricSet {
 		return date;
 	}
 
-	public void setMetric(String name, double value) {
-		if(metrics.containsKey(name)) throw new MetricAlreadyInSetException();
+	public void setMetric(String name, double value, String target, String tool) {
+		if(find(name) != null) throw new MetricAlreadyInSetException();
 		
-		metrics.put(name, value);
+		Metric newMetric = new Metric(name, value, target, tool);
+		metrics.add(newMetric);
 	}
 
-	public double getMetric(String name) {
-		return metrics.get(name);
+	public Metric getMetric(String name) {
+		Metric m = find(name);
+		return m;
 	}
 
-	public Map<String, Double> getMetrics() {
-		return Collections.unmodifiableMap(metrics);
+	private Metric find(String name) {
+		for(Metric metric : metrics) {
+			if(metric.getName().equals(name)) return metric;
+		}
+		
+		return null;
+	}
+
+	public List<Metric> getMetrics() {
+		return Collections.unmodifiableList(metrics);
 	}
 
 }

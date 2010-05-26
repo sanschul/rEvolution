@@ -22,27 +22,29 @@ public class MetricSetTest {
 	public void ShouldStoreAMetric() {
 		MetricSet set = new MetricSet("set name", GregorianCalendar.getInstance());
 		
-		set.setMetric("metric name", 1.34);
+		set.setMetric("metric name", 1.34, "target", "tool");
 		
-		assertEquals(1.34, set.getMetric("metric name"), 0.01);
+		assertEquals(1.34, set.getMetric("metric name").getValue(), 0.01);
+		assertEquals("target", set.getMetric("metric name").getTarget());
+		assertEquals("tool", set.getMetric("metric name").getTool());
 	}
 	
 	@Test(expected=MetricAlreadyInSetException.class)
 	public void ShouldNotReplaceAnExistingMetric() {
 		MetricSet set = new MetricSet("set name", GregorianCalendar.getInstance());
 		
-		set.setMetric("lcom", 1.34);
-		set.setMetric("lcom", 5.1);	
+		set.setMetric("lcom", 1.34, "target", "tool");
+		set.setMetric("lcom", 5.1, "target", "tool");	
 	}
 	
 	@Test 
 	public void ShouldReturnAllMetrics() {
 		MetricSet set = new MetricSet("set name", GregorianCalendar.getInstance());
-		set.setMetric("lcom", 1);
-		set.setMetric("afferent-coupling", 2);
+		set.setMetric("lcom", 1, "target", "tool");
+		set.setMetric("afferent-coupling", 2, "target", "tool");
 		
 		assertEquals(2, set.getMetrics().size());
-		assertEquals(1, set.getMetric("lcom"), 0.01);
-		assertEquals(2, set.getMetric("afferent-coupling"), 0.01);
+		assertEquals(1, set.getMetric("lcom").getValue(), 0.01);
+		assertEquals(2, set.getMetric("afferent-coupling").getValue(), 0.01);
 	}
 }

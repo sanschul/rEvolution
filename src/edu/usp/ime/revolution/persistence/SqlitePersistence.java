@@ -6,8 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Map;
 
+import edu.usp.ime.revolution.metrics.Metric;
 import edu.usp.ime.revolution.metrics.MetricSet;
 
 public class SqlitePersistence implements MetricPersistence {
@@ -29,8 +29,8 @@ public class SqlitePersistence implements MetricPersistence {
 			connection = DriverManager.getConnection("jdbc:sqlite:" + db);
 			
 			int csId = saveChangeSet(set);
-			for(Map.Entry<String, Double> metric: set.getMetrics().entrySet()) {
-				saveMetric(csId, metric.getKey(), metric.getValue());
+			for(Metric metric: set.getMetrics()) {
+				saveMetric(csId, metric);
 			} 
 			
 			connection.close();
@@ -40,13 +40,15 @@ public class SqlitePersistence implements MetricPersistence {
 		}
 	}
 
-	private void saveMetric(int csId, String name, Double value) throws SQLException {
+	private void saveMetric(int csId, Metric metric) throws SQLException {
 		statement = connection.prepareStatement(
-			"insert into metrics (changeset, name, value) values (?,?,?)");
+			"insert into metrics (changeset, name, value, target, tool) values (?,?,?,?,?)");
 
 		statement.setInt(1, csId);
-		statement.setString(2, name);
-		statement.setDouble(3, value);
+		statement.setString(2, metric.getName());
+		statement.setDouble(3, metric.getValue());
+		statement.setString(4, metric.getTarget());
+		statement.setString(5, metric.getTool());
 		
 		statement.execute();
 	}
