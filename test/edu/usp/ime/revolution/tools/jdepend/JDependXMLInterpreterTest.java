@@ -42,10 +42,31 @@ public class JDependXMLInterpreterTest {
 		assertEquals(9, infos.get(0).getVolatility());
 	}
 	
+	@Test
+	public void ShouldIgnoreNotAnalyzedPackages() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
+		JDependXMLInterpreter interp = new JDependXMLInterpreter();
+		
+		List<JDependInfo> infos = interp.interpret(aStreamWith(ANotAnalyzedPackage()));
+		
+		assertEquals(0, infos.size());
+	}
+	
 	private InputStream aStreamWith(String text) throws UnsupportedEncodingException {
 		return new ByteArrayInputStream(text.getBytes());
 	}
 
+	private String ANotAnalyzedPackage() {
+        return
+	        "<?xml version=\"1.0\"?>"+
+			"<JDepend>"+
+			"    <Packages>"+
+		        	"<Package name=\"com.xyz.epayment\">"+ 
+		        		"<error>No stats available: package referenced, but not analyzed.</error>"+ 
+		        	"</Package>"+ 		
+	        "    </Packages>"+
+			"</JDepend>";
+	}
+	
 	private String someJDependXML() {
 		return 
 		"<?xml version=\"1.0\"?>"+

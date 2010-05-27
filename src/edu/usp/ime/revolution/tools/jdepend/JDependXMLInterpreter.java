@@ -34,7 +34,7 @@ public class JDependXMLInterpreter {
 		NodeList listOfPackages = doc.getElementsByTagName("Package");
 		for(int i=0; i < listOfPackages.getLength(); i++) {
 			Node packageNode = listOfPackages.item(i);
-			if (isElementNode(packageNode) && belongsToPackages(packageNode)) {
+			if (isElementNode(packageNode) && belongsToPackages(packageNode) && wasAnalyzed(packageNode)) {
 				infos.add(parsePackageInfo(packageNode));
 			}
 		}
@@ -42,6 +42,10 @@ public class JDependXMLInterpreter {
 		return infos;
 	}
 
+	private boolean wasAnalyzed(Node packageNode) {
+		return getNodeWithParent("error", packageNode) == null;
+	}
+	
 	private JDependInfo parsePackageInfo(Node item) {
 		JDependInfo info = new JDependInfo(item.getAttributes().getNamedItem("name").getNodeValue());
 		
