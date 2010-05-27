@@ -16,13 +16,30 @@ import org.xml.sax.SAXException;
 public class JDependXMLInterpreterTest {
 
 	@Test
-	public void ShouldGetPackageStats() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
+	public void ShouldGetPackages() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new JDependXMLInterpreter();
 		
 		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXML()));
 		
 		assertEquals(1, infos.size());
 		assertEquals("edu.usp.ime.revolution", infos.get(0).getName());
+	}
+	
+	@Test
+	public void ShouldGetPackageStats() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
+		JDependXMLInterpreter interp = new JDependXMLInterpreter();
+		
+		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXML()));
+		
+		assertEquals(1, infos.get(0).getTotalClasses());
+		assertEquals(2, infos.get(0).getConcreteClasses());
+		assertEquals(3, infos.get(0).getAbstractClasses());
+		assertEquals(4, infos.get(0).getCa());
+		assertEquals(5, infos.get(0).getCe());
+		assertEquals(6, infos.get(0).getAbstraction());
+		assertEquals(7, infos.get(0).getInstability());
+		assertEquals(8, infos.get(0).getDistanceFromMainLine());
+		assertEquals(9, infos.get(0).getVolatility());
 	}
 	
 	private InputStream aStreamWith(String text) throws UnsupportedEncodingException {
@@ -36,15 +53,15 @@ public class JDependXMLInterpreterTest {
 		"    <Packages>"+
 		"        <Package name=\"edu.usp.ime.revolution\">"+
 		"            <Stats>"+
-		"                <TotalClasses>3</TotalClasses>"+
-		"                <ConcreteClasses>3</ConcreteClasses>"+
-		"                <AbstractClasses>0</AbstractClasses>"+
-		"                <Ca>0</Ca>"+
-		"                <Ce>10</Ce>"+
-		"                <A>0</A>"+
-		"                <I>1</I>"+
-		"                <D>0</D>"+
-		"                <V>1</V>"+
+		"                <TotalClasses>1</TotalClasses>"+
+		"                <ConcreteClasses>2</ConcreteClasses>"+
+		"                <AbstractClasses>3</AbstractClasses>"+
+		"                <Ca>4</Ca>"+
+		"                <Ce>5</Ce>"+
+		"                <A>6</A>"+
+		"                <I>7</I>"+
+		"                <D>8</D>"+
+		"                <V>9</V>"+
 		"            </Stats>"+
 		"            <AbstractClasses>"+
 		"            </AbstractClasses>"+
