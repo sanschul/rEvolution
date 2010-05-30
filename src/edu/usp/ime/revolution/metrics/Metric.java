@@ -9,6 +9,7 @@ public class Metric {
 	private final String level;
 	
 	public static final String PROJECT_LEVEL = "project";
+	public static final String PACKAGE_LEVEL = "package";
 	
 	public Metric(String name, double value, String target, String level, String tool) {
 		this.name = name;

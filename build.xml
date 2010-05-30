@@ -1,0 +1,62 @@
+<project name="revolution" default="dist" basedir=".">
+	<property name="src" value="src" />
+	<property name="test" value="test" />
+	<property name="bin" value="bin" />
+	<property name="test-bin" value="bin-test" />
+	<property name="dist"  location="dist"/>
+	<property name="common"  location="common"/>
+	
+	<path id="project.class.path">
+	    <fileset dir="${common}"/>
+	    <pathelement location="${bin}"/>
+    </path>
+    
+    <path id="test.class.path">
+    	<pathelement location="${test-bin}" />
+    	<path refid="project.class.path" />
+    </path>
+	
+	<target name="clean">
+		<delete dir="${bin}" />
+		<delete dir="${test-bin}" />
+	</target>
+	
+	<target name="init" depends="clean">
+		<tstamp/>
+		
+		<mkdir dir="${bin}"/>
+		<mkdir dir="${test-bin}"/>
+	</target>
+	
+	<target name="compile" depends="init">
+    	<javac srcdir="${src}" destdir="${bin}">
+    		<classpath refid="project.class.path"/>
+    	</javac>
+    </target>	
+    
+    <target name="compile-tests" depends="compile">
+    	<javac srcdir="${test}" destdir="${test-bin}">
+    		<classpath refid="project.class.path"/>
+    	</javac>
+    </target>
+    
+    <target name="tests" depends="compile-tests">
+		<junit printsummary="true" fork="yes" haltonfailure="yes">
+			<classpath refid="test.class.path" />
+			<formatter type="brief" usefile="false" />
+			
+			<batchtest fork="yes">
+				<fileset dir="${test-bin}">
+					<include name="**/*Test*"/>
+				</fileset>
+			</batchtest>
+	    </junit>    
+    </target>
+    
+    <target name="dist" depends="compile">
+    	<mkdir dir="${dist}" />
+    	
+    	<jar jarfile="${dist}/rEvolution-${DSTAMP}.jar" basedir="${bin}"/>
+    </target>
+	
+</project>

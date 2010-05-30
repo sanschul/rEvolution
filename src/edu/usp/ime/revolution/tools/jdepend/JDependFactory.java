@@ -8,7 +8,10 @@ import edu.usp.ime.revolution.tools.SpecificToolFactory;
 public class JDependFactory implements SpecificToolFactory {
 
 	public MetricTool build(Config config, String prefix) {
-		return new JDepend(new SysCommandExecutor(), config.get(prefix + ".jDependPath"));
+		return new JDepend(
+				new SysCommandExecutor(),  
+				new DefaultJDependXMLInterpreter(),
+				config.get(prefix + ".jDependPath"));
 	}
 
 }
