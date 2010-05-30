@@ -1,6 +1,7 @@
 package edu.usp.ime.revolution;
 
 import edu.usp.ime.revolution.analyzers.Analyzer;
+import edu.usp.ime.revolution.analyzers.Error;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 
 public class Revolution {
@@ -15,6 +16,10 @@ public class Revolution {
 
 	public void start() {
 		analyzer.start(collection);
+		
+		for(Error e : analyzer.getErrors()) {
+			System.out.println(e.getError());
+		}
 	}
 
 }
