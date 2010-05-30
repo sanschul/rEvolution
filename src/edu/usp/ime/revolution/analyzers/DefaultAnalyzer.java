@@ -18,24 +18,39 @@ public class DefaultAnalyzer implements Analyzer {
 	private final List<MetricTool> tools;
 	private final MetricSetFactory metricSetFactory;
 	private final List<AnalyzerObserver> observers;
+	private final List<Error> errors;
 
 	public DefaultAnalyzer(Build build, MetricSetFactory metricSetFactory, List<MetricTool> tools) {
 		this.build = build;
 		this.metricSetFactory = metricSetFactory;
 		this.tools = tools;
 		this.observers = new ArrayList<AnalyzerObserver>();
+		this.errors = new ArrayList<Error>();
 	}
 
 	public void start(ChangeSetCollection collection) {
 		for(ChangeSet changeSet : collection) {
-			BuildResult currentBuild = build.build(changeSet);
-			MetricSet metricSet = metricSetFactory.setFor(changeSet);
-			
-			for(MetricTool tool : tools) {
+			try {
+				BuildResult currentBuild = build.build(changeSet);
+				MetricSet metricSet = metricSetFactory.setFor(changeSet);
+				
+				runTools(changeSet, currentBuild, metricSet);
+				notifyAll(changeSet, metricSet);
+			}
+			catch(Exception e) {
+				errors.add(new Error("something failed in changeset " + changeSet.getInfo().getId()));
+			}
+		}
+	}
+
+	private void runTools(ChangeSet changeSet, BuildResult currentBuild, MetricSet metricSet) {
+		for(MetricTool tool : tools) {
+			try {
 				tool.calculate(changeSet, currentBuild, metricSet);
 			}
-			
-			notifyAll(changeSet, metricSet);
+			catch(Exception e) {
+				errors.add(new Error(tool.getName() + " failed in changeset " + changeSet.getInfo().getId()));
+			}
 		}
 	}
 
@@ -47,6 +62,10 @@ public class DefaultAnalyzer implements Analyzer {
 		for(AnalyzerObserver observer : observers) {
 			observer.notify(cs, set);
 		}
+	}
+
+	public List<Error> getErrors() {
+		return errors;
 	}
 
 }

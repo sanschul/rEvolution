@@ -10,13 +10,16 @@ import org.junit.Test;
 import edu.usp.ime.revolution.analyzers.DefaultAnalyzer;
 import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
+import edu.usp.ime.revolution.builds.BuildException;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.tools.MetricTool;
+import edu.usp.ime.revolution.tools.ToolException;
 import edu.usp.ime.revolution.metrics.MetricSet;
 import edu.usp.ime.revolution.metrics.MetricSetFactory;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
@@ -65,6 +68,26 @@ public class DefaultAnalyzerTest {
 		analyzer.start(changeSets);
 		
 		verify(observer).notify(any(ChangeSet.class), any(MetricSet.class));
+	}
+	
+	@Test
+	public void ShouldGenerateAErrorIfAToolFails() {
+		MetricTool failedTool = mock(MetricTool.class);
+		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(ChangeSet.class), any(BuildResult.class), any(MetricSet.class));
+		
+		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(failedTool));
+		analyzer.start(changeSets);
+		
+		assertEquals(1, analyzer.getErrors().size());
+	}
+	
+	@Test
+	public void ShouldGenerateAErrorIfSomethingFailsInChangeset() {
+		when(build.build(any(ChangeSet.class))).thenThrow(new BuildException(new Exception()));
+		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(mock(MetricTool.class)));
+		analyzer.start(changeSets);
+		
+		assertEquals(1, analyzer.getErrors().size());
 	}
 
 	private List<MetricTool> aToolListWith(MetricTool tool) {
