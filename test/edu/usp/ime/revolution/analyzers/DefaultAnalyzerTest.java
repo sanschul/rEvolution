@@ -39,7 +39,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldBuildAllChangeSets() {		
+	public void ShouldBuildAllChangeSets() throws BuildException {		
 		Analyzer analyzer = new DefaultAnalyzer(build, store, someMetricTools());
 		
 		analyzer.start(changeSets);
@@ -48,7 +48,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldCalculateAllMetrics() {
+	public void ShouldCalculateAllMetrics() throws ToolException {
 		MetricTool tool = mock(MetricTool.class);
 		
 		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(tool));
@@ -71,7 +71,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldGenerateAErrorIfAToolFails() {
+	public void ShouldGenerateAErrorIfAToolFails() throws ToolException {
 		MetricTool failedTool = mock(MetricTool.class);
 		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(ChangeSet.class), any(BuildResult.class), any(MetricSet.class));
 		
@@ -82,7 +82,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldGenerateAErrorIfSomethingFailsInChangeset() {
+	public void ShouldGenerateAErrorIfSomethingFailsInChangeset() throws BuildException {
 		when(build.build(any(ChangeSet.class))).thenThrow(new BuildException(new Exception()));
 		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(mock(MetricTool.class)));
 		analyzer.start(changeSets);

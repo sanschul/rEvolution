@@ -6,7 +6,7 @@ import edu.usp.ime.revolution.scm.ChangeSet;
 
 public interface MetricTool {
 
-	void calculate(ChangeSet changeSet, BuildResult current, MetricSet set);
+	void calculate(ChangeSet changeSet, BuildResult current, MetricSet set) throws ToolException;
 	String getName();
 
 }

@@ -18,7 +18,7 @@ public class NumberOfFiles implements MetricTool {
 	}
 
 	public void calculate(ChangeSet changeSet, BuildResult current,
-			MetricSet set) {
+			MetricSet set) throws ToolException {
 		try {
 			String[] files = new File(changeSet.getPath()).list();
 			int qty = 0;

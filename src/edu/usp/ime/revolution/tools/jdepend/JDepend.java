@@ -23,7 +23,7 @@ public class JDepend implements MetricTool {
 	}
 
 	public void calculate(ChangeSet changeSet, BuildResult current,
-			MetricSet set) {
+			MetricSet set) throws ToolException {
 		try {
 			executor.setEnvironmentVar("CLASSPATH", jDependPath);
 			executor.runCommand("java jdepend.xmlui.JDepend " + current.getDirectory());
