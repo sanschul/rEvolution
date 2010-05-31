@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.scm;
+package edu.usp.ime.revolution.scm.changesets;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,9 +7,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import edu.usp.ime.revolution.scm.AllChangeSets;
 import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCM;
+import edu.usp.ime.revolution.scm.changesets.AllChangeSets;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;

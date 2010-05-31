@@ -1,6 +1,7 @@
 package edu.usp.ime.revolution.scm;
 
 import edu.usp.ime.revolution.config.Config;
+import edu.usp.ime.revolution.scm.changesets.AllChangeSets;
 
 public class ChangeSetCollectionFactory {
 
