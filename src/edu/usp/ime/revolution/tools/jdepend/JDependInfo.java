@@ -3,15 +3,15 @@ package edu.usp.ime.revolution.tools.jdepend;
 public class JDependInfo {
 
 	private final String name;
-	private int totalClasses;
-	private int concreteClasses;
-	private int abstractClasses;
-	private int ca;
-	private int ce;
-	private int instability;
-	private int abstraction;
-	private int distanceFromMainLine;
-	private int volatility;
+	private double totalClasses;
+	private double concreteClasses;
+	private double abstractClasses;
+	private double ca;
+	private double ce;
+	private double instability;
+	private double abstraction;
+	private double distanceFromMainLine;
+	private double volatility;
 
 	public JDependInfo(String name) {
 		this.name = name;
@@ -21,75 +21,75 @@ public class JDependInfo {
 		return name;
 	}
 
-	public void setTotalClasses(int totalClasses) {
+	public void setTotalClasses(double totalClasses) {
 		this.totalClasses = totalClasses;
 	}
 
-	public int getTotalClasses() {
+	public double getTotalClasses() {
 		return totalClasses;
 	}
 
-	public void setConcreteClasses(int concreteClasses) {
+	public void setConcreteClasses(double concreteClasses) {
 		this.concreteClasses = concreteClasses;
 	}
 
-	public int getConcreteClasses() {
+	public double getConcreteClasses() {
 		return concreteClasses;
 	}
 
-	public void setAbstractClasses(int abstractClasses) {
+	public void setAbstractClasses(double abstractClasses) {
 		this.abstractClasses = abstractClasses;
 	}
 
-	public int getAbstractClasses() {
+	public double getAbstractClasses() {
 		return abstractClasses;
 	}
 
-	public void setCa(int ca) {
+	public void setCa(double ca) {
 		this.ca = ca;
 	}
 
-	public int getCa() {
+	public double getCa() {
 		return ca;
 	}
 
-	public void setCe(int ce) {
+	public void setCe(double ce) {
 		this.ce = ce;
 	}
 
-	public int getCe() {
+	public double getCe() {
 		return ce;
 	}
 
-	public void setInstability(int instability) {
+	public void setInstability(double instability) {
 		this.instability = instability;
 	}
 
-	public int getInstability() {
+	public double getInstability() {
 		return instability;
 	}
 
-	public void setAbstraction(int abstraction) {
+	public void setAbstraction(double abstraction) {
 		this.abstraction = abstraction;
 	}
 
-	public int getAbstraction() {
+	public double getAbstraction() {
 		return abstraction;
 	}
 
-	public void setDistanceFromMainLine(int distanceFromMainLine) {
+	public void setDistanceFromMainLine(double distanceFromMainLine) {
 		this.distanceFromMainLine = distanceFromMainLine;
 	}
 
-	public int getDistanceFromMainLine() {
+	public double getDistanceFromMainLine() {
 		return distanceFromMainLine;
 	}
 
-	public void setVolatility(int volatility) {
+	public void setVolatility(double volatility) {
 		this.volatility = volatility;
 	}
 
-	public int getVolatility() {
+	public double getVolatility() {
 		return volatility;
 	}
 

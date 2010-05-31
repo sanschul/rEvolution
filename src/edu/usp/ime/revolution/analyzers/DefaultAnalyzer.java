@@ -38,7 +38,7 @@ public class DefaultAnalyzer implements Analyzer {
 				notifyAll(changeSet, metricSet);
 			}
 			catch(Exception e) {
-				errors.add(new Error("something failed in changeset " + changeSet.getInfo().getId()));
+				errors.add(new Error("something failed in changeset " + changeSet.getInfo().getId() + "\n" + e.getMessage()));
 			}
 		}
 	}
@@ -49,7 +49,7 @@ public class DefaultAnalyzer implements Analyzer {
 				tool.calculate(changeSet, currentBuild, metricSet);
 			}
 			catch(Exception e) {
-				errors.add(new Error(tool.getName() + " failed in changeset " + changeSet.getInfo().getId()));
+				errors.add(new Error(tool.getName() + " failed in changeset " + changeSet.getInfo().getId() + "\n" + e.getMessage()));
 			}
 		}
 	}

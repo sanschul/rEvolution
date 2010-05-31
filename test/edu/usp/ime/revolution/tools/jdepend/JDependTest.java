@@ -87,7 +87,7 @@ public class JDependTest {
 	}
 
 	private String jdependXml() {
-		return "some xml";
+		return "<JDepend> ... some xml ... </JDepend>";
 	}
 
 }

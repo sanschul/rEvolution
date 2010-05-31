@@ -26,20 +26,22 @@ public class MetricSet {
 	}
 
 	public void setMetric(String name, double value, String target, String level, String tool) {
-		if(find(name) != null) throw new MetricAlreadyInSetException();
+		if(find(name, target, tool) != null) throw new MetricAlreadyInSetException();
 		
 		Metric newMetric = new Metric(name, value, target, level, tool);
 		metrics.add(newMetric);
 	}
 
-	public Metric getMetric(String name) {
-		Metric m = find(name);
+	public Metric getMetric(String name, String target, String tool) {
+		Metric m = find(name, target, tool);
 		return m;
 	}
 
-	private Metric find(String name) {
+	private Metric find(String name, String target, String tool) {
 		for(Metric metric : metrics) {
-			if(metric.getName().equals(name)) return metric;
+			if(metric.getName().equals(name) && 
+					metric.getTarget().equals(target) && 
+					metric.getTool().equals(tool)) return metric;
 		}
 		
 		return null;

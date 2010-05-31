@@ -26,9 +26,7 @@ public class DefaultJDependXMLInterpreter implements JDependXMLInterpreter {
 		doc = docBuilder.parse (xml);
 		doc.getDocumentElement().normalize();
 	}
-	/* (non-Javadoc)
-	 * @see edu.usp.ime.revolution.tools.jdepend.JDependXMLInterpreter1#interpret(java.io.InputStream)
-	 */
+	
 	public List<JDependInfo> interpret(InputStream xml) throws ParserConfigurationException, SAXException, IOException {
 		startXMLEngine(xml);
 		
@@ -76,8 +74,8 @@ public class DefaultJDependXMLInterpreter implements JDependXMLInterpreter {
 		return packageNode.getNodeType() == Node.ELEMENT_NODE;
 	}
 	
-	private int getStatsValue(String stat, Node item) {
-		return Integer.parseInt(getNodeWithParent(stat, item).getChildNodes().item(0).getNodeValue());
+	private double getStatsValue(String stat, Node item) {
+		return Double.parseDouble(getNodeWithParent(stat, item).getChildNodes().item(0).getNodeValue());
 	}
 	
 	private Node getNodeWithParent(String node, Node parent) {

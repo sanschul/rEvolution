@@ -31,15 +31,15 @@ public class JDependXMLInterpreterTest {
 		
 		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXML()));
 		
-		assertEquals(1, infos.get(0).getTotalClasses());
-		assertEquals(2, infos.get(0).getConcreteClasses());
-		assertEquals(3, infos.get(0).getAbstractClasses());
-		assertEquals(4, infos.get(0).getCa());
-		assertEquals(5, infos.get(0).getCe());
-		assertEquals(6, infos.get(0).getAbstraction());
-		assertEquals(7, infos.get(0).getInstability());
-		assertEquals(8, infos.get(0).getDistanceFromMainLine());
-		assertEquals(9, infos.get(0).getVolatility());
+		assertEquals(1, infos.get(0).getTotalClasses(), 0.01);
+		assertEquals(2, infos.get(0).getConcreteClasses(), 0.01);
+		assertEquals(3, infos.get(0).getAbstractClasses(), 0.01);
+		assertEquals(4, infos.get(0).getCa(), 0.01);
+		assertEquals(5, infos.get(0).getCe(), 0.01);
+		assertEquals(6, infos.get(0).getAbstraction(), 0.01);
+		assertEquals(7.22, infos.get(0).getInstability(), 0.01);
+		assertEquals(8, infos.get(0).getDistanceFromMainLine(), 0.01);
+		assertEquals(9, infos.get(0).getVolatility(), 0.01);
 	}
 	
 	@Test
@@ -145,7 +145,7 @@ public class JDependXMLInterpreterTest {
 		"                <Ca>4</Ca>\n"+
 		"                <Ce>5</Ce>\n"+
 		"                <A>6</A>\n"+
-		"                <I>7</I>\n"+
+		"                <I>7.22</I>\n"+
 		"                <D>8</D>\n"+
 		"                <V>9</V>\n"+
 		"            </Stats>\n"+

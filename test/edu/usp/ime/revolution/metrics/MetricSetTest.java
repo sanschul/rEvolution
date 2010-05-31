@@ -24,10 +24,10 @@ public class MetricSetTest {
 		
 		set.setMetric("metric name", 1.34, "target", "level", "tool");
 		
-		assertEquals(1.34, set.getMetric("metric name").getValue(), 0.01);
-		assertEquals("target", set.getMetric("metric name").getTarget());
-		assertEquals("level", set.getMetric("metric name").getLevel());
-		assertEquals("tool", set.getMetric("metric name").getTool());
+		assertEquals(1.34, set.getMetric("metric name", "target", "tool").getValue(), 0.01);
+		assertEquals("target", set.getMetric("metric name", "target", "tool").getTarget());
+		assertEquals("level", set.getMetric("metric name", "target", "tool").getLevel());
+		assertEquals("tool", set.getMetric("metric name", "target", "tool").getTool());
 	}
 	
 	@Test(expected=MetricAlreadyInSetException.class)
@@ -45,7 +45,7 @@ public class MetricSetTest {
 		set.setMetric("afferent-coupling", 2, "target", "level", "tool");
 		
 		assertEquals(2, set.getMetrics().size());
-		assertEquals(1, set.getMetric("lcom").getValue(), 0.01);
-		assertEquals(2, set.getMetric("afferent-coupling").getValue(), 0.01);
+		assertEquals(1, set.getMetric("lcom", "target", "tool").getValue(), 0.01);
+		assertEquals(2, set.getMetric("afferent-coupling", "target", "tool").getValue(), 0.01);
 	}
 }
