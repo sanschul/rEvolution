@@ -51,68 +51,133 @@ public class JDependXMLInterpreterTest {
 		assertEquals(0, infos.size());
 	}
 	
+	@Test
+	public void ShouldIgnoreCyclesPackage() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
+		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
+		
+		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXMLWithCycles()));
+		
+		assertEquals(1, infos.size());		
+	}
+	
+	private String someJDependXMLWithCycles() {
+		return 
+		"<?xml version=\"1.0\"?>\n"+
+		"<JDepend>\n"+
+		"    <Packages>\n"+
+		"        <Package name=\"edu.usp.ime.revolution\">\n"+
+		"            <Stats>\n"+
+		"                <TotalClasses>1</TotalClasses>\n"+
+		"                <ConcreteClasses>2</ConcreteClasses>\n"+
+		"                <AbstractClasses>3</AbstractClasses>\n"+
+		"                <Ca>4</Ca>\n"+
+		"                <Ce>5</Ce>\n"+
+		"                <A>6</A>\n"+
+		"                <I>7</I>\n"+
+		"                <D>8</D>\n"+
+		"                <V>9</V>\n"+
+		"            </Stats>\n"+
+		"            <AbstractClasses>\n"+
+		"            </AbstractClasses>\n"+
+		"            <ConcreteClasses>\n"+
+		"                <Class sourceFile=\"Revolution.java\">\n"+
+		"                    edu.usp.ime.revolution.Revolution\n"+
+		"                </Class>\n"+
+		"                <Class sourceFile=\"RevolutionFactory.java\">\n"+
+		"                    edu.usp.ime.revolution.RevolutionFactory\n"+
+		"                </Class>\n"+
+		"                <Class sourceFile=\"Runner.java\">\n"+
+		"                    edu.usp.ime.revolution.Runner\n"+
+		"                </Class>\n"+
+		"            </ConcreteClasses>\n"+
+		"            <DependsUpon>\n"+
+		"                <Package>edu.usp.ime.revolution.analyzers</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.analyzers.observers</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.builds</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.config</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.metrics</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.persistence</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.scm</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.tools</Package>\n"+
+		"                <Package>java.io</Package>\n"+
+		"                <Package>java.lang</Package>\n"+
+		"            </DependsUpon>\n"+
+		"            <UsedBy>\n"+
+		"            </UsedBy>\n"+
+		"        </Package>\n"+
+		"    </Packages>\n"+
+		"    <Cycles>\n"+
+		"        <Package Name=\"edu.usp.ime.revolution\">\n"+
+		"            <Package>edu.usp.ime.revolution.scm</Package>\n"+
+		"            <Package>edu.usp.ime.revolution.builds</Package>\n"+
+		"            <Package>edu.usp.ime.revolution.scm</Package>\n"+
+		"        </Package>\n"+
+	    "    </Cycles>\n"+
+		"</JDepend>\n";
+	}
+
 	private InputStream aStreamWith(String text) throws UnsupportedEncodingException {
 		return new ByteArrayInputStream(text.getBytes());
 	}
 
 	private String ANotAnalyzedPackage() {
         return
-	        "<?xml version=\"1.0\"?>"+
-			"<JDepend>"+
-			"    <Packages>"+
-		        	"<Package name=\"com.xyz.epayment\">"+ 
-		        		"<error>No stats available: package referenced, but not analyzed.</error>"+ 
-		        	"</Package>"+ 		
-	        "    </Packages>"+
-			"</JDepend>";
+	        "<?xml version=\"1.0\"?>\n"+
+			"<JDepend>\n"+
+			"    <Packages>\n"+
+		        	"<Package name=\"com.xyz.epayment\">\n"+ 
+		        		"<error>No stats available: package referenced, but not analyzed.</error>\n"+ 
+		        	"</Package>\n"+ 		
+	        "    </Packages>\n"+
+			"</JDepend>\n";
 	}
 	
 	private String someJDependXML() {
 		return 
-		"<?xml version=\"1.0\"?>"+
-		"<JDepend>"+
-		"    <Packages>"+
-		"        <Package name=\"edu.usp.ime.revolution\">"+
-		"            <Stats>"+
-		"                <TotalClasses>1</TotalClasses>"+
-		"                <ConcreteClasses>2</ConcreteClasses>"+
-		"                <AbstractClasses>3</AbstractClasses>"+
-		"                <Ca>4</Ca>"+
-		"                <Ce>5</Ce>"+
-		"                <A>6</A>"+
-		"                <I>7</I>"+
-		"                <D>8</D>"+
-		"                <V>9</V>"+
-		"            </Stats>"+
-		"            <AbstractClasses>"+
-		"            </AbstractClasses>"+
-		"            <ConcreteClasses>"+
-		"                <Class sourceFile=\"Revolution.java\">"+
-		"                    edu.usp.ime.revolution.Revolution"+
-		"                </Class>"+
-		"                <Class sourceFile=\"RevolutionFactory.java\">"+
-		"                    edu.usp.ime.revolution.RevolutionFactory"+
-		"                </Class>"+
-		"                <Class sourceFile=\"Runner.java\">"+
-		"                    edu.usp.ime.revolution.Runner"+
-		"                </Class>"+
-		"            </ConcreteClasses>"+
-		"            <DependsUpon>"+
-		"                <Package>edu.usp.ime.revolution.analyzers</Package>"+
-		"                <Package>edu.usp.ime.revolution.analyzers.observers</Package>"+
-		"                <Package>edu.usp.ime.revolution.builds</Package>"+
-		"                <Package>edu.usp.ime.revolution.config</Package>"+
-		"                <Package>edu.usp.ime.revolution.metrics</Package>"+
-		"                <Package>edu.usp.ime.revolution.persistence</Package>"+
-		"                <Package>edu.usp.ime.revolution.scm</Package>"+
-		"                <Package>edu.usp.ime.revolution.tools</Package>"+
-		"                <Package>java.io</Package>"+
-		"                <Package>java.lang</Package>"+
-		"            </DependsUpon>"+
-		"            <UsedBy>"+
-		"            </UsedBy>"+
-		"        </Package>"+
-		"    </Packages>"+
-		"</JDepend>";
+		"<?xml version=\"1.0\"?>\n"+
+		"<JDepend>\n"+
+		"    <Packages>\n"+
+		"        <Package name=\"edu.usp.ime.revolution\">\n"+
+		"            <Stats>\n"+
+		"                <TotalClasses>1</TotalClasses>\n"+
+		"                <ConcreteClasses>2</ConcreteClasses>\n"+
+		"                <AbstractClasses>3</AbstractClasses>\n"+
+		"                <Ca>4</Ca>\n"+
+		"                <Ce>5</Ce>\n"+
+		"                <A>6</A>\n"+
+		"                <I>7</I>\n"+
+		"                <D>8</D>\n"+
+		"                <V>9</V>\n"+
+		"            </Stats>\n"+
+		"            <AbstractClasses>\n"+
+		"            </AbstractClasses>\n"+
+		"            <ConcreteClasses>\n"+
+		"                <Class sourceFile=\"Revolution.java\">\n"+
+		"                    edu.usp.ime.revolution.Revolution\n"+
+		"                </Class>\n"+
+		"                <Class sourceFile=\"RevolutionFactory.java\">\n"+
+		"                    edu.usp.ime.revolution.RevolutionFactory\n"+
+		"                </Class>\n"+
+		"                <Class sourceFile=\"Runner.java\">\n"+
+		"                    edu.usp.ime.revolution.Runner\n"+
+		"                </Class>\n"+
+		"            </ConcreteClasses>\n"+
+		"            <DependsUpon>\n"+
+		"                <Package>edu.usp.ime.revolution.analyzers</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.analyzers.observers</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.builds</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.config</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.metrics</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.persistence</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.scm</Package>\n"+
+		"                <Package>edu.usp.ime.revolution.tools</Package>\n"+
+		"                <Package>java.io</Package>\n"+
+		"                <Package>java.lang</Package>\n"+
+		"            </DependsUpon>\n"+
+		"            <UsedBy>\n"+
+		"            </UsedBy>\n"+
+		"        </Package>\n"+
+		"    </Packages>\n"+
+		"</JDepend>\n";
 	}
 }
