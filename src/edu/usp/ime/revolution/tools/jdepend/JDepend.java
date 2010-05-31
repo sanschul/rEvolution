@@ -28,8 +28,8 @@ public class JDepend implements MetricTool {
 			executor.setEnvironmentVar("CLASSPATH", jDependPath);
 			executor.runCommand("java jdepend.xmlui.JDepend " + current.getDirectory());
 			
-			String output = executor.getCommandOutput();
-			String response = output.substring(0, output.lastIndexOf("</JDepend>")+10);
+			String response = extractJDependXMLBlockFrom(executor.getCommandOutput());
+			
 			List<JDependInfo> infos = interpreter.interpret(new ByteArrayInputStream(response.getBytes("UTF-8")));
 			for(JDependInfo info : infos) {
 				set.setMetric("afferent-coupling", info.getCa(), info.getName(), Metric.PACKAGE_LEVEL, getName());
@@ -45,6 +45,10 @@ public class JDepend implements MetricTool {
 		} catch (Exception e) {
 			throw new ToolException(e);
 		}
+	}
+
+	private String extractJDependXMLBlockFrom(String output) {
+		return output.substring(0, output.lastIndexOf("</JDepend>")+10);
 	}
 
 	public String getName() {
