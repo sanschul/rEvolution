@@ -1,6 +1,5 @@
 package edu.usp.ime.revolution.scm;
 
-import edu.usp.ime.revolution.builds.BuildNotFoundException;
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.config.Configs;
 
@@ -23,7 +22,7 @@ public class ChangeSetCollectionFactory {
 			Class theClass = Class.forName(name);
 			return (SpecificChangeSetFactory)theClass.newInstance();
 		} catch (Exception e) {
-			throw new BuildNotFoundException();
+			throw new ChangeSetNotFoundException(e);
 		}
 	}
 

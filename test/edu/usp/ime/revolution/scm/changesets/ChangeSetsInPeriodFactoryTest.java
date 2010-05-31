@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import edu.usp.ime.revolution.config.Config;
+import edu.usp.ime.revolution.scm.ChangeSetNotFoundException;
 import edu.usp.ime.revolution.scm.SCM;
 
 public class ChangeSetsInPeriodFactoryTest {

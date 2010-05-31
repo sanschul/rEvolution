@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
+import edu.usp.ime.revolution.scm.ChangeSetNotFoundException;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SpecificChangeSetFactory;
 
