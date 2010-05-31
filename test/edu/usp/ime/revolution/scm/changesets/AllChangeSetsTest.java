@@ -13,6 +13,7 @@ import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.changesets.AllChangeSets;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
@@ -30,6 +31,7 @@ public class AllChangeSetsTest {
 		AllChangeSets collection = new AllChangeSets(scm);
 		
 		Iterator<ChangeSet> sets = collection.iterator();
+		assertTrue(sets.hasNext());
 		ChangeSet cs1 = sets.next();
 		ChangeSet cs2 = sets.next();
 		
