@@ -33,7 +33,7 @@ public class JDependTest {
 		jDependPath = "/some/path";
 		
 		cs = mock(ChangeSet.class);
-		current = new BuildResult();
+		current = new BuildResult("some/build/path");
 		set = mock(MetricSet.class);
 		
 		when(exec.getCommandOutput()).thenReturn(jdependXml());

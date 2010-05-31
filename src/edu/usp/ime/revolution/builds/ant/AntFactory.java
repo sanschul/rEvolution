@@ -8,7 +8,10 @@ import edu.usp.ime.revolution.executor.SysCommandExecutor;
 public class AntFactory implements SpecificBuildFactory {
 
 	public Build build(Config config) {
-		return new Ant(new SysCommandExecutor(), config.get("ant.task"));
+		return new Ant(
+				new SysCommandExecutor(), 
+				config.get("ant.task"),
+				config.get("ant.buildPath"));
 	}
 
 }

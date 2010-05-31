@@ -10,10 +10,12 @@ public class Ant implements Build {
 
 	private final CommandExecutor executor;
 	private final String task;
+	private final String buildPath;
 
-	public Ant(CommandExecutor executor, String task) {
+	public Ant(CommandExecutor executor, String task, String buildPath) {
 		this.executor = executor;
 		this.task = task;
+		this.buildPath = buildPath;
 	}
 
 	public BuildResult build(ChangeSet set) throws BuildException {
@@ -21,7 +23,7 @@ public class Ant implements Build {
 			executor.setWorkingDirectory(set.getPath());
 			executor.runCommand("ant " + task);
 			
-			return new BuildResult();
+			return new BuildResult(buildPath);
 		}
 		catch(Exception e) {
 			throw new BuildException(e);
