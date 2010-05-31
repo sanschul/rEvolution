@@ -13,7 +13,7 @@ public class ChangeSetsInPeriodFactory implements SpecificChangeSetFactory {
 	private final SimpleDateFormat sdf;
 
 	public ChangeSetsInPeriodFactory() {
-		sdf = new SimpleDateFormat("MM/dd/yyyy");
+		sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	}
 	
 	public ChangeSetCollection build(SCM scm, Config config) {

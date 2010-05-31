@@ -22,7 +22,7 @@ public class ChangeSetsInPeriodFactoryTest {
 	@Test(expected=ChangeSetNotFoundException.class)
 	public void ShouldThrownAnExceptionIfConfigIsNotFound() {
 		when(config.get("changesets.all.startPeriod")).thenReturn("no-date-here");
-		when(config.get("changesets.all.endPeriod")).thenReturn("10/10/2009");
+		when(config.get("changesets.all.endPeriod")).thenReturn("2009-10-10 10:00:00");
 		
 		ChangeSetsInPeriodFactory factory = new ChangeSetsInPeriodFactory();
 		factory.build(scm, config);
@@ -30,15 +30,15 @@ public class ChangeSetsInPeriodFactoryTest {
 	
 	@Test
 	public void ShouldSetStartAndEndPeriod() {		
-		when(config.get("changesets.all.startPeriod")).thenReturn("10/10/2008");
-		when(config.get("changesets.all.endPeriod")).thenReturn("10/10/2009");
+		when(config.get("changesets.all.startPeriod")).thenReturn("2008-10-10 10:00:00");
+		when(config.get("changesets.all.endPeriod")).thenReturn("2009-10-10 11:00:00");
 		
 		ChangeSetsInPeriodFactory factory = new ChangeSetsInPeriodFactory();
 		ChangeSetsInPeriod cs = (ChangeSetsInPeriod) factory.build(scm, config);
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		assertEquals("10/10/2008", sdf.format(cs.getStartPeriod().getTime()));
-		assertEquals("10/10/2009", sdf.format(cs.getEndPeriod().getTime()));
+		assertEquals("2008-10-10 10:00:00", sdf.format(cs.getStartPeriod().getTime()));
+		assertEquals("2009-10-10 11:00:00", sdf.format(cs.getEndPeriod().getTime()));
 	}
 }
