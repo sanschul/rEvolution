@@ -53,4 +53,12 @@ public class ChangeSetsInPeriod implements ChangeSetCollection {
 		return this;
 	}
 
+	public Calendar getStartPeriod() {
+		return startPeriod;
+	}
+
+	public Calendar getEndPeriod() {
+		return endPeriod;
+	}
+
 }

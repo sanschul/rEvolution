@@ -1,7 +1,8 @@
 package edu.usp.ime.revolution.scm;
 
+import edu.usp.ime.revolution.builds.BuildNotFoundException;
 import edu.usp.ime.revolution.config.Config;
-import edu.usp.ime.revolution.scm.changesets.AllChangeSets;
+import edu.usp.ime.revolution.config.Configs;
 
 public class ChangeSetCollectionFactory {
 
@@ -12,7 +13,18 @@ public class ChangeSetCollectionFactory {
 	}
 
 	public ChangeSetCollection basedOn(Config config) {
-		return new AllChangeSets(scm);
+		SpecificChangeSetFactory factory = getConfigFactory(config.get(Configs.CHANGESETS));
+		return factory.build(scm, config);
+	}
+
+	@SuppressWarnings("unchecked")
+	private SpecificChangeSetFactory getConfigFactory(String name) {
+		try {
+			Class theClass = Class.forName(name);
+			return (SpecificChangeSetFactory)theClass.newInstance();
+		} catch (Exception e) {
+			throw new BuildNotFoundException();
+		}
 	}
 
 }
