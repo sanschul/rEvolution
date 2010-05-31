@@ -3,6 +3,7 @@ package edu.usp.ime.revolution;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import edu.usp.ime.revolution.analyzers.Error;
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.config.PropertiesConfig;
 
@@ -13,6 +14,17 @@ public class Runner {
 		InputStream configStream = new FileInputStream(args[0]);
 		Config config = new PropertiesConfig(configStream);
 		
-		new RevolutionFactory().basedOn(config).start();
+		System.out.println("rEvolution");
+		System.out.println("starting...");
+		
+		Revolution rev = new RevolutionFactory().basedOn(config);
+		rev.start();
+		
+		System.out.println("finished!");
+		System.out.println("errors: " + rev.getErrors().size());
+		for(Error e : rev.getErrors()) {
+			System.out.println("====================================================");
+			System.out.println(e.getError());
+		}
 	}
 }
