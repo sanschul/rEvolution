@@ -20,11 +20,7 @@ public class NumberOfFiles implements MetricTool {
 	public void calculate(ChangeSet changeSet, BuildResult current,
 			MetricSet set) throws ToolException {
 		try {
-			String[] files = new File(changeSet.getPath()).list();
-			int qty = 0;
-			for(String file : files) {
-				if(file.endsWith(extension)) qty++;
-			}
+			int qty = countFiles(changeSet.getPath());
 			
 			set.setMetric(getName(), qty, "N/A", Metric.PROJECT_LEVEL, getName());
 		}
@@ -35,5 +31,18 @@ public class NumberOfFiles implements MetricTool {
 
 	public String getName() {
 		return "number-of-files";
+	}
+	
+	private int countFiles(String directory) {
+		int qty = 0;
+		
+		File[] files = new File(directory).listFiles();
+		
+		for(File file : files) {
+			if(file.getName().endsWith(extension)) qty++;
+			if(file.isDirectory()) qty += countFiles(file.getPath());
+		}
+		
+		return qty;
 	}
 }
