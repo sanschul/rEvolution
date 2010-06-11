@@ -43,6 +43,15 @@ public class DefaultAnalyzer implements Analyzer {
 		}
 	}
 
+	public void addObserver(AnalyzerObserver observer) {
+		observers.add(observer);
+	}
+
+
+	public List<Error> getErrors() {
+		return errors;
+	}
+
 	private void runTools(ChangeSet changeSet, BuildResult currentBuild, MetricSet metricSet) {
 		for(MetricTool tool : tools) {
 			try {
@@ -54,18 +63,10 @@ public class DefaultAnalyzer implements Analyzer {
 		}
 	}
 
-	public void addObserver(AnalyzerObserver observer) {
-		observers.add(observer);
-	}
-
 	private void notifyAll(ChangeSet cs, MetricSet set) {
 		for(AnalyzerObserver observer : observers) {
 			observer.notify(cs, set);
 		}
 	}
-
-	public List<Error> getErrors() {
-		return errors;
-	}
-
+	
 }

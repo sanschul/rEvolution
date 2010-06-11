@@ -32,26 +32,31 @@ public class JDepend implements MetricTool {
 			
 			List<JDependInfo> infos = interpreter.interpret(new ByteArrayInputStream(response.getBytes("UTF-8")));
 			for(JDependInfo info : infos) {
-				set.setMetric("afferent-coupling", info.getCa(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-				set.setMetric("efferent-coupling", info.getCe(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-				set.setMetric("abstract-classes", info.getAbstractClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-				set.setMetric("abstraction", info.getAbstraction(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-				set.setMetric("concrete-classes", info.getConcreteClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-				set.setMetric("distance-from-main-line", info.getDistanceFromMainLine(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-				set.setMetric("instability", info.getInstability(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-				set.setMetric("total-classes", info.getTotalClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-				set.setMetric("volatility", info.getVolatility(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+				putJDependInfosOnSet(set, info);
 			}
 		} catch (Exception e) {
 			throw new ToolException(e);
 		}
 	}
 
+	public String getName() {
+		return "jdepend";
+	}
+	
+	private void putJDependInfosOnSet(MetricSet set, JDependInfo info) {
+		set.setMetric("afferent-coupling", info.getCa(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+		set.setMetric("efferent-coupling", info.getCe(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+		set.setMetric("abstract-classes", info.getAbstractClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+		set.setMetric("abstraction", info.getAbstraction(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+		set.setMetric("concrete-classes", info.getConcreteClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+		set.setMetric("distance-from-main-line", info.getDistanceFromMainLine(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+		set.setMetric("instability", info.getInstability(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+		set.setMetric("total-classes", info.getTotalClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+		set.setMetric("volatility", info.getVolatility(), info.getName(), Metric.PACKAGE_LEVEL, getName());
+	}
+
 	private String extractJDependXMLBlockFrom(String output) {
 		return output.substring(0, output.lastIndexOf("</JDepend>")+10);
 	}
 
-	public String getName() {
-		return "jdepend";
-	}
 }
