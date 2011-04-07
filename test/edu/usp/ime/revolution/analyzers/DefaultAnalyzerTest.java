@@ -31,7 +31,7 @@ public class DefaultAnalyzerTest {
 	private MetricSetFactory store;
 
 	@Before
-	public void SetUp() {
+	public void setUp() {
 		changeSet = aChangeSet(new ChangeSetInfo("123", Calendar.getInstance()));
 		changeSets = aCollectionWith(changeSet);
 		build = mock(Build.class);
@@ -39,7 +39,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldBuildAllChangeSets() throws BuildException {		
+	public void shouldBuildAllChangeSets() throws BuildException {		
 		Analyzer analyzer = new DefaultAnalyzer(build, store, someMetricTools());
 		
 		analyzer.start(changeSets);
@@ -48,7 +48,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldCalculateAllMetrics() throws ToolException {
+	public void shouldCalculateAllMetrics() throws ToolException {
 		MetricTool tool = mock(MetricTool.class);
 		
 		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(tool));
@@ -59,7 +59,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldTellAllObserversAboutAChangeSet() {
+	public void shouldTellAllObserversAboutAChangeSet() {
 		AnalyzerObserver observer = mock(AnalyzerObserver.class);
 		
 		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(mock(MetricTool.class)));
@@ -71,7 +71,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldGenerateAErrorIfAToolFails() throws ToolException {
+	public void shouldGenerateAErrorIfAToolFails() throws ToolException {
 		MetricTool failedTool = mock(MetricTool.class);
 		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(ChangeSet.class), any(BuildResult.class), any(MetricSet.class));
 		
@@ -82,7 +82,7 @@ public class DefaultAnalyzerTest {
 	}
 	
 	@Test
-	public void ShouldGenerateAErrorIfSomethingFailsInChangeset() throws BuildException {
+	public void shouldGenerateAErrorIfSomethingFailsInChangeset() throws BuildException {
 		when(build.build(any(ChangeSet.class))).thenThrow(new BuildException(new Exception()));
 		Analyzer analyzer = new DefaultAnalyzer(build, store, aToolListWith(mock(MetricTool.class)));
 		analyzer.start(changeSets);

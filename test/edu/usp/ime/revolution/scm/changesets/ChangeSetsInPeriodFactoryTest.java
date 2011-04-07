@@ -15,13 +15,13 @@ public class ChangeSetsInPeriodFactoryTest {
 	private Config config;
 
 	@Before
-	public void SetUp() {
+	public void setUp() {
 		scm = mock(SCM.class);
 		config = mock(Config.class);
 	}
 	
 	@Test(expected=ChangeSetNotFoundException.class)
-	public void ShouldThrownAnExceptionIfConfigIsNotFound() {
+	public void shouldThrownAnExceptionIfConfigIsNotFound() {
 		when(config.get("changesets.all.startPeriod")).thenReturn("no-date-here");
 		when(config.get("changesets.all.endPeriod")).thenReturn("2009-10-10 10:00:00");
 		
@@ -30,7 +30,7 @@ public class ChangeSetsInPeriodFactoryTest {
 	}
 	
 	@Test
-	public void ShouldSetStartAndEndPeriod() {		
+	public void shouldSetStartAndEndPeriod() {		
 		when(config.get("changesets.all.startPeriod")).thenReturn("2008-10-10 10:00:00");
 		when(config.get("changesets.all.endPeriod")).thenReturn("2009-10-10 11:00:00");
 		

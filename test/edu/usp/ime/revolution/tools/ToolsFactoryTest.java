@@ -9,7 +9,7 @@ import edu.usp.ime.revolution.config.Config;
 public class ToolsFactoryTest {
 
 	@Test
-	public void ShouldAddAllToolsInConfig() {
+	public void shouldAddAllToolsInConfig() {
 		Config config = mock(Config.class);
 		when(config.contains("tools.1")).thenReturn(true);
 		when(config.get("tools.1")).thenReturn("edu.usp.ime.revolution.tools.files.NumberOfFilesFactory");
@@ -23,7 +23,7 @@ public class ToolsFactoryTest {
 	}
 	
 	@Test
-	public void ShouldLoadConfig() {
+	public void shouldLoadConfig() {
 		Config config = mock(Config.class);
 		when(config.contains("tools.1")).thenReturn(true);
 		when(config.get("tools.1")).thenReturn("edu.usp.ime.revolution.tools.files.NumberOfFilesFactory");

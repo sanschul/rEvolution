@@ -27,7 +27,7 @@ public class JDependTest {
 	private ChangeSet cs;
 
 	@Before
-	public void SetUp() throws ParserConfigurationException, SAXException, IOException {
+	public void setUp() throws ParserConfigurationException, SAXException, IOException {
 		exec = mock(CommandExecutor.class);
 		interpreter = mock(JDependXMLInterpreter.class);
 		jDependPath = "/some/path";
@@ -41,7 +41,7 @@ public class JDependTest {
 	}
 	
 	@Test
-	public void ShouldInterpretResultsFromJDepend() throws Exception {
+	public void shouldInterpretResultsFromJDepend() throws Exception {
 		JDepend jdepend = new JDepend(exec, interpreter, jDependPath);
 		jdepend.calculate(cs, current, set);
 		
@@ -52,7 +52,7 @@ public class JDependTest {
 	}
 	
 	@Test
-	public void ShouldStoreValuesInSet() throws Exception {
+	public void shouldStoreValuesInSet() throws Exception {
 		JDepend jdepend = new JDepend(exec, interpreter, jDependPath);
 		jdepend.calculate(cs, current, set);		
 		

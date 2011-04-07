@@ -12,7 +12,7 @@ import edu.usp.ime.revolution.config.Configs;
 public class BuildFactoryTest {
 
 	@Test
-	public void ShouldBuildAnt() {
+	public void shouldBuildAnt() {
 		Config config = mock(Config.class);
 		when(config.get(Configs.BUILD)).thenReturn("edu.usp.ime.revolution.builds.ant.AntFactory");
 		
@@ -20,7 +20,7 @@ public class BuildFactoryTest {
 	}
 	
 	@Test(expected=BuildNotFoundException.class)
-	public void ShouldWarnIfInvalidBuild() {
+	public void shouldWarnIfInvalidBuild() {
 		Config config = mock(Config.class);
 		when(config.get(Configs.BUILD)).thenReturn("invalid-build");
 		

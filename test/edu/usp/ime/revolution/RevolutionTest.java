@@ -8,7 +8,7 @@ import edu.usp.ime.revolution.scm.ChangeSetCollection;
 public class RevolutionTest {
 
 	@Test
-	public void ShouldAnalyzeRepo() {
+	public void shouldAnalyzeRepo() {
 		Analyzer analyzer = mock(Analyzer.class);
 		ChangeSetCollection collection = mock(ChangeSetCollection.class);
 		

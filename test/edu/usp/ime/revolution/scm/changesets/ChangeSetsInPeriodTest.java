@@ -25,7 +25,7 @@ public class ChangeSetsInPeriodTest {
 	private Calendar endPeriod;
 	
 	@Before
-	public void SetUp(){
+	public void setUp(){
 		someNewDate = Calendar.getInstance();
 		someNewDate.set(2010, 05, 20);
 		
@@ -37,7 +37,7 @@ public class ChangeSetsInPeriodTest {
 	}
 
 	@Test
-	public void ShouldReturnOnlyChangeSetsInPeriod() {
+	public void shouldReturnOnlyChangeSetsInPeriod() {
 		SCM scm = mock(SCM.class);
 		
 		List<ChangeSetInfo> changeSets = someChangeSets();

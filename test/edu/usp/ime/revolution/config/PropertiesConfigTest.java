@@ -12,21 +12,21 @@ import org.junit.Test;
 public class PropertiesConfigTest {
 
 	@Test
-	public void ShouldFindConfig() throws IOException {
+	public void shouldFindConfig() throws IOException {
 		PropertiesConfig config = new PropertiesConfig(basedOnConfig());
 		
 		assertEquals("git", config.get(Configs.SCM));
 	}
 	
 	@Test(expected=ConfigNotFoundException.class)
-	public void ShouldWarnWhenConfigWasNotFound() throws IOException {
+	public void shouldWarnWhenConfigWasNotFound() throws IOException {
 		PropertiesConfig config = new PropertiesConfig(basedOnConfig());
 		
 		config.get("inexistent-config");
 	}
 	
 	@Test
-	public void ShouldTellWhenConfigExists() throws IOException {
+	public void shouldTellWhenConfigExists() throws IOException {
 		PropertiesConfig config = new PropertiesConfig(basedOnConfig());
 		
 		assertTrue(config.contains("scm"));

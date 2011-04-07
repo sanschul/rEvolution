@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 public class JDependXMLInterpreterTest {
 
 	@Test
-	public void ShouldGetPackages() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
+	public void shouldGetPackages() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
 		
 		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXML()));
@@ -26,7 +26,7 @@ public class JDependXMLInterpreterTest {
 	}
 	
 	@Test
-	public void ShouldGetPackageStats() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
+	public void shouldGetPackageStats() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
 		
 		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXML()));
@@ -43,7 +43,7 @@ public class JDependXMLInterpreterTest {
 	}
 	
 	@Test
-	public void ShouldIgnoreNotAnalyzedPackages() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
+	public void shouldIgnoreNotAnalyzedPackages() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
 		
 		List<JDependInfo> infos = interp.interpret(aStreamWith(ANotAnalyzedPackage()));
@@ -52,7 +52,7 @@ public class JDependXMLInterpreterTest {
 	}
 	
 	@Test
-	public void ShouldIgnoreCyclesPackage() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
+	public void shouldIgnoreCyclesPackage() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
 		
 		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXMLWithCycles()));

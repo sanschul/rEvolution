@@ -22,13 +22,13 @@ public class GitTest {
 	private GitLogParser logParser;
 	
 	@Before
-	public void SetUp() {
+	public void setUp() {
 		exec = mock(CommandExecutor.class);
 		logParser = mock(GitLogParser.class);
 	}
 	
 	@Test
-	public void ShouldReturnChangeSetList() throws Exception {
+	public void shouldReturnChangeSetList() throws Exception {
 		List<ChangeSetInfo> csList = aChangeSetList();
 		
 		when(exec.getCommandOutput()).thenReturn(output);
@@ -44,14 +44,14 @@ public class GitTest {
 	}
 	
 	@Test(expected=SCMException.class)
-	public void ShouldThrowSCMExceptionIfChangeSetListFails() throws Exception {
+	public void shouldThrowSCMExceptionIfChangeSetListFails() throws Exception {
 		when(exec.runCommand(any(String.class))).thenThrow(new Exception());
 		
 		new Git(repository, logParser, exec).getChangeSetList();
 	}
 	
 	@Test
-	public void ShouldGoToASpecificChangeSet() throws Exception {
+	public void shouldGoToASpecificChangeSet() throws Exception {
 		ChangeSetInfo specificChangeSet = new ChangeSetInfo("abcd", Calendar.getInstance());
 		ChangeSet cs = new Git(repository, logParser, exec).getChangeSet(specificChangeSet);
 		
@@ -62,7 +62,7 @@ public class GitTest {
 	}
 	
 	@Test(expected=SCMException.class)
-	public void ShouldThrowSCMExceptionIfGetChangeSetFails() throws Exception {
+	public void shouldThrowSCMExceptionIfGetChangeSetFails() throws Exception {
 		when(exec.runCommand(any(String.class))).thenThrow(new Exception());
 		
 		new Git(repository, logParser, exec).getChangeSet(new ChangeSetInfo("123", Calendar.getInstance()));

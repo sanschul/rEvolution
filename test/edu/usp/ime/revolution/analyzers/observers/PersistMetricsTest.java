@@ -9,7 +9,7 @@ import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
 public class PersistMetricsTest {
 	@Test
-	public void ShouldPersistMetricSet() {
+	public void shouldPersistMetricSet() {
 		MetricPersistence persistence = mock(MetricPersistence.class);
 		ChangeSetInfo cs = mock(ChangeSetInfo.class);
 		MetricSet set = mock(MetricSet.class);

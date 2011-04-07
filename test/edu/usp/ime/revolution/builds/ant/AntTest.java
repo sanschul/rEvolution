@@ -19,7 +19,7 @@ public class AntTest {
 	private String buildPath;
 
 	@Before
-	public void SetUp() {
+	public void setUp() {
 		task = "compile";
 		buildPath = "/build/path";
 		
@@ -29,7 +29,7 @@ public class AntTest {
 	}
 	
 	@Test
-	public void ShouldCallAnt() throws Exception {
+	public void shouldCallAnt() throws Exception {
 		when(set.getPath()).thenReturn("some/path");
 		ant.build(set);
 		
@@ -38,7 +38,7 @@ public class AntTest {
 	}
 	
 	@Test
-	public void ShouldReturnBuildPath() throws Exception {
+	public void shouldReturnBuildPath() throws Exception {
 		when(set.getPath()).thenReturn("some/path");
 		BuildResult result = ant.build(set);
 		

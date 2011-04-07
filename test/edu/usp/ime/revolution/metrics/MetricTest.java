@@ -7,7 +7,7 @@ import org.junit.Test;
 public class MetricTest {
 	
 	@Test
-	public void ShouldContainNameValueTargetAndTool() {
+	public void shouldContainNameValueTargetAndTool() {
 		Metric m = new Metric("name", 1.23, "target", "level", "tool");
 		
 		assertEquals("name", m.getName());

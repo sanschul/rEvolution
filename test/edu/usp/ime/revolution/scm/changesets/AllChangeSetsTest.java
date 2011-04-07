@@ -20,7 +20,7 @@ import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 public class AllChangeSetsTest {
 
 	@Test
-	public void ShouldIterateIntoAllChangeSets() {
+	public void shouldIterateIntoAllChangeSets() {
 		SCM scm = mock(SCM.class);
 		
 		List<ChangeSetInfo> changeSets = someChangeSets();

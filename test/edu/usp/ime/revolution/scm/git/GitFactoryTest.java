@@ -12,7 +12,7 @@ import edu.usp.ime.revolution.scm.SCM;
 public class GitFactoryTest {
 	
 	@Test
-	public void ShouldBuildNumberOfTilesTool() {
+	public void shouldBuildNumberOfTilesTool() {
 		Config config = mock(Config.class);
 		when(config.get(Configs.SCM_REPOSITORY)).thenReturn("/some/repo");
 		

@@ -24,7 +24,7 @@ public class GitLogParserTest {
 								"    Teste2";
 	
 	@Test
-	public void ShouldGetAllSHAs() throws Exception {
+	public void shouldGetAllSHAs() throws Exception {
 		List<ChangeSetInfo> shas = new DefaultGitLogParser().parse(mediumLog);
 	
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -37,7 +37,7 @@ public class GitLogParserTest {
 	}
 	
 	@Test
-	public void ShouldIgnoreTrashContent() throws Exception {
+	public void shouldIgnoreTrashContent() throws Exception {
 		List<ChangeSetInfo> shas = new DefaultGitLogParser().parse(mediumLog + "\r\n????");
 		
 		assertEquals(2, shas.size());

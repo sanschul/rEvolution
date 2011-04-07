@@ -15,12 +15,12 @@ public class MetricSetFactoryTest {
 	private MetricSetFactory store;
 	
 	@Before
-	public void SetUp() {
+	public void setUp() {
 		store = new MetricSetFactory();
 	}
 	
 	@Test
-	public void ShouldBuildAMetricSet() {
+	public void shouldBuildAMetricSet() {
 		MetricSet set = store.setFor(aChangeSet(new ChangeSetInfo("123", Calendar.getInstance())));		
 		
 		assertEquals("123", set.getName());

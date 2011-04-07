@@ -10,7 +10,7 @@ import org.junit.Test;
 public class MetricSetTest {
 
 	@Test
-	public void ShouldHaveInformationAboutChangeSet() {
+	public void shouldHaveInformationAboutChangeSet() {
 		Calendar csDate = GregorianCalendar.getInstance();
 		MetricSet set = new MetricSet("set name", csDate);
 		
@@ -19,7 +19,7 @@ public class MetricSetTest {
 	}
 	
 	@Test
-	public void ShouldStoreAMetric() {
+	public void shouldStoreAMetric() {
 		MetricSet set = new MetricSet("set name", GregorianCalendar.getInstance());
 		
 		set.setMetric("metric name", 1.34, "target", "level", "tool");
@@ -31,7 +31,7 @@ public class MetricSetTest {
 	}
 	
 	@Test(expected=MetricAlreadyInSetException.class)
-	public void ShouldNotReplaceAnExistingMetric() {
+	public void shouldNotReplaceAnExistingMetric() {
 		MetricSet set = new MetricSet("set name", GregorianCalendar.getInstance());
 		
 		set.setMetric("lcom", 1.34, "target", "level", "tool");
@@ -39,7 +39,7 @@ public class MetricSetTest {
 	}
 	
 	@Test 
-	public void ShouldReturnAllMetrics() {
+	public void shouldReturnAllMetrics() {
 		MetricSet set = new MetricSet("set name", GregorianCalendar.getInstance());
 		set.setMetric("lcom", 1, "target", "level", "tool");
 		set.setMetric("afferent-coupling", 2, "target", "level", "tool");

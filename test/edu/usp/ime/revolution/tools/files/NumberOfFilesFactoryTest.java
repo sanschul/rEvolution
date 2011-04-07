@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 public class NumberOfFilesFactoryTest {
 
 	@Test
-	public void ShouldBuildNumberOfTilesTool() {
+	public void shouldBuildNumberOfTilesTool() {
 		Config config = mock(Config.class);
 		when(config.get("tools.1.extension")).thenReturn("java");
 		

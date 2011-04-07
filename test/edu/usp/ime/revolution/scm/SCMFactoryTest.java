@@ -10,7 +10,7 @@ import edu.usp.ime.revolution.scm.git.Git;
 
 public class SCMFactoryTest {
 	@Test
-	public void ShouldBuildGit() {
+	public void shouldBuildGit() {
 		Config config = mock(Config.class);
 		when(config.get(Configs.SCM)).thenReturn("edu.usp.ime.revolution.scm.git.GitFactory");
 		
@@ -18,7 +18,7 @@ public class SCMFactoryTest {
 	}
 	
 	@Test(expected=SCMNotFoundException.class)
-	public void ShouldWarnIfInvalidSCM() {
+	public void shouldWarnIfInvalidSCM() {
 		Config config = mock(Config.class);
 		when(config.get(Configs.SCM)).thenReturn("invalid-scm");
 		
