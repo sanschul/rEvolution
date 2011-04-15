@@ -25,7 +25,7 @@ public class ToolsFactory {
 		return "tools." + counter;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private SpecificToolFactory getToolFactory(String tool) {
 		try {
 			Class theClass = Class.forName(tool);

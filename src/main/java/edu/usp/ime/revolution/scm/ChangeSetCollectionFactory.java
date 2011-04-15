@@ -16,7 +16,7 @@ public class ChangeSetCollectionFactory {
 		return factory.build(scm, config);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private SpecificChangeSetFactory getConfigFactory(String name) {
 		try {
 			Class theClass = Class.forName(name);
