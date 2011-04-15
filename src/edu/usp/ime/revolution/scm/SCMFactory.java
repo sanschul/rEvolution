@@ -10,7 +10,7 @@ public class SCMFactory {
 		return scmFactory.build(config);		
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	private SpecificSCMFactory getToolFactory(String scmName) {
 		try {
 			Class theClass = Class.forName(scmName);

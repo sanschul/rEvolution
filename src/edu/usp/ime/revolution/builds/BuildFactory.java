@@ -10,7 +10,7 @@ public class BuildFactory {
 		return buildFactory.build(config);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private SpecificBuildFactory getBuildFactory(String name) {
 		try {
 			Class theClass = Class.forName(name);
