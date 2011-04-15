@@ -14,14 +14,14 @@ import edu.usp.ime.revolution.tools.MetricTool;
 
 public class DefaultAnalyzer implements Analyzer {
 
-	private final Build build;
+	private final Build sourceBuilder;
 	private final List<MetricTool> tools;
 	private final MetricSetFactory metricSetFactory;
 	private final List<AnalyzerObserver> observers;
 	private final List<Error> errors;
 
 	public DefaultAnalyzer(Build build, MetricSetFactory metricSetFactory, List<MetricTool> tools) {
-		this.build = build;
+		this.sourceBuilder = build;
 		this.metricSetFactory = metricSetFactory;
 		this.tools = tools;
 		this.observers = new ArrayList<AnalyzerObserver>();
@@ -31,14 +31,14 @@ public class DefaultAnalyzer implements Analyzer {
 	public void start(ChangeSetCollection collection) {
 		for(ChangeSet changeSet : collection) {
 			try {
-				BuildResult currentBuild = build.build(changeSet);
+				BuildResult currentBuild = sourceBuilder.build(changeSet);
 				MetricSet metricSet = metricSetFactory.setFor(changeSet);
 				
 				runTools(changeSet, currentBuild, metricSet);
 				notifyAll(changeSet, metricSet);
 			}
 			catch(Exception e) {
-				errors.add(new Error("something failed in changeset " + changeSet.getInfo().getId() + "\n" + e.getMessage()));
+				errors.add(new Error(changeSet, e));
 			}
 		}
 	}
@@ -58,7 +58,7 @@ public class DefaultAnalyzer implements Analyzer {
 				tool.calculate(changeSet, currentBuild, metricSet);
 			}
 			catch(Exception e) {
-				errors.add(new Error(tool.getName() + " failed in changeset " + changeSet.getInfo().getId() + "\n" + e.getMessage()));
+				errors.add(new Error(tool, changeSet, e));
 			}
 		}
 	}
