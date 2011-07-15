@@ -15,11 +15,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildException;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
+import edu.usp.ime.revolution.postaction.PostAction;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.changesets.ChangeSet;
 import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
@@ -65,14 +65,14 @@ public class DefaultAnalyzerTest {
 	
 	@Test
 	public void shouldTellAllObserversAboutAChangeSet() {
-		AnalyzerObserver observer = mock(AnalyzerObserver.class);
+		PostAction observer = mock(PostAction.class);
 		
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)));
 		analyzer.addObserver(observer);
 
 		analyzer.start(changeSets);
 		
-		verify(observer).notify(any(ChangeSet.class));
+		verify(observer).notify(any(Commit.class));
 	}
 	
 	@Test

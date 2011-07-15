@@ -3,10 +3,10 @@ package edu.usp.ime.revolution.analyzers;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
+import edu.usp.ime.revolution.postaction.PostAction;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.changesets.ChangeSet;
 import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
@@ -16,7 +16,7 @@ public class DefaultAnalyzer implements Analyzer {
 
 	private final Build sourceBuilder;
 	private final List<Tool> tools;
-	private final List<AnalyzerObserver> observers;
+	private final List<PostAction> observers;
 	private final List<Error> errors;
 	private final SCM scm;
 
@@ -24,7 +24,7 @@ public class DefaultAnalyzer implements Analyzer {
 		this.scm = scm;
 		this.sourceBuilder = build;
 		this.tools = tools;
-		this.observers = new ArrayList<AnalyzerObserver>();
+		this.observers = new ArrayList<PostAction>();
 		this.errors = new ArrayList<Error>();
 	}
 
@@ -37,7 +37,7 @@ public class DefaultAnalyzer implements Analyzer {
 				BuildResult currentBuild = sourceBuilder.build(path);
 				
 				runTools(commit, currentBuild);
-				notifyAll(changeSet);
+				notifyAll(commit);
 			}
 			catch(Exception e) {
 				errors.add(new Error(changeSet, e));
@@ -45,7 +45,7 @@ public class DefaultAnalyzer implements Analyzer {
 		}
 	}
 
-	public void addObserver(AnalyzerObserver observer) {
+	public void addObserver(PostAction observer) {
 		observers.add(observer);
 	}
 
@@ -65,9 +65,9 @@ public class DefaultAnalyzer implements Analyzer {
 		}
 	}
 
-	private void notifyAll(ChangeSet cs) {
-		for(AnalyzerObserver observer : observers) {
-			observer.notify(cs);
+	private void notifyAll(Commit commit) {
+		for(PostAction observer : observers) {
+			observer.notify(commit);
 		}
 	}
 	
