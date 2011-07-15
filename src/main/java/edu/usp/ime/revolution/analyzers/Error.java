@@ -17,7 +17,7 @@ public class Error {
 	}
 
 	public Error(ChangeSet changeSet, Exception e) {
-		this.error = "something failed in changeset " + changeSet.getInfo().getId() + "\n" + e.getMessage();
+		this.error = "something failed in changeset " + changeSet.getId() + "\n" + e.getMessage();
 	}
 
 	public String getError() {

@@ -1,8 +1,24 @@
 package edu.usp.ime.revolution.scm;
 
-public interface ChangeSet {
+import java.util.Calendar;
 
-	ChangeSetInfo getInfo();
-	String getPath();
+public class ChangeSet {
 	
+	private final Calendar date;
+	private final String id;
+
+	public ChangeSet(String id, Calendar date) {
+		this.id = id;
+		this.date = date;
+		
+	}
+
+	public Calendar getTime() {
+		return date;
+	}
+
+	public String getId() {
+		return id;
+	}
+
 }

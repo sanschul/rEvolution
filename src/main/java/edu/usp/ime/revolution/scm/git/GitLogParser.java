@@ -2,8 +2,8 @@ package edu.usp.ime.revolution.scm.git;
 
 import java.util.List;
 
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
+import edu.usp.ime.revolution.scm.ChangeSet;
 
 public interface GitLogParser {
-	List<ChangeSetInfo> parse(String log) throws Exception;
+	List<ChangeSet> parse(String log) throws Exception;
 }

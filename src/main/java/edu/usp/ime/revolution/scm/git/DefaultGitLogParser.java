@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
+import edu.usp.ime.revolution.scm.ChangeSet;
 
 public class DefaultGitLogParser implements GitLogParser {
 
 	private final int SHA1_SIZE = 40;
 	
-	public List<ChangeSetInfo> parse(String log) throws Exception {
+	public List<ChangeSet> parse(String log) throws Exception {
 		String[] lines = log.replace("\r\n", "\n").split("\n");
-		List<ChangeSetInfo> shas = new ArrayList<ChangeSetInfo>();
+		List<ChangeSet> shas = new ArrayList<ChangeSet>();
 		
 		String sha = "";
 		for(String line : lines) {
@@ -27,7 +27,7 @@ public class DefaultGitLogParser implements GitLogParser {
 			if(line.startsWith("Date: ")) {
 				String date = line.substring(6).trim();
 				Calendar cal = parseDate(date);
-				shas.add(new ChangeSetInfo(sha, cal));
+				shas.add(new ChangeSet(sha, cal));
 				sha = "";
 			}
 		}

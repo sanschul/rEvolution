@@ -5,7 +5,6 @@ import java.util.List;
 import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
 import edu.usp.ime.revolution.scm.ChangeSet;
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SCMException;
 
@@ -22,18 +21,18 @@ public class GitClone implements SCM{
 			throw new SCMException(e);
 		}
 	}
-	
-	public List<ChangeSetInfo> getChangeSetList() {
-		return git.getChangeSetList();
+
+	public List<ChangeSet> getChangeSets() {
+		return git.getChangeSets();
 	}
 
-	public ChangeSet getChangeSet(ChangeSetInfo cs) {
-		return git.getChangeSet(cs);
+	public String goTo(ChangeSet cs) {
+		return git.goTo(cs);
 	}
 
 	public Commit detail(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return git.detail(id);
 	}
+	
 
 }

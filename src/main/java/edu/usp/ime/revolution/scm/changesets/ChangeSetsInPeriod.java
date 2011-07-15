@@ -6,23 +6,20 @@ import java.util.List;
 
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCM;
 
 public class ChangeSetsInPeriod implements ChangeSetCollection {
 
 	private final Calendar startPeriod;
 	private final Calendar endPeriod;
-	private final List<ChangeSetInfo> changeSets;
-	private final Iterator<ChangeSetInfo> iterator;
-	private final SCM scm;
-	private ChangeSetInfo currentChangeSetInfo;
+	private final List<ChangeSet> changeSets;
+	private final Iterator<ChangeSet> iterator;
+	private ChangeSet currentChangeSetInfo;
 
 	public ChangeSetsInPeriod(SCM scm, Calendar startPeriod, Calendar endPeriod) {
-		this.scm = scm;
 		this.startPeriod = startPeriod;
 		this.endPeriod = endPeriod;
-		this.changeSets = scm.getChangeSetList();
+		this.changeSets = scm.getChangeSets();
 		this.iterator = changeSets.iterator();
 	}
 
@@ -42,7 +39,7 @@ public class ChangeSetsInPeriod implements ChangeSetCollection {
 	}
 
 	public ChangeSet next() {
-		return scm.getChangeSet(currentChangeSetInfo);
+		return currentChangeSetInfo;
 	}
 
 	public void remove() {

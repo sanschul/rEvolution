@@ -1,5 +1,12 @@
 package edu.usp.ime.revolution.scm.git;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -7,12 +14,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.usp.ime.revolution.scm.ChangeSet;
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
-import edu.usp.ime.revolution.scm.SCMException;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 import edu.usp.ime.revolution.executor.CommandExecutor;
+import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.SCMException;
 
 public class GitTest {
 
@@ -29,12 +33,12 @@ public class GitTest {
 	
 	@Test
 	public void shouldReturnChangeSetList() throws Exception {
-		List<ChangeSetInfo> csList = aChangeSetList();
+		List<ChangeSet> csList = aChangeSetList();
 		
 		when(exec.getCommandOutput()).thenReturn(output);
 		when(logParser.parse(output)).thenReturn(csList);
 		
-		List<ChangeSetInfo> retrievedList = new Git(repository, logParser, exec).getChangeSetList();
+		List<ChangeSet> retrievedList = new Git(repository, logParser, exec).getChangeSets();
 		
 		assertEquals(retrievedList, csList);
 		verify(exec).setWorkingDirectory(repository);
@@ -47,16 +51,15 @@ public class GitTest {
 	public void shouldThrowSCMExceptionIfChangeSetListFails() throws Exception {
 		when(exec.runCommand(any(String.class))).thenThrow(new Exception());
 		
-		new Git(repository, logParser, exec).getChangeSetList();
+		new Git(repository, logParser, exec).getChangeSets();
 	}
 	
 	@Test
 	public void shouldGoToASpecificChangeSet() throws Exception {
-		ChangeSetInfo specificChangeSet = new ChangeSetInfo("abcd", Calendar.getInstance());
-		ChangeSet cs = new Git(repository, logParser, exec).getChangeSet(specificChangeSet);
+		ChangeSet specificChangeSet = new ChangeSet("abcd", Calendar.getInstance());
+		String path = new Git(repository, logParser, exec).goTo(specificChangeSet);
 		
-		assertEquals(repository, cs.getPath());
-		assertEquals(specificChangeSet, cs.getInfo());
+		assertEquals(repository, path);
 		verify(exec).setWorkingDirectory(repository);
 		verify(exec, times(3)).runCommand(any(String.class));		
 	}
@@ -65,13 +68,13 @@ public class GitTest {
 	public void shouldThrowSCMExceptionIfGetChangeSetFails() throws Exception {
 		when(exec.runCommand(any(String.class))).thenThrow(new Exception());
 		
-		new Git(repository, logParser, exec).getChangeSet(new ChangeSetInfo("123", Calendar.getInstance()));
+		new Git(repository, logParser, exec).goTo(new ChangeSet("123", Calendar.getInstance()));
 	}
 
-	private List<ChangeSetInfo> aChangeSetList() {
-		List<ChangeSetInfo> list = new ArrayList<ChangeSetInfo>();
-		list.add(new ChangeSetInfo("1234567890123456789012345678901234567890", Calendar.getInstance()));
-		list.add(new ChangeSetInfo("9999999999999999999999999999999999999999", Calendar.getInstance()));
+	private List<ChangeSet> aChangeSetList() {
+		List<ChangeSet> list = new ArrayList<ChangeSet>();
+		list.add(new ChangeSet("1234567890123456789012345678901234567890", Calendar.getInstance()));
+		list.add(new ChangeSet("9999999999999999999999999999999999999999", Calendar.getInstance()));
 		return list;
 	}
 }

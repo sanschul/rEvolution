@@ -5,20 +5,6 @@ import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 
 public class ChangeSetBuilder {
-	public static ChangeSet aChangeSet(final ChangeSetInfo info) {
-		return new ChangeSet() {
-
-			public ChangeSetInfo getInfo() {
-				return info;
-			}
-
-			public String getPath() {
-				return "/some/path/to/repo";
-			}
-			
-		};
-	}
-	
 
 	public static ChangeSetCollection aCollectionWith(final ChangeSet changeSet) {
 		return new ChangeSetCollection() {

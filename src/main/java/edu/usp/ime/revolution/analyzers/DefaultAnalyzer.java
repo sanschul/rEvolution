@@ -31,8 +31,10 @@ public class DefaultAnalyzer implements Analyzer {
 	public void start(ChangeSetCollection collection) {
 		for(ChangeSet changeSet : collection) {
 			try {
-				Commit commit = scm.detail(changeSet.getInfo().getId());
-				BuildResult currentBuild = sourceBuilder.build(changeSet);
+				Commit commit = scm.detail(changeSet.getId());
+				
+				String path = scm.goTo(changeSet);
+				BuildResult currentBuild = sourceBuilder.build(path);
 				
 				runTools(commit, currentBuild);
 				notifyAll(changeSet);

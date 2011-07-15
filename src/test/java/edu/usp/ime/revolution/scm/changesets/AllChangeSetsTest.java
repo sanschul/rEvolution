@@ -1,5 +1,12 @@
 package edu.usp.ime.revolution.scm.changesets;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -8,14 +15,7 @@ import java.util.List;
 import org.junit.Test;
 
 import edu.usp.ime.revolution.scm.ChangeSet;
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCM;
-import edu.usp.ime.revolution.scm.changesets.AllChangeSets;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-import static edu.usp.ime.revolution.scm.ChangeSetBuilder.*;
 
 public class AllChangeSetsTest {
 
@@ -23,10 +23,8 @@ public class AllChangeSetsTest {
 	public void shouldIterateIntoAllChangeSets() {
 		SCM scm = mock(SCM.class);
 		
-		List<ChangeSetInfo> changeSets = someChangeSets();
-		when(scm.getChangeSetList()).thenReturn(changeSets);
-		when(scm.getChangeSet(changeSets.get(0))).thenReturn(aChangeSet(changeSets.get(0)));
-		when(scm.getChangeSet(changeSets.get(1))).thenReturn(aChangeSet(changeSets.get(1)));
+		List<ChangeSet> changeSets = someChangeSets();
+		when(scm.getChangeSets()).thenReturn(changeSets);
 		
 		AllChangeSets collection = new AllChangeSets(scm);
 		
@@ -35,19 +33,17 @@ public class AllChangeSetsTest {
 		ChangeSet cs1 = sets.next();
 		ChangeSet cs2 = sets.next();
 		
-		assertEquals("abcd", cs1.getInfo().getId());
-		assertEquals("efgh", cs2.getInfo().getId());
+		assertEquals("abcd", cs1.getId());
+		assertEquals("efgh", cs2.getId());
 		assertFalse(sets.hasNext());
 		
-		verify(scm).getChangeSetList();
-		verify(scm).getChangeSet(changeSets.get(0));
-		verify(scm).getChangeSet(changeSets.get(1));
+		verify(scm).getChangeSets();
 	}
 
-	private List<ChangeSetInfo> someChangeSets() {
-		List<ChangeSetInfo> changeSets = new ArrayList<ChangeSetInfo>();
-		changeSets.add(new ChangeSetInfo("abcd", Calendar.getInstance()));
-		changeSets.add(new ChangeSetInfo("efgh", Calendar.getInstance()));
+	private List<ChangeSet> someChangeSets() {
+		List<ChangeSet> changeSets = new ArrayList<ChangeSet>();
+		changeSets.add(new ChangeSet("abcd", Calendar.getInstance()));
+		changeSets.add(new ChangeSet("efgh", Calendar.getInstance()));
 		return changeSets;
 	}
 }

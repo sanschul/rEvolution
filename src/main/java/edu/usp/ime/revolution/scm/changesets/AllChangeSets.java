@@ -5,18 +5,15 @@ import java.util.List;
 
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCM;
 
 public class AllChangeSets implements ChangeSetCollection {
 
-	private final SCM scm;
-	private List<ChangeSetInfo> changeSets;
-	private Iterator<ChangeSetInfo> iterator;
+	private List<ChangeSet> changeSets;
+	private Iterator<ChangeSet> iterator;
 
 	public AllChangeSets(SCM scm) {
-		this.scm = scm;
-		this.changeSets = scm.getChangeSetList();
+		this.changeSets = scm.getChangeSets();
 		this.iterator = changeSets.iterator();
 	}
 
@@ -25,8 +22,7 @@ public class AllChangeSets implements ChangeSetCollection {
 	}
 
 	public ChangeSet next() {
-		ChangeSetInfo changeSetInfo = iterator.next();
-		return scm.getChangeSet(changeSetInfo);
+		return iterator.next();
 	}
 
 	public void remove() {

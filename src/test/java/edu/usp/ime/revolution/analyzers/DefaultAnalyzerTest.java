@@ -1,6 +1,5 @@
 package edu.usp.ime.revolution.analyzers;
 
-import static edu.usp.ime.revolution.scm.ChangeSetBuilder.aChangeSet;
 import static edu.usp.ime.revolution.scm.ChangeSetBuilder.aCollectionWith;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -23,7 +22,6 @@ import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.tools.MetricTool;
 import edu.usp.ime.revolution.tools.ToolException;
@@ -37,7 +35,7 @@ public class DefaultAnalyzerTest {
 
 	@Before
 	public void setUp() {
-		changeSet = aChangeSet(new ChangeSetInfo("123", Calendar.getInstance()));
+		changeSet = new ChangeSet("123", Calendar.getInstance());
 		changeSets = aCollectionWith(changeSet);
 		build = mock(Build.class);
 		scm = mock(SCM.class);
@@ -47,9 +45,12 @@ public class DefaultAnalyzerTest {
 	public void shouldBuildAllChangeSets() throws BuildException {		
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, someMetricTools());
 		
+		String path = "/repo/path";
+		when(scm.goTo(changeSet)).thenReturn(path);
 		analyzer.start(changeSets);
 		
-		verify(build).build(changeSet);
+		verify(scm).goTo(changeSet);
+		verify(build).build(path);
 	}
 	
 	@Test
@@ -87,7 +88,7 @@ public class DefaultAnalyzerTest {
 	
 	@Test
 	public void shouldGenerateAErrorIfSomethingFailsInChangeset() throws BuildException {
-		when(build.build(any(ChangeSet.class))).thenThrow(new BuildException(new Exception()));
+		when(build.build(any(String.class))).thenThrow(new BuildException(new Exception()));
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(MetricTool.class)));
 		analyzer.start(changeSets);
 		

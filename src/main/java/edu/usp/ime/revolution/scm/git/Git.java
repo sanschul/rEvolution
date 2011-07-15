@@ -5,7 +5,6 @@ import java.util.List;
 import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
 import edu.usp.ime.revolution.scm.ChangeSet;
-import edu.usp.ime.revolution.scm.ChangeSetInfo;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SCMException;
 
@@ -21,7 +20,7 @@ public class Git implements SCM {
 		this.exec = exec;
 	}
 
-	public ChangeSet getChangeSet(ChangeSetInfo cs) {
+	public String goTo(ChangeSet cs) {
 		try {
 			exec.setWorkingDirectory(repository);
 			exec.runCommand("git checkout master");
@@ -32,10 +31,10 @@ public class Git implements SCM {
 			throw new SCMException(e);
 		}
 		
-		return new GitChangeSet(cs, repository);
+		return repository;
 	}
 
-	public List<ChangeSetInfo> getChangeSetList() {
+	public List<ChangeSet> getChangeSets() {
 		try {
 			exec.setWorkingDirectory(repository);
 			exec.runCommand("git log --format=medium --date=iso");
