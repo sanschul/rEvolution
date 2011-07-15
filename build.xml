@@ -4,7 +4,7 @@
 	<property name="ivy.file" value="ivysettings.xml" />
 	
 	<path id="project.class.path">
-	    <fileset dir="${common}"/>
+	    <fileset dir="${lib.dir}"/>
 	    <pathelement location="${bin}"/>
     </path>
     
