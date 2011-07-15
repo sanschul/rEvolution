@@ -17,15 +17,15 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import edu.usp.ime.revolution.builds.BuildResult;
+import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
-import edu.usp.ime.revolution.scm.ChangeSet;
 
 public class JDependTest {
 	private CommandExecutor exec;
 	private JDependXMLInterpreter interpreter;
 	private String jDependPath;
 	private BuildResult current;
-	private ChangeSet cs;
+	private Commit commit;
 
 	@Before
 	public void setUp() throws ParserConfigurationException, SAXException, IOException {
@@ -33,7 +33,7 @@ public class JDependTest {
 		interpreter = mock(JDependXMLInterpreter.class);
 		jDependPath = "/some/path";
 		
-		cs = mock(ChangeSet.class);
+		commit = mock(Commit.class);
 		current = new BuildResult("some/build/path");
 		
 		when(exec.getCommandOutput()).thenReturn(jdependXml());
@@ -43,7 +43,7 @@ public class JDependTest {
 	@Test
 	public void shouldInterpretResultsFromJDepend() throws Exception {
 		JDepend jdepend = new JDepend(exec, interpreter, jDependPath);
-		jdepend.calculate(cs, current);
+		jdepend.calculate(commit, current);
 		
 		verify(exec).getCommandOutput();
 		verify(exec).runCommand(any(String.class));
@@ -54,7 +54,7 @@ public class JDependTest {
 	@Test
 	public void shouldStoreValuesInSet() throws Exception {
 		JDepend jdepend = new JDepend(exec, interpreter, jDependPath);
-		jdepend.calculate(cs, current);		
+		jdepend.calculate(commit, current);		
 		
 //		verify(set).setMetric("afferent-coupling", 1, "target", "package", jdepend.getName());
 //		verify(set).setMetric("efferent-coupling", 2, "target", "package", jdepend.getName());

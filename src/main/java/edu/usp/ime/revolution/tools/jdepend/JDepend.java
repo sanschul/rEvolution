@@ -4,8 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import edu.usp.ime.revolution.builds.BuildResult;
+import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
-import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.tools.MetricTool;
 import edu.usp.ime.revolution.tools.ToolException;
 
@@ -21,7 +21,7 @@ public class JDepend implements MetricTool {
 		this.jDependPath = jDependPath;	
 	}
 
-	public void calculate(ChangeSet changeSet, BuildResult current) throws ToolException {
+	public void calculate(Commit commit, BuildResult current) throws ToolException {
 		try {
 			executor.setEnvironmentVar("CLASSPATH", jDependPath);
 			executor.runCommand("java jdepend.xmlui.JDepend " + current.getDirectory());

@@ -34,7 +34,7 @@ public class DefaultAnalyzer implements Analyzer {
 				Commit commit = scm.detail(changeSet.getInfo().getId());
 				BuildResult currentBuild = sourceBuilder.build(changeSet);
 				
-				runTools(changeSet, currentBuild);
+				runTools(commit, currentBuild);
 				notifyAll(changeSet);
 			}
 			catch(Exception e) {
@@ -52,13 +52,13 @@ public class DefaultAnalyzer implements Analyzer {
 		return errors;
 	}
 
-	private void runTools(ChangeSet changeSet, BuildResult currentBuild) {
+	private void runTools(Commit commit, BuildResult currentBuild) {
 		for(MetricTool tool : tools) {
 			try {
-				tool.calculate(changeSet, currentBuild);
+				tool.calculate(commit, currentBuild);
 			}
 			catch(Exception e) {
-				errors.add(new Error(tool, changeSet, e));
+				errors.add(new Error(tool, commit, e));
 			}
 		}
 	}

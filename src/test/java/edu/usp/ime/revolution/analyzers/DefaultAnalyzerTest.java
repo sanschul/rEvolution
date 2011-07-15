@@ -20,6 +20,7 @@ import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildException;
 import edu.usp.ime.revolution.builds.BuildResult;
+import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.ChangeSetInfo;
@@ -58,7 +59,7 @@ public class DefaultAnalyzerTest {
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(tool));
 		analyzer.start(changeSets);
 		
-		verify(tool).calculate(any(ChangeSet.class), any(BuildResult.class));
+		verify(tool).calculate(any(Commit.class), any(BuildResult.class));
 	}
 	
 	@Test
@@ -76,7 +77,7 @@ public class DefaultAnalyzerTest {
 	@Test
 	public void shouldGenerateAErrorIfAToolFails() throws ToolException {
 		MetricTool failedTool = mock(MetricTool.class);
-		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(ChangeSet.class), any(BuildResult.class));
+		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(Commit.class), any(BuildResult.class));
 		
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(failedTool));
 		analyzer.start(changeSets);

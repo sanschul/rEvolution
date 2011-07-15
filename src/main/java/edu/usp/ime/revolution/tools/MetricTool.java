@@ -1,11 +1,11 @@
 package edu.usp.ime.revolution.tools;
 
 import edu.usp.ime.revolution.builds.BuildResult;
-import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.domain.Commit;
 
 public interface MetricTool {
 
-	void calculate(ChangeSet changeSet, BuildResult current) throws ToolException;
+	void calculate(Commit commit, BuildResult current) throws ToolException;
 	String getName();
 
 }
