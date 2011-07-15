@@ -1,10 +1,7 @@
-<project name="revolution" default="dist" basedir=".">
-	<property name="src" value="src" />
-	<property name="test" value="test" />
-	<property name="bin" value="bin" />
-	<property name="test-bin" value="bin-test" />
-	<property name="dist"  location="dist"/>
-	<property name="common"  location="common"/>
+<project name="repocrusher" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	
+	<property file="build.properties" />
+	<property name="ivy.file" value="ivysettings.xml" />
 	
 	<path id="project.class.path">
 	    <fileset dir="${common}"/>
@@ -16,6 +13,18 @@
     	<path refid="project.class.path" />
     </path>
 	
+	<!-- resolve dependencies -->
+	<target name="resolve" description="--> retrieve dependencies with ivy">
+		<path id="ivy.lib.path">
+			<pathelement location="${ivy.jar.file}" />
+		</path>
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
+
+		<delete dir="${lib.dir}" includes="**/*.*" />
+		<ivy:settings file="${ivy.file}" />
+		<ivy:retrieve pattern="lib/[artifact](-[classifier]).[ext]" sync="true" />
+	</target>
+			
 	<target name="clean">
 		<delete dir="${bin}" />
 		<delete dir="${test-bin}" />

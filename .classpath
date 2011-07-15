@@ -3,8 +3,32 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
-	<classpathentry kind="lib" path="lib/default/sqlitejdbc-v056.jar"/>
-	<classpathentry kind="lib" path="lib/test/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="lib/test/mockito-all-1.8.4.jar"/>
+	<classpathentry kind="lib" path="lib/antlr.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-nodep.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections.jar"/>
+	<classpathentry kind="lib" path="lib/dom4j.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-core.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-jpa-2.0-api.jar"/>
+	<classpathentry kind="lib" path="lib/javassist-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/javassist-sources.jar"/>
+	<classpathentry kind="lib" path="lib/javassist.jar"/>
+	<classpathentry kind="lib" path="lib/jdom.jar"/>
+	<classpathentry kind="lib" path="lib/jettison.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time-hibernate.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time.jar"/>
+	<classpathentry kind="lib" path="lib/jta.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/mockito-all.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="lib/stax-api.jar"/>
+	<classpathentry kind="lib" path="lib/stax.jar"/>
+	<classpathentry kind="lib" path="lib/wstx-asl.jar"/>
+	<classpathentry kind="lib" path="lib/xom.jar"/>
+	<classpathentry kind="lib" path="lib/xpp3_min.jar"/>
+	<classpathentry kind="lib" path="lib/xstream-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/xstream-sources.jar"/>
+	<classpathentry kind="lib" path="lib/xstream.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

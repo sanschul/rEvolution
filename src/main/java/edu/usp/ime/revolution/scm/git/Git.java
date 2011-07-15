@@ -2,6 +2,9 @@ package edu.usp.ime.revolution.scm.git;
 
 import java.util.List;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
 import edu.usp.ime.revolution.scm.SCM;
@@ -26,11 +29,10 @@ public class Git implements SCM {
 			exec.runCommand("git checkout master");
 			exec.runCommand("git branch --no-track -f revolution " + cs.getId());
 			exec.runCommand("git checkout revolution ");
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			throw new SCMException(e);
 		}
-		
+
 		return repository;
 	}
 
@@ -38,7 +40,7 @@ public class Git implements SCM {
 		try {
 			exec.setWorkingDirectory(repository);
 			exec.runCommand("git log --format=medium --date=iso");
-			
+
 			String output = exec.getCommandOutput();
 			return logParser.parse(output);
 		} catch (Exception e) {
@@ -47,7 +49,22 @@ public class Git implements SCM {
 	}
 
 	public Commit detail(String id) {
-		return null;
-	}
+		try {
+			exec.setWorkingDirectory(repository);
+			exec.runCommand("git show "
+					+ id
+					+ " --pretty=format:<Commit><id>%H</id><author>%an</author><email>%ae</email><date>%ai</date><message>%s</message></Commit>");
+			XStream xs = new XStream(new DomDriver());
+			xs.alias("Commit", Commit.class);
 
+			String response = exec.getCommandOutput();
+			Commit parsedCommit = (Commit) xs.fromXML(response.substring(0,
+					response.indexOf("</Commit>") + 9));
+			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));
+			
+			return parsedCommit;
+		} catch (Exception e) {
+			throw new SCMException(e);
+		}
+	}
 }
