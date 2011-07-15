@@ -16,7 +16,7 @@ public class DefaultAnalyzer implements Analyzer {
 
 	private final Build sourceBuilder;
 	private final List<Tool> tools;
-	private final List<PostAction> observers;
+	private final List<PostAction> actions;
 	private final List<Error> errors;
 	private final SCM scm;
 
@@ -24,7 +24,7 @@ public class DefaultAnalyzer implements Analyzer {
 		this.scm = scm;
 		this.sourceBuilder = build;
 		this.tools = tools;
-		this.observers = new ArrayList<PostAction>();
+		this.actions = new ArrayList<PostAction>();
 		this.errors = new ArrayList<Error>();
 	}
 
@@ -46,7 +46,7 @@ public class DefaultAnalyzer implements Analyzer {
 	}
 
 	public void addObserver(PostAction observer) {
-		observers.add(observer);
+		actions.add(observer);
 	}
 
 
@@ -66,8 +66,8 @@ public class DefaultAnalyzer implements Analyzer {
 	}
 
 	private void notifyAll(Commit commit) {
-		for(PostAction observer : observers) {
-			observer.notify(commit);
+		for(PostAction action : actions) {
+			action.notify(commit);
 		}
 	}
 	
