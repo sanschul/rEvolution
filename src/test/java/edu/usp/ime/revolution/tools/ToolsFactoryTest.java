@@ -17,7 +17,7 @@ public class ToolsFactoryTest {
 		when(config.get("tools.2")).thenReturn("edu.usp.ime.revolution.tools.files.NumberOfFilesFactory");
 		when(config.contains("tools.3")).thenReturn(false);
 		
-		List<MetricTool> tools = new ToolsFactory().basedOn(config);
+		List<Tool> tools = new ToolsFactory().basedOn(config);
 		
 		assertEquals(2, tools.size());
 	}

@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.usp.ime.revolution.scm.ChangeSet;
-import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.SCM;
 
 public class ChangeSetsInPeriod implements ChangeSetCollection {

@@ -4,10 +4,10 @@ import java.io.File;
 
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
-import edu.usp.ime.revolution.tools.MetricTool;
+import edu.usp.ime.revolution.tools.Tool;
 import edu.usp.ime.revolution.tools.ToolException;
 
-public class NumberOfFiles implements MetricTool {
+public class NumberOfFiles implements Tool {
 
 	private String extension;
 

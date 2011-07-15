@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.SCM;
 
 public class AllChangeSetsTest {

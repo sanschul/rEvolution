@@ -4,9 +4,9 @@ import java.util.List;
 
 import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
-import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SCMException;
+import edu.usp.ime.revolution.scm.changesets.ChangeSet;
 
 public class GitClone implements SCM{
 

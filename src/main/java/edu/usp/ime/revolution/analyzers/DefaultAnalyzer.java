@@ -7,20 +7,20 @@ import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
-import edu.usp.ime.revolution.scm.ChangeSet;
-import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.SCM;
-import edu.usp.ime.revolution.tools.MetricTool;
+import edu.usp.ime.revolution.scm.changesets.ChangeSet;
+import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
+import edu.usp.ime.revolution.tools.Tool;
 
 public class DefaultAnalyzer implements Analyzer {
 
 	private final Build sourceBuilder;
-	private final List<MetricTool> tools;
+	private final List<Tool> tools;
 	private final List<AnalyzerObserver> observers;
 	private final List<Error> errors;
 	private final SCM scm;
 
-	public DefaultAnalyzer(SCM scm, Build build, List<MetricTool> tools) {
+	public DefaultAnalyzer(SCM scm, Build build, List<Tool> tools) {
 		this.scm = scm;
 		this.sourceBuilder = build;
 		this.tools = tools;
@@ -55,7 +55,7 @@ public class DefaultAnalyzer implements Analyzer {
 	}
 
 	private void runTools(Commit commit, BuildResult currentBuild) {
-		for(MetricTool tool : tools) {
+		for(Tool tool : tools) {
 			try {
 				tool.calculate(commit, currentBuild);
 			}

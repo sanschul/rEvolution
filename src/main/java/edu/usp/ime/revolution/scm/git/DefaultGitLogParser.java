@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.changesets.ChangeSet;
 
 public class DefaultGitLogParser implements GitLogParser {
 

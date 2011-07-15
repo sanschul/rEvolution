@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.executor.CommandExecutor;
-import edu.usp.ime.revolution.scm.ChangeSet;
+import edu.usp.ime.revolution.scm.changesets.ChangeSet;
 
 public class AntTest {
 

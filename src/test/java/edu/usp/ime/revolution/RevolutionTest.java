@@ -3,7 +3,7 @@ package edu.usp.ime.revolution;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 import edu.usp.ime.revolution.analyzers.Analyzer;
-import edu.usp.ime.revolution.scm.ChangeSetCollection;
+import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
 
 public class RevolutionTest {
 

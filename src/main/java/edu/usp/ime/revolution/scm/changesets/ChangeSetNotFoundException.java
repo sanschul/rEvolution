@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution.scm;
+package edu.usp.ime.revolution.scm.changesets;
 
 public class ChangeSetNotFoundException extends RuntimeException {
 

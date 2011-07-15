@@ -6,10 +6,10 @@ import java.util.List;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
-import edu.usp.ime.revolution.tools.MetricTool;
+import edu.usp.ime.revolution.tools.Tool;
 import edu.usp.ime.revolution.tools.ToolException;
 
-public class JDepend implements MetricTool {
+public class JDepend implements Tool {
 
 	private final CommandExecutor executor;
 	private final JDependXMLInterpreter interpreter;

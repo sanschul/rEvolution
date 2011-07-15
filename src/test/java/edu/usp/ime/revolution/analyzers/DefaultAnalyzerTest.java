@@ -1,6 +1,6 @@
 package edu.usp.ime.revolution.analyzers;
 
-import static edu.usp.ime.revolution.scm.ChangeSetBuilder.aCollectionWith;
+import static edu.usp.ime.revolution.scm.changesets.ChangeSetBuilder.aCollectionWith;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -20,10 +20,10 @@ import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildException;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
-import edu.usp.ime.revolution.scm.ChangeSet;
-import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.SCM;
-import edu.usp.ime.revolution.tools.MetricTool;
+import edu.usp.ime.revolution.scm.changesets.ChangeSet;
+import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
+import edu.usp.ime.revolution.tools.Tool;
 import edu.usp.ime.revolution.tools.ToolException;
 
 public class DefaultAnalyzerTest {
@@ -55,7 +55,7 @@ public class DefaultAnalyzerTest {
 	
 	@Test
 	public void shouldCalculateAllMetrics() throws ToolException {
-		MetricTool tool = mock(MetricTool.class);
+		Tool tool = mock(Tool.class);
 		
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(tool));
 		analyzer.start(changeSets);
@@ -67,7 +67,7 @@ public class DefaultAnalyzerTest {
 	public void shouldTellAllObserversAboutAChangeSet() {
 		AnalyzerObserver observer = mock(AnalyzerObserver.class);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(MetricTool.class)));
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)));
 		analyzer.addObserver(observer);
 
 		analyzer.start(changeSets);
@@ -77,7 +77,7 @@ public class DefaultAnalyzerTest {
 	
 	@Test
 	public void shouldGenerateAErrorIfAToolFails() throws ToolException {
-		MetricTool failedTool = mock(MetricTool.class);
+		Tool failedTool = mock(Tool.class);
 		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(Commit.class), any(BuildResult.class));
 		
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(failedTool));
@@ -89,21 +89,21 @@ public class DefaultAnalyzerTest {
 	@Test
 	public void shouldGenerateAErrorIfSomethingFailsInChangeset() throws BuildException {
 		when(build.build(any(String.class))).thenThrow(new BuildException(new Exception()));
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(MetricTool.class)));
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)));
 		analyzer.start(changeSets);
 		
 		assertEquals(1, analyzer.getErrors().size());
 	}
 
-	private List<MetricTool> aToolListWith(MetricTool tool) {
-		List<MetricTool> tools = new ArrayList<MetricTool>();
+	private List<Tool> aToolListWith(Tool tool) {
+		List<Tool> tools = new ArrayList<Tool>();
 		tools.add(tool);
 		return tools;
 	}
 
-	private List<MetricTool> someMetricTools() {
-		List<MetricTool> tools = new ArrayList<MetricTool>();
-		tools.add(mock(MetricTool.class));
+	private List<Tool> someMetricTools() {
+		List<Tool> tools = new ArrayList<Tool>();
+		tools.add(mock(Tool.class));
 		return tools;
 	}
 }

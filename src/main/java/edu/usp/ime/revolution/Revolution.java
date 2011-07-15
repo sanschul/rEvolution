@@ -4,7 +4,7 @@ import java.util.List;
 
 import edu.usp.ime.revolution.analyzers.Analyzer;
 import edu.usp.ime.revolution.analyzers.Error;
-import edu.usp.ime.revolution.scm.ChangeSetCollection;
+import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
 
 public class Revolution {
 

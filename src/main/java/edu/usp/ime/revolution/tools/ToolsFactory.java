@@ -6,8 +6,8 @@ import edu.usp.ime.revolution.config.Config;
 
 public class ToolsFactory {
 
-	public List<MetricTool> basedOn(Config config) {
-		List<MetricTool> tools = new ArrayList<MetricTool>();
+	public List<Tool> basedOn(Config config) {
+		List<Tool> tools = new ArrayList<Tool>();
 		
 		int counter = 1;
 		while(config.contains(toolConfigName(counter))) {

@@ -1,8 +1,8 @@
 package edu.usp.ime.revolution.analyzers;
 
 import edu.usp.ime.revolution.domain.Commit;
-import edu.usp.ime.revolution.scm.ChangeSet;
-import edu.usp.ime.revolution.tools.MetricTool;
+import edu.usp.ime.revolution.scm.changesets.ChangeSet;
+import edu.usp.ime.revolution.tools.Tool;
 
 public class Error {
 
@@ -12,7 +12,7 @@ public class Error {
 		this.error = "something failed in commit " + commit.getId() + "\n" + e.getMessage();
 	}
 
-	public Error(MetricTool tool, Commit commit, Exception e) {
+	public Error(Tool tool, Commit commit, Exception e) {
 		this.error = tool.getName() + " failed in changeset " + commit.getId() + "\n" + e.getMessage();
 	}
 

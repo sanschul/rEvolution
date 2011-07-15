@@ -3,6 +3,7 @@ package edu.usp.ime.revolution.scm;
 import java.util.List;
 
 import edu.usp.ime.revolution.domain.Commit;
+import edu.usp.ime.revolution.scm.changesets.ChangeSet;
 
 public interface SCM {
 	List<ChangeSet> getChangeSets();
