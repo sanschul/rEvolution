@@ -7,8 +7,6 @@ import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
-import edu.usp.ime.revolution.metrics.MetricSet;
-import edu.usp.ime.revolution.metrics.MetricSetFactory;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.SCM;
@@ -18,15 +16,13 @@ public class DefaultAnalyzer implements Analyzer {
 
 	private final Build sourceBuilder;
 	private final List<MetricTool> tools;
-	private final MetricSetFactory metricSetFactory;
 	private final List<AnalyzerObserver> observers;
 	private final List<Error> errors;
 	private final SCM scm;
 
-	public DefaultAnalyzer(SCM scm, Build build, MetricSetFactory metricSetFactory, List<MetricTool> tools) {
+	public DefaultAnalyzer(SCM scm, Build build, List<MetricTool> tools) {
 		this.scm = scm;
 		this.sourceBuilder = build;
-		this.metricSetFactory = metricSetFactory;
 		this.tools = tools;
 		this.observers = new ArrayList<AnalyzerObserver>();
 		this.errors = new ArrayList<Error>();
@@ -37,10 +33,9 @@ public class DefaultAnalyzer implements Analyzer {
 			try {
 				Commit commit = scm.detail(changeSet.getInfo().getId());
 				BuildResult currentBuild = sourceBuilder.build(changeSet);
-				MetricSet metricSet = metricSetFactory.setFor(changeSet);
 				
-				runTools(changeSet, currentBuild, metricSet);
-				notifyAll(changeSet, metricSet);
+				runTools(changeSet, currentBuild);
+				notifyAll(changeSet);
 			}
 			catch(Exception e) {
 				errors.add(new Error(changeSet, e));
@@ -57,10 +52,10 @@ public class DefaultAnalyzer implements Analyzer {
 		return errors;
 	}
 
-	private void runTools(ChangeSet changeSet, BuildResult currentBuild, MetricSet metricSet) {
+	private void runTools(ChangeSet changeSet, BuildResult currentBuild) {
 		for(MetricTool tool : tools) {
 			try {
-				tool.calculate(changeSet, currentBuild, metricSet);
+				tool.calculate(changeSet, currentBuild);
 			}
 			catch(Exception e) {
 				errors.add(new Error(tool, changeSet, e));
@@ -68,9 +63,9 @@ public class DefaultAnalyzer implements Analyzer {
 		}
 	}
 
-	private void notifyAll(ChangeSet cs, MetricSet set) {
+	private void notifyAll(ChangeSet cs) {
 		for(AnalyzerObserver observer : observers) {
-			observer.notify(cs, set);
+			observer.notify(cs);
 		}
 	}
 	

@@ -20,8 +20,6 @@ import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildException;
 import edu.usp.ime.revolution.builds.BuildResult;
-import edu.usp.ime.revolution.metrics.MetricSet;
-import edu.usp.ime.revolution.metrics.MetricSetFactory;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
 import edu.usp.ime.revolution.scm.ChangeSetInfo;
@@ -34,7 +32,6 @@ public class DefaultAnalyzerTest {
 	private ChangeSet changeSet;
 	private ChangeSetCollection changeSets;
 	private Build build;
-	private MetricSetFactory store;
 	private SCM scm;
 
 	@Before
@@ -42,13 +39,12 @@ public class DefaultAnalyzerTest {
 		changeSet = aChangeSet(new ChangeSetInfo("123", Calendar.getInstance()));
 		changeSets = aCollectionWith(changeSet);
 		build = mock(Build.class);
-		store = mock(MetricSetFactory.class);
 		scm = mock(SCM.class);
 	}
 	
 	@Test
 	public void shouldBuildAllChangeSets() throws BuildException {		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, store, someMetricTools());
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, someMetricTools());
 		
 		analyzer.start(changeSets);
 		
@@ -59,31 +55,30 @@ public class DefaultAnalyzerTest {
 	public void shouldCalculateAllMetrics() throws ToolException {
 		MetricTool tool = mock(MetricTool.class);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, store, aToolListWith(tool));
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(tool));
 		analyzer.start(changeSets);
 		
-		verify(tool).calculate(any(ChangeSet.class), any(BuildResult.class), any(MetricSet.class));
-		verify(store).setFor(any(ChangeSet.class));
+		verify(tool).calculate(any(ChangeSet.class), any(BuildResult.class));
 	}
 	
 	@Test
 	public void shouldTellAllObserversAboutAChangeSet() {
 		AnalyzerObserver observer = mock(AnalyzerObserver.class);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, store, aToolListWith(mock(MetricTool.class)));
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(MetricTool.class)));
 		analyzer.addObserver(observer);
 
 		analyzer.start(changeSets);
 		
-		verify(observer).notify(any(ChangeSet.class), any(MetricSet.class));
+		verify(observer).notify(any(ChangeSet.class));
 	}
 	
 	@Test
 	public void shouldGenerateAErrorIfAToolFails() throws ToolException {
 		MetricTool failedTool = mock(MetricTool.class);
-		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(ChangeSet.class), any(BuildResult.class), any(MetricSet.class));
+		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(ChangeSet.class), any(BuildResult.class));
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, store, aToolListWith(failedTool));
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(failedTool));
 		analyzer.start(changeSets);
 		
 		assertEquals(1, analyzer.getErrors().size());
@@ -92,7 +87,7 @@ public class DefaultAnalyzerTest {
 	@Test
 	public void shouldGenerateAErrorIfSomethingFailsInChangeset() throws BuildException {
 		when(build.build(any(ChangeSet.class))).thenThrow(new BuildException(new Exception()));
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, store, aToolListWith(mock(MetricTool.class)));
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(MetricTool.class)));
 		analyzer.start(changeSets);
 		
 		assertEquals(1, analyzer.getErrors().size());
