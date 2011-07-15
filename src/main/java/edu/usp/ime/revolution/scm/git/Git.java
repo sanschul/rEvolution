@@ -2,6 +2,7 @@ package edu.usp.ime.revolution.scm.git;
 
 import java.util.List;
 
+import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetInfo;
@@ -44,6 +45,10 @@ public class Git implements SCM {
 		} catch (Exception e) {
 			throw new SCMException(e);
 		}
+	}
+
+	public Commit detail(String id) {
+		return null;
 	}
 
 }

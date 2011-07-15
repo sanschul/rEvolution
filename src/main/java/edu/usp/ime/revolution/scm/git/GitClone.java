@@ -2,6 +2,7 @@ package edu.usp.ime.revolution.scm.git;
 
 import java.util.List;
 
+import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetInfo;
@@ -28,6 +29,11 @@ public class GitClone implements SCM{
 
 	public ChangeSet getChangeSet(ChangeSetInfo cs) {
 		return git.getChangeSet(cs);
+	}
+
+	public Commit detail(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

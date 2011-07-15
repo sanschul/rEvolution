@@ -27,7 +27,7 @@ public class RevolutionFactory {
 		List<MetricTool> tools = new ToolsFactory().basedOn(config);
 		ChangeSetCollection collection = new ChangeSetCollectionFactory(scm).basedOn(config);
 		
-		Analyzer analyzer = new DefaultAnalyzer(build, metricSetFactory, tools);
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, metricSetFactory, tools);
 		analyzer.addObserver(new ConsoleLog());
 		analyzer.addObserver(new PersistMetrics(new PersistenceFactory().basedOn(config)));
 		

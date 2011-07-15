@@ -6,10 +6,12 @@ import java.util.List;
 import edu.usp.ime.revolution.analyzers.observers.AnalyzerObserver;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
+import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.metrics.MetricSet;
 import edu.usp.ime.revolution.metrics.MetricSetFactory;
 import edu.usp.ime.revolution.scm.ChangeSet;
 import edu.usp.ime.revolution.scm.ChangeSetCollection;
+import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.tools.MetricTool;
 
 public class DefaultAnalyzer implements Analyzer {
@@ -19,8 +21,10 @@ public class DefaultAnalyzer implements Analyzer {
 	private final MetricSetFactory metricSetFactory;
 	private final List<AnalyzerObserver> observers;
 	private final List<Error> errors;
+	private final SCM scm;
 
-	public DefaultAnalyzer(Build build, MetricSetFactory metricSetFactory, List<MetricTool> tools) {
+	public DefaultAnalyzer(SCM scm, Build build, MetricSetFactory metricSetFactory, List<MetricTool> tools) {
+		this.scm = scm;
 		this.sourceBuilder = build;
 		this.metricSetFactory = metricSetFactory;
 		this.tools = tools;
@@ -31,6 +35,7 @@ public class DefaultAnalyzer implements Analyzer {
 	public void start(ChangeSetCollection collection) {
 		for(ChangeSet changeSet : collection) {
 			try {
+				Commit commit = scm.detail(changeSet.getInfo().getId());
 				BuildResult currentBuild = sourceBuilder.build(changeSet);
 				MetricSet metricSet = metricSetFactory.setFor(changeSet);
 				
