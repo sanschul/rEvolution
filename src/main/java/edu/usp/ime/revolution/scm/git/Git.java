@@ -53,10 +53,6 @@ public class Git implements SCM {
 			XStream xs = new XStream(new DomDriver());
 			xs.alias("Commit", Commit.class);
 
-			
-			System.out.println("---");
-			System.out.println(response);
-			System.out.println("---");
 			Commit parsedCommit = (Commit) xs.fromXML(response.substring(0,
 					response.indexOf("</Commit>") + 9));
 			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));
