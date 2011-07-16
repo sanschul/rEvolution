@@ -35,21 +35,19 @@ public class GitTest {
 	public void shouldReturnChangeSetList() throws Exception {
 		List<ChangeSet> csList = aChangeSetList();
 		
-		when(exec.getCommandOutput()).thenReturn(output);
+		when(exec.execute(any(String.class), any(String.class))).thenReturn(output);
 		when(logParser.parse(output)).thenReturn(csList);
 		
 		List<ChangeSet> retrievedList = new Git(repository, logParser, exec).getChangeSets();
 		
 		assertEquals(retrievedList, csList);
-		verify(exec).setWorkingDirectory(repository);
-		verify(exec).getCommandOutput();
 		verify(logParser).parse(output);
-		verify(exec).runCommand(any(String.class));
+		verify(exec).execute(any(String.class), any(String.class));
 	}
 	
 	@Test(expected=SCMException.class)
 	public void shouldThrowSCMExceptionIfChangeSetListFails() throws Exception {
-		when(exec.runCommand(any(String.class))).thenThrow(new Exception());
+		when(exec.execute(any(String.class), any(String.class))).thenThrow(new Exception());
 		
 		new Git(repository, logParser, exec).getChangeSets();
 	}
@@ -60,13 +58,12 @@ public class GitTest {
 		String path = new Git(repository, logParser, exec).goTo(specificChangeSet);
 		
 		assertEquals(repository, path);
-		verify(exec).setWorkingDirectory(repository);
-		verify(exec, times(3)).runCommand(any(String.class));		
+		verify(exec, times(3)).execute(any(String.class), any(String.class));		
 	}
 	
 	@Test(expected=SCMException.class)
 	public void shouldThrowSCMExceptionIfGetChangeSetFails() throws Exception {
-		when(exec.runCommand(any(String.class))).thenThrow(new Exception());
+		when(exec.execute(any(String.class), any(String.class))).thenThrow(new Exception());
 		
 		new Git(repository, logParser, exec).goTo(new ChangeSet("123", Calendar.getInstance()));
 	}

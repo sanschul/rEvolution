@@ -16,7 +16,7 @@ public class GitClone implements SCM{
 		this.git = git;
 		
 		try {
-			exec.runCommand("git clone " + gitRepository + " " + destiny);
+			exec.execute("git clone " + gitRepository + " " + destiny, destiny);
 		} catch (Exception e) {
 			throw new SCMException(e);
 		}

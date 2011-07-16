@@ -15,6 +15,7 @@ public class NumberOfFiles implements Tool {
 		this.extension = extension;
 	}
 
+	// FIXME: mexer aqui
 	public void calculate(Commit commit, BuildResult current) throws ToolException {
 		try {
 			//int qty = countFiles(changeSet.getPath());

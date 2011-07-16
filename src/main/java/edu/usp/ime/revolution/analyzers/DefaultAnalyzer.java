@@ -40,6 +40,7 @@ public class DefaultAnalyzer implements Analyzer {
 				notifyAll(commit);
 			}
 			catch(Exception e) {
+				e.printStackTrace();
 				errors.add(new Error(changeSet, e));
 			}
 		}

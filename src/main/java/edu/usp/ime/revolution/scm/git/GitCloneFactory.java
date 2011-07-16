@@ -1,7 +1,7 @@
 package edu.usp.ime.revolution.scm.git;
 
 import edu.usp.ime.revolution.config.Config;
-import edu.usp.ime.revolution.executor.SysCommandExecutor;
+import edu.usp.ime.revolution.executor.SimpleCommandExecutor;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SpecificSCMFactory;
 
@@ -11,8 +11,8 @@ public class GitCloneFactory implements SpecificSCMFactory {
 		return new GitClone(
 				config.get("scm.remoteRepository"),
 				config.get("scm.repository"),
-				new SysCommandExecutor(),
-				new Git(config.get("scm.repository"), new DefaultGitLogParser(), new SysCommandExecutor())
+				new SimpleCommandExecutor(),
+				new Git(config.get("scm.repository"), new DefaultGitLogParser(), new SimpleCommandExecutor())
 			);
 	}
 

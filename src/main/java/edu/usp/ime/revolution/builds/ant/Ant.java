@@ -19,8 +19,7 @@ public class Ant implements Build {
 
 	public BuildResult build(String path) throws BuildException {
 		try {
-			executor.setWorkingDirectory(path);
-			executor.runCommand("ant " + task);
+			executor.execute("ant " + task, path);
 			
 			return new BuildResult(buildPath);
 		}

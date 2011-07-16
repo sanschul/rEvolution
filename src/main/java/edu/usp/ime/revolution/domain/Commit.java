@@ -1,13 +1,12 @@
 package edu.usp.ime.revolution.domain;
 
-import java.util.Calendar;
 
 public class Commit {
 
 	private String id;
 	private String author;
 	private String email;
-	private Calendar date;
+	private String date;
 	private String message;
 	private String diff;
 
@@ -27,11 +26,11 @@ public class Commit {
 		this.author = author;
 	}
 
-	public Calendar getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Calendar date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

@@ -1,18 +1,18 @@
 <project name="repocrusher" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
-	
+
 	<property file="build.properties" />
 	<property name="ivy.file" value="ivysettings.xml" />
-	
+
 	<path id="project.class.path">
-	    <fileset dir="${lib.dir}"/>
-	    <pathelement location="${bin}"/>
-    </path>
-    
-    <path id="test.class.path">
-    	<pathelement location="${test-bin}" />
-    	<path refid="project.class.path" />
-    </path>
-	
+		<fileset dir="${lib.dir}" />
+		<pathelement location="${bin}" />
+	</path>
+
+	<path id="test.class.path">
+		<pathelement location="${test-bin}" />
+		<path refid="project.class.path" />
+	</path>
+
 	<!-- resolve dependencies -->
 	<target name="resolve" description="--> retrieve dependencies with ivy">
 		<path id="ivy.lib.path">
@@ -24,48 +24,73 @@
 		<ivy:settings file="${ivy.file}" />
 		<ivy:retrieve pattern="lib/[artifact](-[classifier]).[ext]" sync="true" />
 	</target>
-			
+
 	<target name="clean">
 		<delete dir="${bin}" />
 		<delete dir="${test-bin}" />
 	</target>
-	
+
 	<target name="init" depends="clean">
-		<tstamp/>
-		
-		<mkdir dir="${bin}"/>
-		<mkdir dir="${test-bin}"/>
+		<tstamp />
+
+		<mkdir dir="${bin}" />
+		<mkdir dir="${test-bin}" />
 	</target>
-	
+
 	<target name="compile" depends="init">
-    	<javac srcdir="${src}" destdir="${bin}">
-    		<classpath refid="project.class.path"/>
-    	</javac>
-    </target>	
-    
-    <target name="compile-tests" depends="compile">
-    	<javac srcdir="${test}" destdir="${test-bin}">
-    		<classpath refid="project.class.path"/>
-    	</javac>
-    </target>
-    
-    <target name="tests" depends="compile-tests">
+		<javac srcdir="${src}" destdir="${bin}">
+			<classpath refid="project.class.path" />
+		</javac>
+	</target>
+
+	<target name="compile-tests" depends="compile">
+		<javac srcdir="${test}" destdir="${test-bin}">
+			<classpath refid="project.class.path" />
+		</javac>
+	</target>
+
+	<target name="tests" depends="compile-tests">
 		<junit printsummary="true" fork="yes" haltonfailure="yes">
 			<classpath refid="test.class.path" />
 			<formatter type="brief" usefile="false" />
-			
+
 			<batchtest fork="yes">
 				<fileset dir="${test-bin}">
-					<include name="**/*Test*"/>
+					<include name="**/*Test*" />
 				</fileset>
 			</batchtest>
-	    </junit>    
-    </target>
-    
-    <target name="dist" depends="compile">
-    	<mkdir dir="${dist}" />
-    	
-    	<jar jarfile="${dist}/rEvolution-${DSTAMP}.jar" basedir="${bin}"/>
-    </target>
+		</junit>
+	</target>
+
+	<path id="lib.classpath">
+	  <fileset dir="${lib.dir}">
+	     <include name="*.jar"/>
+	  </fileset>
+	</path>
 	
+	<pathconvert property="manifest.classpath" pathsep=" ">
+	  <path refid="lib.classpath"/>
+	  <mapper>
+	    <chainedmapper>
+	       <flattenmapper/>
+	       <globmapper from="*.jar" to="lib/*.jar"/>
+	    </chainedmapper>
+	  </mapper>
+	</pathconvert>
+	
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist}" />
+
+		<jar jarFile="${dist}/rEvolution-${DSTAMP}.jar" basedir="${bin}">
+			<manifest>
+				<attribute name="Main-Class" value="edu.usp.ime.revolution.Runner" />
+				<attribute name="Class-Path" value="${manifest.classpath}" />
+			</manifest>
+		</jar>
+		
+		<copy todir="${dist}/lib">
+			<fileset dir="${lib.dir}" />
+		</copy>
+	</target>
+
 </project>

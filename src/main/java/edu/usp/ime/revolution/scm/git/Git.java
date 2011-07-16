@@ -25,10 +25,9 @@ public class Git implements SCM {
 
 	public String goTo(ChangeSet cs) {
 		try {
-			exec.setWorkingDirectory(repository);
-			exec.runCommand("git checkout master");
-			exec.runCommand("git branch --no-track -f revolution " + cs.getId());
-			exec.runCommand("git checkout revolution ");
+			exec.execute("git checkout master", repository);
+			exec.execute("git branch --no-track -f revolution " + cs.getId(), repository);
+			exec.execute("git checkout revolution ", repository);
 		} catch (Exception e) {
 			throw new SCMException(e);
 		}
@@ -38,10 +37,8 @@ public class Git implements SCM {
 
 	public List<ChangeSet> getChangeSets() {
 		try {
-			exec.setWorkingDirectory(repository);
-			exec.runCommand("git log --format=medium --date=iso");
+			String output = exec.execute("git log --format=medium --date=iso", repository);
 
-			String output = exec.getCommandOutput();
 			return logParser.parse(output);
 		} catch (Exception e) {
 			throw new SCMException(e);
@@ -50,14 +47,16 @@ public class Git implements SCM {
 
 	public Commit detail(String id) {
 		try {
-			exec.setWorkingDirectory(repository);
-			exec.runCommand("git show "
+			String response = exec.execute("git show "
 					+ id
-					+ " --pretty=format:<Commit><id>%H</id><author>%an</author><email>%ae</email><date>%ai</date><message>%s</message></Commit>");
+					+ " --pretty=format:<Commit><id>%H</id><author>%an</author><email>%ae</email><date>%ai</date><message>%s</message></Commit>", repository);
 			XStream xs = new XStream(new DomDriver());
 			xs.alias("Commit", Commit.class);
 
-			String response = exec.getCommandOutput();
+			
+			System.out.println("---");
+			System.out.println(response);
+			System.out.println("---");
 			Commit parsedCommit = (Commit) xs.fromXML(response.substring(0,
 					response.indexOf("</Commit>") + 9));
 			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));

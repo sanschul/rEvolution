@@ -24,9 +24,9 @@ public class JDepend implements Tool {
 	public void calculate(Commit commit, BuildResult current) throws ToolException {
 		try {
 			executor.setEnvironmentVar("CLASSPATH", jDependPath);
-			executor.runCommand("java jdepend.xmlui.JDepend " + current.getDirectory());
+			String output = executor.execute("java jdepend.xmlui.JDepend " + current.getDirectory(), current.getDirectory());
 			
-			String response = extractJDependXMLBlockFrom(executor.getCommandOutput());
+			String response = extractJDependXMLBlockFrom(output);
 			
 			List<JDependInfo> infos = interpreter.interpret(new ByteArrayInputStream(response.getBytes("UTF-8")));
 			for(JDependInfo info : infos) {
