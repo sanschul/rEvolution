@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-	<info organisation="caelum" module="repocrusher" />
+	<info organisation="caelum" module="revolution" />
 
 	<configurations>
 		<conf name="default" description="dependencies used for compile" />
@@ -17,6 +17,10 @@
         	<exclude module="hibernate"/>
         </dependency>
         
+        <dependency org="org.slf4j" name="slf4j-api" rev="1.6.1"/>
+        <dependency org="log4j" name="log4j" rev="1.2.16"/>
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.1"/>
+
         <!-- dependency org="org.picocontainer" name="picocontainer" rev="2.13.5"/ -->
         
 		<dependency org="mysql" name="mysql-connector-java" rev="5.1.13"/>

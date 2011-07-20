@@ -4,22 +4,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 public class Commit {
 	@Id @GeneratedValue
-	private String id;
+	private int id;
+	
+	private String commitId;
 	private String author;
 	private String email;
 	private String date;
 	private String message;
+	@Type(type="text")
 	private String diff;
 
-	public String getId() {
-		return id;
+	public String getCommitId() {
+		return commitId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCommitId(String commitId) {
+		this.commitId = commitId;
 	}
 
 	public String getAuthor() {
@@ -60,6 +65,14 @@ public class Commit {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

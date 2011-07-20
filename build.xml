@@ -1,4 +1,4 @@
-<project name="repocrusher" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="revolution" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property file="build.properties" />
 	<property name="ivy.file" value="ivysettings.xml" />
@@ -37,7 +37,7 @@
 		<mkdir dir="${test-bin}" />
 	</target>
 
-	<target name="compile" depends="init">
+	<target name="compile" depends="init, resolve">
 		<javac srcdir="${src}" destdir="${bin}">
 			<classpath refid="project.class.path" />
 		</javac>
@@ -82,6 +82,7 @@
 		<mkdir dir="${dist}" />
 
 		<jar jarFile="${dist}/rEvolution-${DSTAMP}.jar" basedir="${bin}">
+			<fileset dir="${resources}"/>
 			<manifest>
 				<attribute name="Main-Class" value="edu.usp.ime.revolution.Runner" />
 				<attribute name="Class-Path" value="${manifest.classpath}" />

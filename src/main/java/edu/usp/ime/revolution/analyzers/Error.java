@@ -9,11 +9,11 @@ public class Error {
 	private final String error;
 
 	public Error(Commit commit, Exception e) {
-		this.error = "something failed in commit " + commit.getId() + "\n" + e.getMessage();
+		this.error = "something failed in commit " + commit.getCommitId() + "\n" + e.getMessage();
 	}
 
 	public Error(Tool tool, Commit commit, Exception e) {
-		this.error = tool.getName() + " failed in changeset " + commit.getId() + "\n" + e.getMessage();
+		this.error = tool.getName() + " failed in changeset " + commit.getCommitId() + "\n" + e.getMessage();
 	}
 
 	public Error(ChangeSet changeSet, Exception e) {

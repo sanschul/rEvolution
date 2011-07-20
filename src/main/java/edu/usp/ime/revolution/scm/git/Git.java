@@ -49,7 +49,7 @@ public class Git implements SCM {
 		try {
 			String response = exec.execute("git show "
 					+ id
-					+ " --pretty=format:<Commit><id>%H</id><author>%an</author><email>%ae</email><date>%ai</date><message>%s</message></Commit>", repository);
+					+ " --pretty=format:<Commit><commitId>%H</commitId><author>%an</author><email>%ae</email><date>%ai</date><message>%s</message></Commit>", repository);
 			XStream xs = new XStream(new DomDriver());
 			xs.alias("Commit", Commit.class);
 
@@ -57,7 +57,7 @@ public class Git implements SCM {
 					response.indexOf("</Commit>") + 9));
 			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));
 			
-			System.out.println(parsedCommit.getId());
+			System.out.println(parsedCommit.getCommitId());
 			return parsedCommit;
 		} catch (Exception e) {
 			throw new SCMException(e);

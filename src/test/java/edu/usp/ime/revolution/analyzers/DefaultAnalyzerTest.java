@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -35,6 +36,7 @@ public class DefaultAnalyzerTest {
 	private Build build;
 	private SCM scm;
 	private HibernatePersistence persistence;
+	private Session session;
 
 	@Before
 	public void setUp() {
@@ -42,7 +44,9 @@ public class DefaultAnalyzerTest {
 		changeSets = aCollectionWith(changeSet);
 		build = mock(Build.class);
 		scm = mock(SCM.class);
+		session = mock(Session.class);
 		persistence = mock(HibernatePersistence.class);
+		when(persistence.getSession()).thenReturn(session);
 	}
 	
 	@Test
@@ -86,6 +90,11 @@ public class DefaultAnalyzerTest {
 
 	@Test @Ignore
 	public void shouldConfigurePersistentClasses() {
+		
+	}
+
+	@Test @Ignore
+	public void shouldPersistCurrentCommit() {
 		
 	}
 	
@@ -148,7 +157,7 @@ public class DefaultAnalyzerTest {
 	
 	private Commit aCommitWithId(String id) {
 		Commit c = mock(Commit.class);
-		when(c.getId()).thenReturn(id);
+		when(c.getCommitId()).thenReturn(id);
 		return c;
 	}
 

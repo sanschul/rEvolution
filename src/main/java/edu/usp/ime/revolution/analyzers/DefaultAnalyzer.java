@@ -41,6 +41,7 @@ public class DefaultAnalyzer implements Analyzer {
 				persistence.beginTransaction();
 				
 				Commit commit = scm.detail(changeSet.getId());
+				persistence.getSession().save(commit);
 				
 				String path = scm.goTo(changeSet);
 				BuildResult currentBuild = sourceBuilder.build(path);
