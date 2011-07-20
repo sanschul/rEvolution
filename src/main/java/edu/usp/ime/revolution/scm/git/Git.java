@@ -57,7 +57,6 @@ public class Git implements SCM {
 					response.indexOf("</Commit>") + 9));
 			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));
 			
-			System.out.println(parsedCommit.getCommitId());
 			return parsedCommit;
 		} catch (Exception e) {
 			throw new SCMException(e);
