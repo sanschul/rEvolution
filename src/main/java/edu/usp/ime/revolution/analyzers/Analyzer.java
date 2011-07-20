@@ -7,7 +7,7 @@ import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
 
 public interface Analyzer {
 	void start(ChangeSetCollection collection);
-	void addObserver(PostAction observer);
+	void addPostAction(PostAction observer);
 	
 	List<Error> getErrors();
 }

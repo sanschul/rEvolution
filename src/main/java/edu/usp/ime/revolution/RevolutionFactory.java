@@ -7,6 +7,7 @@ import edu.usp.ime.revolution.analyzers.DefaultAnalyzer;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildFactory;
 import edu.usp.ime.revolution.config.Config;
+import edu.usp.ime.revolution.persistence.HibernatePersistence;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SCMFactory;
 import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
@@ -22,7 +23,7 @@ public class RevolutionFactory {
 		List<Tool> tools = new ToolsFactory().basedOn(config);
 		ChangeSetCollection collection = new ChangeSetCollectionFactory(scm).basedOn(config);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, tools);
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, tools, new HibernatePersistence());
 		
 		return new Revolution(analyzer, collection);
 	}

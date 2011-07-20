@@ -47,7 +47,7 @@ public class GitTest {
 	
 	@Test(expected=SCMException.class)
 	public void shouldThrowSCMExceptionIfChangeSetListFails() throws Exception {
-		when(exec.execute(any(String.class), any(String.class))).thenThrow(new Exception());
+		when(exec.execute(any(String.class), any(String.class))).thenThrow(new RuntimeException());
 		
 		new Git(repository, logParser, exec).getChangeSets();
 	}
@@ -63,7 +63,7 @@ public class GitTest {
 	
 	@Test(expected=SCMException.class)
 	public void shouldThrowSCMExceptionIfGetChangeSetFails() throws Exception {
-		when(exec.execute(any(String.class), any(String.class))).thenThrow(new Exception());
+		when(exec.execute(any(String.class), any(String.class))).thenThrow(new RuntimeException());
 		
 		new Git(repository, logParser, exec).goTo(new ChangeSet("123", Calendar.getInstance()));
 	}

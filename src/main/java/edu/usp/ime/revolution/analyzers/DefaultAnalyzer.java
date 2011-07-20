@@ -6,6 +6,8 @@ import java.util.List;
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
+import edu.usp.ime.revolution.persistence.HibernatePersistence;
+import edu.usp.ime.revolution.persistence.ToolThatPersists;
 import edu.usp.ime.revolution.postaction.PostAction;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.changesets.ChangeSet;
@@ -19,18 +21,25 @@ public class DefaultAnalyzer implements Analyzer {
 	private final List<PostAction> actions;
 	private final List<Error> errors;
 	private final SCM scm;
+	private final HibernatePersistence persistence;
 
-	public DefaultAnalyzer(SCM scm, Build build, List<Tool> tools) {
+	public DefaultAnalyzer(SCM scm, Build build, List<Tool> tools, HibernatePersistence persistence) {
 		this.scm = scm;
 		this.sourceBuilder = build;
 		this.tools = tools;
+		this.persistence = persistence;
 		this.actions = new ArrayList<PostAction>();
 		this.errors = new ArrayList<Error>();
 	}
 
 	public void start(ChangeSetCollection collection) {
+		startPersistenceEngine();
+		giveSessionToTools();
+		
 		for(ChangeSet changeSet : collection) {
 			try {
+				persistence.beginTransaction();
+				
 				Commit commit = scm.detail(changeSet.getId());
 				
 				String path = scm.goTo(changeSet);
@@ -38,15 +47,42 @@ public class DefaultAnalyzer implements Analyzer {
 				
 				runTools(commit, currentBuild);
 				notifyAll(commit);
+				
+				persistence.commit();
 			}
 			catch(Exception e) {
-				e.printStackTrace();
 				errors.add(new Error(changeSet, e));
 			}
 		}
+		
+		persistence.end();
 	}
 
-	public void addObserver(PostAction observer) {
+	private void startPersistenceEngine() {
+		List<Class<?>> classes = new ArrayList<Class<?>>();
+		
+		for(Tool tool : tools) {
+			if(tool.getClass().isAssignableFrom(ToolThatPersists.class)) {
+				ToolThatPersists x = (ToolThatPersists)tool;
+				classes.addAll(x.classesToPersist());
+			}
+		}
+		
+		persistence.initMechanism(classes);
+	}
+	
+	private void giveSessionToTools() {
+		
+		for(Tool tool : tools) {
+			if(tool.getClass().isAssignableFrom(ToolThatPersists.class)) {
+				ToolThatPersists x = (ToolThatPersists)tool;
+				x.setSession(persistence.getSession());
+			}
+		}
+		
+	}
+
+	public void addPostAction(PostAction observer) {
 		actions.add(observer);
 	}
 
