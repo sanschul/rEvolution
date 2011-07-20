@@ -1,8 +1,12 @@
 package edu.usp.ime.revolution.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+@Entity
 public class Commit {
-
+	@Id @GeneratedValue
 	private String id;
 	private String author;
 	private String email;

@@ -23,7 +23,7 @@ public class RevolutionFactory {
 		List<Tool> tools = new ToolsFactory().basedOn(config);
 		ChangeSetCollection collection = new ChangeSetCollectionFactory(scm).basedOn(config);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, tools, new HibernatePersistence());
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, tools, new HibernatePersistence(config));
 		
 		return new Revolution(analyzer, collection);
 	}
