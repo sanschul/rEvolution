@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import edu.usp.ime.revolution.config.Config;
 import edu.usp.ime.revolution.domain.Commit;
@@ -29,14 +30,19 @@ public class HibernatePersistence {
 		configuration.setProperty("hibernate.show_sql", "true");
 		configuration.setProperty("hibernate.format_sql", "true");
 		configuration.setProperty("hibernate.jdbc.batch_size", "20");
-		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 		
 		configuration.addAnnotatedClass(Commit.class);
 		for (Class<?> clazz : classes) {
 			configuration.addAnnotatedClass(clazz);
 		}
 		
+		if(config.get("create_tables").equals("true")) {
+			SchemaExport se = new SchemaExport(configuration);
+			se.create(false, true);
+		}
+		
 		sessionFactory = configuration.buildSessionFactory();
+		
 		session = sessionFactory.openSession();
 	}
 	
