@@ -28,7 +28,7 @@ public class AntTest {
 		ant = new Ant(executor, task, buildPath);
 	}
 	
-	@Test @Ignore
+	@Test
 	public void shouldCallAnt() throws Exception {
 		String path = "some/path";
 		ant.build(path);
@@ -36,7 +36,7 @@ public class AntTest {
 		verify(executor).execute("ant " + task, path);
 	}
 	
-	@Test @Ignore
+	@Test
 	public void shouldReturnBuildPath() throws Exception {
 		BuildResult result = ant.build("some/path");
 		
