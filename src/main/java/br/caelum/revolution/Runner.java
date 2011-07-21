@@ -1,4 +1,4 @@
-package edu.usp.ime.revolution;
+package br.caelum.revolution;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
