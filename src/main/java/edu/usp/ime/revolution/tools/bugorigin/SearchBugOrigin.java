@@ -50,10 +50,10 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 			int currentLine = 0;
 			for (int i = 0; i < lines.length; i++) {
 				currentLine++;
-				if (itChangesTheLineNumber(lines[i])) {
+				if (itRepresentsALineNumber(lines[i])) {
 					currentLine = Integer.parseInt(lines[i].substring(4, lines[i].indexOf(",")));
 				}
-				else if (isRemoved(lines[i])) {
+				else if (itRepresentsCodeThatWasRemoved(lines[i])) {
 					String hash = scm.blameCurrent(artifact.getName(), currentLine);
 					if (!commitsAlreadyAdded.contains(hash)) {
 						
@@ -74,7 +74,7 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 		}
 	}
 
-	private boolean itChangesTheLineNumber(String line) {
+	private boolean itRepresentsALineNumber(String line) {
 		return line.startsWith("@@");
 	}
 
@@ -85,7 +85,7 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 		return false;
 	}
 
-	private boolean isRemoved(String line) {
+	private boolean itRepresentsCodeThatWasRemoved(String line) {
 		return line.startsWith("-");
 	}
 
