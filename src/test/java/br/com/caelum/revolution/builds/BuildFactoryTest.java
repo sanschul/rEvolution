@@ -16,7 +16,7 @@ public class BuildFactoryTest {
 	@Test
 	public void shouldBuildAnt() {
 		Config config = mock(Config.class);
-		when(config.get(Configs.BUILD)).thenReturn("edu.usp.ime.revolution.builds.ant.AntFactory");
+		when(config.get(Configs.BUILD)).thenReturn("br.com.caelum.revolution.builds.ant.AntFactory");
 		
 		assertTrue(new BuildFactory().basedOn(config).getClass() == Ant.class);
 	}
