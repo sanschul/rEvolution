@@ -10,7 +10,7 @@ import org.xml.sax.SAXException;
 
 public interface JDependXMLInterpreter {
 
-	public abstract List<JDependInfo> interpret(InputStream xml)
+	public abstract List<JDependMetric> interpret(InputStream xml)
 			throws ParserConfigurationException, SAXException, IOException;
 
 }

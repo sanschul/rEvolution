@@ -19,7 +19,7 @@ public class JDependXMLInterpreterTest {
 	public void shouldGetPackages() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
 		
-		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXML()));
+		List<JDependMetric> infos = interp.interpret(aStreamWith(someJDependXML()));
 		
 		assertEquals(1, infos.size());
 		assertEquals("edu.usp.ime.revolution", infos.get(0).getName());
@@ -29,7 +29,7 @@ public class JDependXMLInterpreterTest {
 	public void shouldGetPackageStats() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
 		
-		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXML()));
+		List<JDependMetric> infos = interp.interpret(aStreamWith(someJDependXML()));
 		
 		assertEquals(1, infos.get(0).getTotalClasses(), 0.01);
 		assertEquals(2, infos.get(0).getConcreteClasses(), 0.01);
@@ -46,7 +46,7 @@ public class JDependXMLInterpreterTest {
 	public void shouldIgnoreNotAnalyzedPackages() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
 		
-		List<JDependInfo> infos = interp.interpret(aStreamWith(ANotAnalyzedPackage()));
+		List<JDependMetric> infos = interp.interpret(aStreamWith(ANotAnalyzedPackage()));
 		
 		assertEquals(0, infos.size());
 	}
@@ -55,7 +55,7 @@ public class JDependXMLInterpreterTest {
 	public void shouldIgnoreCyclesPackage() throws UnsupportedEncodingException, ParserConfigurationException, SAXException, IOException {
 		JDependXMLInterpreter interp = new DefaultJDependXMLInterpreter();
 		
-		List<JDependInfo> infos = interp.interpret(aStreamWith(someJDependXMLWithCycles()));
+		List<JDependMetric> infos = interp.interpret(aStreamWith(someJDependXMLWithCycles()));
 		
 		assertEquals(1, infos.size());		
 	}

@@ -1,19 +1,24 @@
 package edu.usp.ime.revolution.tools.jdepend;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Session;
 
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
 import edu.usp.ime.revolution.executor.CommandExecutor;
+import edu.usp.ime.revolution.persistence.ToolThatPersists;
 import edu.usp.ime.revolution.tools.Tool;
 import edu.usp.ime.revolution.tools.ToolException;
 
-public class JDepend implements Tool {
+public class JDepend implements Tool, ToolThatPersists {
 
 	private final CommandExecutor executor;
 	private final JDependXMLInterpreter interpreter;
 	private final String jDependPath;
+	private Session session;
 
 	public JDepend(CommandExecutor executor, JDependXMLInterpreter interpreter, String jDependPath) {
 		this.executor = executor;
@@ -28,9 +33,9 @@ public class JDepend implements Tool {
 			
 			String response = extractJDependXMLBlockFrom(output);
 			
-			List<JDependInfo> infos = interpreter.interpret(new ByteArrayInputStream(response.getBytes("UTF-8")));
-			for(JDependInfo info : infos) {
-				putJDependInfosOnSet(info);
+			List<JDependMetric> infos = interpreter.interpret(new ByteArrayInputStream(response.getBytes("UTF-8")));
+			for(JDependMetric info : infos) {
+				session.save(info);
 			}
 		} catch (Exception e) {
 			throw new ToolException(e);
@@ -41,20 +46,18 @@ public class JDepend implements Tool {
 		return "jdepend";
 	}
 	
-	private void putJDependInfosOnSet(JDependInfo info) {
-//		set.setMetric("afferent-coupling", info.getCa(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-//		set.setMetric("efferent-coupling", info.getCe(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-//		set.setMetric("abstract-classes", info.getAbstractClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-//		set.setMetric("abstraction", info.getAbstraction(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-//		set.setMetric("concrete-classes", info.getConcreteClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-//		set.setMetric("distance-from-main-line", info.getDistanceFromMainLine(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-//		set.setMetric("instability", info.getInstability(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-//		set.setMetric("total-classes", info.getTotalClasses(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-//		set.setMetric("volatility", info.getVolatility(), info.getName(), Metric.PACKAGE_LEVEL, getName());
-	}
-
 	private String extractJDependXMLBlockFrom(String output) {
 		return output.substring(0, output.lastIndexOf("</JDepend>")+10);
+	}
+
+	public List<Class<?>> classesToPersist() {
+		ArrayList<Class<?>> list = new ArrayList<Class<?>>();
+		list.add(JDependMetric.class);
+		return list;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
 	}
 
 }

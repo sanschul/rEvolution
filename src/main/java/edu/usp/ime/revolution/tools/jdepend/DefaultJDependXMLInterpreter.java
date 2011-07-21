@@ -27,10 +27,10 @@ public class DefaultJDependXMLInterpreter implements JDependXMLInterpreter {
 		doc.getDocumentElement().normalize();
 	}
 	
-	public List<JDependInfo> interpret(InputStream xml) throws ParserConfigurationException, SAXException, IOException {
+	public List<JDependMetric> interpret(InputStream xml) throws ParserConfigurationException, SAXException, IOException {
 		startXMLEngine(xml);
 		
-		List<JDependInfo> infos = new ArrayList<JDependInfo>();
+		List<JDependMetric> infos = new ArrayList<JDependMetric>();
 		
 		NodeList listOfPackages = doc.getElementsByTagName("Package");
 		for(int i=0; i < listOfPackages.getLength(); i++) {
@@ -47,14 +47,14 @@ public class DefaultJDependXMLInterpreter implements JDependXMLInterpreter {
 		return getNodeWithParent("error", packageNode) == null;
 	}
 	
-	private JDependInfo parsePackageInfo(Node item) {
-		JDependInfo info = new JDependInfo(item.getAttributes().getNamedItem("name").getNodeValue());
+	private JDependMetric parsePackageInfo(Node item) {
+		JDependMetric info = new JDependMetric(item.getAttributes().getNamedItem("name").getNodeValue());
 		
 		setStats(info, getNodeWithParent("Stats", item));
 		return info;
 	}
 
-	private void setStats(JDependInfo info, Node item) {
+	private void setStats(JDependMetric info, Node item) {
 		info.setTotalClasses(getStatsValue("TotalClasses", item));
 		info.setConcreteClasses(getStatsValue("ConcreteClasses", item));
 		info.setAbstractClasses(getStatsValue("AbstractClasses", item));

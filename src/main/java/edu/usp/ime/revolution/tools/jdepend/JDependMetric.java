@@ -1,8 +1,20 @@
 package edu.usp.ime.revolution.tools.jdepend;
 
-public class JDependInfo {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-	private final String name;
+import edu.usp.ime.revolution.domain.Commit;
+
+@Entity
+public class JDependMetric {
+
+	@Id @GeneratedValue
+	private int id;
+	@OneToOne
+	private Commit commit;
+	private String name;
 	private double totalClasses;
 	private double concreteClasses;
 	private double abstractClasses;
@@ -13,13 +25,11 @@ public class JDependInfo {
 	private double distanceFromMainLine;
 	private double volatility;
 
-	public JDependInfo(String name) {
+	public JDependMetric(String name) {
 		this.name = name;
 	}
-
-	public String getName() {
-		return name;
-	}
+	
+	public JDependMetric() {}
 
 	public void setTotalClasses(double totalClasses) {
 		this.totalClasses = totalClasses;
@@ -93,4 +103,29 @@ public class JDependInfo {
 		return volatility;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Commit getCommit() {
+		return commit;
+	}
+
+	public void setCommit(Commit commit) {
+		this.commit = commit;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
 }
