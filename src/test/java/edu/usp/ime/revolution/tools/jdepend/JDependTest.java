@@ -15,7 +15,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.hibernate.Session;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.xml.sax.SAXException;
