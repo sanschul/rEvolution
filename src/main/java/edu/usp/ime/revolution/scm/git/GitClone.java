@@ -37,6 +37,10 @@ public class GitClone implements SCM{
 	public String sourceOf(String hash, String fileName) {
 		return git.sourceOf(hash, fileName);
 	}
+
+	public String getPath() {
+		return git.getPath();
+	}
 	
 
 }
