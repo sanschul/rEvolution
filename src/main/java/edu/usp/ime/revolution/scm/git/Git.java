@@ -47,6 +47,10 @@ public class Git implements SCM {
 			throw new SCMException(e);
 		}
 	}
+	
+	public String sourceOf(String hash, String fileName) {
+		return exec.execute("git show " + hash + ":" + fileName, repository);
+	}
 
 	public Commit detail(String id) {
 		try {

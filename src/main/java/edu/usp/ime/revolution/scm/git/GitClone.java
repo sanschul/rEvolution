@@ -33,6 +33,10 @@ public class GitClone implements SCM{
 	public Commit detail(String id) {
 		return git.detail(id);
 	}
+
+	public String sourceOf(String hash, String fileName) {
+		return git.sourceOf(hash, fileName);
+	}
 	
 
 }
