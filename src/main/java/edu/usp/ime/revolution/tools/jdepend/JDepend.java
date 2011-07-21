@@ -1,7 +1,6 @@
 package edu.usp.ime.revolution.tools.jdepend;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -50,10 +49,8 @@ public class JDepend implements Tool, ToolThatPersists {
 		return output.substring(0, output.lastIndexOf("</JDepend>")+10);
 	}
 
-	public List<Class<?>> classesToPersist() {
-		ArrayList<Class<?>> list = new ArrayList<Class<?>>();
-		list.add(JDependMetric.class);
-		return list;
+	public Class<?>[] classesToPersist() {
+		return new Class<?>[] { JDependMetric.class };
 	}
 
 	public void setSession(Session session) {

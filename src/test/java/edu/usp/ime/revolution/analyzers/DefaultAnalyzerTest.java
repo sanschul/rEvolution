@@ -82,6 +82,17 @@ public class DefaultAnalyzerTest {
 		
 		verify(observer).notify(any(Commit.class));
 	}
+
+	@Test @Ignore
+	public void shouldGiveSessionToTools() {
+		
+	}
+
+	@Test @Ignore
+	public void shouldGiveScmToTools() {
+		
+	}
+
 	
 	@Test @Ignore
 	public void shouldStartPersistEngine() {
