@@ -37,6 +37,42 @@ public class SearchBugOriginTest {
 	}
 	
 	@Test
+	public void shouldIdentifyLineNumbersInTheMiddleOfTheDiff() throws ToolException {
+		String code = "+ line added\r\n" 
+			+ "@@ -10, 8 @@ bla bla\r\n" +
+			"- line removed\r\n"
+			+ "common line\r\n" 
+			+ "+line added";
+		
+		// bugged commit
+		Commit buggedCommit = new Commit();
+		Criteria criteria = mock(Criteria.class);
+		when(session.createCriteria(Commit.class)).thenReturn(criteria);
+		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
+		when(criteria.uniqueResult()).thenReturn(buggedCommit);
+
+		// blame returning the bugged hash
+		when(scm.blameCurrent("file 1", 11)).thenReturn("bugged hash");
+		
+		// creating current artifact
+		Artifact artifact = new Artifact("file 1", code, ArtifactStatus.DEFAULT);
+		Commit commit = new Commit();
+		commit.setMessage("a bug here");
+		commit.addArtifact(artifact);
+		
+		tool.calculate(commit, new BuildResult("any path"));
+		
+		ArgumentCaptor<BugOrigin> argument = ArgumentCaptor.forClass(BugOrigin.class);
+		verify(session).save(argument.capture());
+		
+		BugOrigin value = argument.getValue();
+		
+		assertSame(buggedCommit, value.getBuggedCommit());
+		verify(scm).blameCurrent("file 1", 11);
+		
+	}
+	
+	@Test
 	public void shouldIgnoreCommitMessagesThatDoNotContainKeywords() throws ToolException {
 		Commit commit = new Commit();
 		commit.setMessage("no matched keyword here");

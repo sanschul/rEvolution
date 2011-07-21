@@ -47,9 +47,14 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 		for (Artifact artifact : commit.getArtifacts()) {
 			String[] lines = artifact.getDiff().replace("\r", "").split("\n");
 
+			int currentLine = 0;
 			for (int i = 0; i < lines.length; i++) {
-				if (isRemoved(lines[i])) {
-					String hash = scm.blameCurrent(artifact.getName(), i + 1);
+				currentLine++;
+				if (itChangesTheLineNumber(lines[i])) {
+					currentLine = Integer.parseInt(lines[i].substring(4, lines[i].indexOf(",")));
+				}
+				else if (isRemoved(lines[i])) {
+					String hash = scm.blameCurrent(artifact.getName(), currentLine);
 					if (!commitsAlreadyAdded.contains(hash)) {
 						
 						Commit buggedCommit = (Commit) session
@@ -67,6 +72,10 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 				}
 			}
 		}
+	}
+
+	private boolean itChangesTheLineNumber(String line) {
+		return line.startsWith("@@");
 	}
 
 	private boolean noKeywordsIn(Commit commit) {
