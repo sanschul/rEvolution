@@ -12,4 +12,5 @@ public interface SCM {
 	String sourceOf(String hash, String fileName);
 	
 	String getPath();
+	String blameCurrent(String file, int line);
 }

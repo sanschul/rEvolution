@@ -41,6 +41,10 @@ public class GitClone implements SCM{
 	public String getPath() {
 		return git.getPath();
 	}
+
+	public String blameCurrent(String file, int line) {
+		return git.blameCurrent(file, line);
+	}
 	
 
 }

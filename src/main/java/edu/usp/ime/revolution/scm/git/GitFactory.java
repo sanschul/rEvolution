@@ -10,8 +10,9 @@ public class GitFactory implements SpecificSCMFactory {
 	public SCM build(Config config) {
 		return new Git(
 				config.get("scm.repository"), 
-				new DefaultGitLogParser(), 
-				new DefaultGitDiffParser(),
+				new GitLogParser(), 
+				new GitDiffParser(),
+				new GitBlameParser(),
 				new SimpleCommandExecutor());
 	}
 

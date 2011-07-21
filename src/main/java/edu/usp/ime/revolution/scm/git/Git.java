@@ -18,11 +18,13 @@ public class Git implements SCM {
 	private final GitLogParser logParser;
 	private final CommandExecutor exec;
 	private final GitDiffParser diffParser;
+	private final GitBlameParser blameParser;
 
-	public Git(String repository, GitLogParser logParser, GitDiffParser diffParser, CommandExecutor exec) {
+	public Git(String repository, GitLogParser logParser, GitDiffParser diffParser, GitBlameParser blameParser, CommandExecutor exec) {
 		this.repository = repository;
 		this.logParser = logParser;
 		this.diffParser = diffParser;
+		this.blameParser = blameParser;
 		this.exec = exec;
 	}
 
@@ -72,6 +74,11 @@ public class Git implements SCM {
 		} catch (Exception e) {
 			throw new SCMException(e);
 		}
+	}
+	
+	public String blameCurrent(String file, int line) {
+		String response = exec.execute("git blame " + file + " -L " + line + "," + line + " -l", repository);
+		return blameParser.getHash(response);
 	}
 
 	public String getPath() {

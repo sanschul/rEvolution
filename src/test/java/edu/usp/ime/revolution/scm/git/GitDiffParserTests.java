@@ -9,7 +9,7 @@ import org.junit.Test;
 import edu.usp.ime.revolution.domain.Artifact;
 import edu.usp.ime.revolution.domain.ArtifactStatus;
 
-public class DefaultGitDiffParserTests {
+public class GitDiffParserTests {
 
 	@Test
 	public void shouldParseASimpleDiff() {
@@ -32,7 +32,7 @@ public class DefaultGitDiffParserTests {
 				+ " 6. slide de 10 secs explicando sessionscoped (2 a 3 slides)\r\n"
 				+ "+   gui: feito (session-scoped)\r\n";
 
-		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
+		List<Artifact> diffs = new GitDiffParser().parse(log);
 
 		assertEquals(1, diffs.size());
 		assertEquals("FJ-ON-28/todo.txt", diffs.get(0).getName());
@@ -63,7 +63,7 @@ public class DefaultGitDiffParserTests {
 				+ "--- a/FJ-ON-28/todo.txt\r\n" + "+++ b/FJ-ON-28/todo.txt\r\n"
 				+ "bli bli\r\nblo blo\r\n";
 
-		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
+		List<Artifact> diffs = new GitDiffParser().parse(log);
 
 		assertEquals(2, diffs.size());
 
@@ -80,7 +80,7 @@ public class DefaultGitDiffParserTests {
 				+ "index xx\r\n" + "--- a/FJ-ON-28/todo.txt\r\n"
 				+ "+++ b/FJ-ON-28/todo.txt\r\n" + "bla bla\r\nble ble\r\n";
 
-		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
+		List<Artifact> diffs = new GitDiffParser().parse(log);
 
 		assertEquals("arquivo1", diffs.get(0).getName());
 		assertEquals("bla bla\r\nble ble\r\n", diffs.get(0).getDiff());
@@ -94,7 +94,7 @@ public class DefaultGitDiffParserTests {
 				+ "--- a/FJ-ON-28/todo.txt\r\n" + "+++ b/FJ-ON-28/todo.txt\r\n"
 				+ "bla bla\r\nble ble\r\n";
 
-		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
+		List<Artifact> diffs = new GitDiffParser().parse(log);
 
 		assertEquals(ArtifactStatus.DELETED, diffs.get(0).getStatus());
 	}
@@ -106,7 +106,7 @@ public class DefaultGitDiffParserTests {
 				+ "--- a/FJ-ON-28/todo.txt\r\n" + "+++ b/FJ-ON-28/todo.txt\r\n"
 				+ "bla bla\r\nble ble\r\n";
 
-		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
+		List<Artifact> diffs = new GitDiffParser().parse(log);
 
 		assertEquals(ArtifactStatus.NEW, diffs.get(0).getStatus());
 	}
@@ -118,7 +118,7 @@ public class DefaultGitDiffParserTests {
 				+ "index 0000000..f95d90e\r\n"
 				+ "Binary files /dev/null and b/common/sqlitejdbc-v056.jar differ\r\n";
 		
-		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
+		List<Artifact> diffs = new GitDiffParser().parse(log);
 
 		assertEquals(ArtifactStatus.NEW, diffs.get(0).getStatus());
 		assertEquals("", diffs.get(0).getDiff());

@@ -26,12 +26,14 @@ public class GitTest {
 	private CommandExecutor exec;
 	private GitLogParser logParser;
 	private GitDiffParser diffParser;
+	private GitBlameParser blameParser;
 	
 	@Before
 	public void setUp() {
 		exec = mock(CommandExecutor.class);
 		logParser = mock(GitLogParser.class);
 		diffParser = mock(GitDiffParser.class);
+		blameParser = mock(GitBlameParser.class);
 	}
 	
 	@Test
@@ -41,7 +43,7 @@ public class GitTest {
 		when(exec.execute(any(String.class), any(String.class))).thenReturn(output);
 		when(logParser.parse(output)).thenReturn(csList);
 		
-		List<ChangeSet> retrievedList = new Git(repository, logParser, diffParser, exec).getChangeSets();
+		List<ChangeSet> retrievedList = new Git(repository, logParser, diffParser, blameParser, exec).getChangeSets();
 		
 		assertEquals(retrievedList, csList);
 		verify(logParser).parse(output);
@@ -52,13 +54,13 @@ public class GitTest {
 	public void shouldThrowSCMExceptionIfChangeSetListFails() throws Exception {
 		when(exec.execute(any(String.class), any(String.class))).thenThrow(new RuntimeException());
 		
-		new Git(repository, logParser, diffParser, exec).getChangeSets();
+		new Git(repository, logParser, diffParser, blameParser, exec).getChangeSets();
 	}
 	
 	@Test
 	public void shouldGoToASpecificChangeSet() throws Exception {
 		ChangeSet specificChangeSet = new ChangeSet("abcd", Calendar.getInstance());
-		String path = new Git(repository, logParser, diffParser,exec).goTo(specificChangeSet);
+		String path = new Git(repository, logParser, diffParser,blameParser,exec).goTo(specificChangeSet);
 		
 		assertEquals(repository, path);
 		verify(exec, times(3)).execute(any(String.class), any(String.class));		
@@ -68,13 +70,16 @@ public class GitTest {
 	public void shouldThrowSCMExceptionIfGetChangeSetFails() throws Exception {
 		when(exec.execute(any(String.class), any(String.class))).thenThrow(new RuntimeException());
 		
-		new Git(repository, logParser, diffParser,exec).goTo(new ChangeSet("123", Calendar.getInstance()));
+		new Git(repository, logParser, diffParser,blameParser,exec).goTo(new ChangeSet("123", Calendar.getInstance()));
 	}
 	
 	@Test @Ignore
 	public void shouldParseDiffAndGenerateArtifacts() {
 		
 	}
+	
+	@Test @Ignore
+	public void shouldReturnBlamedHash() {}
 
 	private List<ChangeSet> aChangeSetList() {
 		List<ChangeSet> list = new ArrayList<ChangeSet>();
