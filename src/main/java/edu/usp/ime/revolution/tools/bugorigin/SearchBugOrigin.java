@@ -20,6 +20,11 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 	private SCM scm;
 	private Session session;
 	private Set<String> commitsAlreadyAdded;
+	private final String[] keywords;
+
+	public SearchBugOrigin(String[] keywords) {
+		this.keywords = keywords;
+	}
 
 	public void setSCM(SCM scm) {
 		this.scm = scm;
@@ -36,6 +41,8 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 	public void calculate(Commit commit, BuildResult current)
 			throws ToolException {
 		commitsAlreadyAdded = new HashSet<String>();
+		
+		if(!noKeywordsIn(commit)) return;
 		
 		for (Artifact artifact : commit.getArtifacts()) {
 			String[] lines = artifact.getDiff().replace("\r", "").split("\n");
@@ -60,6 +67,13 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 				}
 			}
 		}
+	}
+
+	private boolean noKeywordsIn(Commit commit) {
+		for (String keyword : keywords) {
+			if(commit.getMessage().contains(keyword)) return true;
+		}
+		return false;
 	}
 
 	private boolean isRemoved(String line) {

@@ -31,9 +31,20 @@ public class SearchBugOriginTest {
 	public void setUp() {
 		session = mock(Session.class);
 		scm = mock(SCM.class);
-		tool = new SearchBugOrigin();
+		tool = new SearchBugOrigin(new String[] { "bug", "fix"});
 		tool.setSession(session);
 		tool.setSCM(scm);
+	}
+	
+	@Test
+	public void shouldIgnoreCommitMessagesThatDoNotContainKeywords() throws ToolException {
+		Commit commit = new Commit();
+		commit.setMessage("no matched keyword here");
+		commit.addArtifact(new Artifact("name", "- removed", ArtifactStatus.NEW));
+		
+		tool.calculate(commit, new BuildResult("path"));
+		
+		verify(session, times(0)).save(any(Object.class));
 	}
 	
 	@Test
@@ -56,6 +67,7 @@ public class SearchBugOriginTest {
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", code, ArtifactStatus.DEFAULT);
 		Commit commit = new Commit();
+		commit.setMessage("a bug here");
 		commit.addArtifact(artifact);
 		
 		tool.calculate(commit, new BuildResult("any path"));
@@ -92,6 +104,7 @@ public class SearchBugOriginTest {
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", code, ArtifactStatus.DEFAULT);
 		Commit commit = new Commit();
+		commit.setMessage("a fix here");
 		commit.addArtifact(artifact);
 		
 		tool.calculate(commit, new BuildResult("any path"));
