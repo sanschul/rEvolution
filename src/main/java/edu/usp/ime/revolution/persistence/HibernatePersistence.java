@@ -8,6 +8,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import edu.usp.ime.revolution.config.Config;
+import edu.usp.ime.revolution.domain.Artifact;
 import edu.usp.ime.revolution.domain.Commit;
 
 public class HibernatePersistence {
@@ -27,11 +28,12 @@ public class HibernatePersistence {
 		configuration.setProperty("hibernate.dialect", config.get("dialect"));
 		configuration.setProperty("hibernate.connection.username", config.get("db_user"));
 		configuration.setProperty("hibernate.connection.password", config.get("db_pwd"));
-		configuration.setProperty("hibernate.show_sql", "true");
-		configuration.setProperty("hibernate.format_sql", "true");
+//		configuration.setProperty("hibernate.show_sql", "true");
+//		configuration.setProperty("hibernate.format_sql", "true");
 		configuration.setProperty("hibernate.jdbc.batch_size", "20");
 		
 		configuration.addAnnotatedClass(Commit.class);
+		configuration.addAnnotatedClass(Artifact.class);
 		for (Class<?> clazz : classes) {
 			configuration.addAnnotatedClass(clazz);
 		}

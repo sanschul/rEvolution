@@ -1,10 +1,16 @@
 package edu.usp.ime.revolution.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
+
 
 @Entity
 public class Commit {
@@ -18,7 +24,13 @@ public class Commit {
 	private String message;
 	@Type(type="text")
 	private String diff;
+	@OneToMany(mappedBy="commit", cascade=CascadeType.ALL)
+	private List<Artifact> artifacts;
 
+	public Commit() {
+		this.artifacts = new ArrayList<Artifact>();
+	}
+	
 	public String getCommitId() {
 		return commitId;
 	}
@@ -73,6 +85,23 @@ public class Commit {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public void addArtifact(Artifact artifact) {
+		if(artifacts == null) {
+			artifacts = new ArrayList<Artifact>();
+		}
+		
+		artifact.setCommit(this);
+		artifacts.add(artifact);
+	}
+
+	public List<Artifact> getArtifacts() {
+		return artifacts;
+	}
+
+	public void setArtifacts(List<Artifact> artifacts) {
+		this.artifacts = artifacts;
 	}
 	
 	

@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import edu.usp.ime.revolution.domain.Commit;
+import edu.usp.ime.revolution.domain.Artifact;
 import edu.usp.ime.revolution.executor.CommandExecutor;
 import edu.usp.ime.revolution.scm.SCM;
 import edu.usp.ime.revolution.scm.SCMException;
@@ -16,10 +17,12 @@ public class Git implements SCM {
 	private final String repository;
 	private final GitLogParser logParser;
 	private final CommandExecutor exec;
+	private final GitDiffParser diffParser;
 
-	public Git(String repository, GitLogParser logParser, CommandExecutor exec) {
+	public Git(String repository, GitLogParser logParser, GitDiffParser diffParser, CommandExecutor exec) {
 		this.repository = repository;
 		this.logParser = logParser;
+		this.diffParser = diffParser;
 		this.exec = exec;
 	}
 
@@ -56,6 +59,10 @@ public class Git implements SCM {
 			Commit parsedCommit = (Commit) xs.fromXML(response.substring(0,
 					response.indexOf("</Commit>") + 9));
 			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));
+			
+			for(Artifact artifact : diffParser.parse(parsedCommit.getDiff())) {
+				parsedCommit.addArtifact(artifact);
+			}
 			
 			return parsedCommit;
 		} catch (Exception e) {

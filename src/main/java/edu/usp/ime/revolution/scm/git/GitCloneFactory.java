@@ -12,7 +12,7 @@ public class GitCloneFactory implements SpecificSCMFactory {
 				config.get("scm.remoteRepository"),
 				config.get("scm.repository"),
 				new SimpleCommandExecutor(),
-				new Git(config.get("scm.repository"), new DefaultGitLogParser(), new SimpleCommandExecutor())
+				new Git(config.get("scm.repository"), new DefaultGitLogParser(), new DefaultGitDiffParser(), new SimpleCommandExecutor())
 			);
 	}
 
