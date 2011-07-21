@@ -43,7 +43,7 @@ public class Git implements SCM {
 
 	public List<ChangeSet> getChangeSets() {
 		try {
-			String output = exec.execute("git log --format=medium --date=iso", repository);
+			String output = exec.execute("git log --format=medium --date=iso --reverse", repository);
 
 			return logParser.parse(output);
 		} catch (Exception e) {
