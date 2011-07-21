@@ -19,7 +19,7 @@
                 <appender-ref ref="stdout" />
         </category>
 
-        <category name="edu.usp.ime.revolution">
+        <category name="br.com.caelum.revolution">
                 <priority value="INFO" />
                 <appender-ref ref="stdout" />
         </category>
