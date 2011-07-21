@@ -2,25 +2,33 @@ package edu.usp.ime.revolution.tools.files;
 
 import java.io.File;
 
+import org.hibernate.Session;
+
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
+import edu.usp.ime.revolution.persistence.ToolThatPersists;
+import edu.usp.ime.revolution.scm.SCM;
+import edu.usp.ime.revolution.scm.ToolThatUsesSCM;
 import edu.usp.ime.revolution.tools.Tool;
 import edu.usp.ime.revolution.tools.ToolException;
 
-public class NumberOfFiles implements Tool {
+public class NumberOfFiles implements Tool, ToolThatPersists, ToolThatUsesSCM {
 
 	private String extension;
+	private Session session;
+	private SCM scm;
 
 	public NumberOfFiles(String extension) {
 		this.extension = extension;
 	}
 
-	// FIXME: mexer aqui
 	public void calculate(Commit commit, BuildResult current) throws ToolException {
 		try {
-			//int qty = countFiles(changeSet.getPath());
+			NumberOfFilesPerCommit result = new NumberOfFilesPerCommit();
+			result.setCommit(commit);
+			result.setQty(countFiles(scm.getPath()));
 			
-			//set.setMetric(getName(), qty, "N/A", Metric.PROJECT_LEVEL, getName());
+			session.save(result);
 		}
 		catch(Exception e) {
 			throw new ToolException(e);
@@ -42,5 +50,17 @@ public class NumberOfFiles implements Tool {
 		}
 		
 		return qty;
+	}
+
+	public Class<?>[] classesToPersist() {
+		return new Class<?>[] { NumberOfFilesPerCommit.class };
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	public void setSCM(SCM scm) {
+		this.scm = scm;
 	}
 }

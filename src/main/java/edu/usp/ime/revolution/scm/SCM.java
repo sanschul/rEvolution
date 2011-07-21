@@ -10,4 +10,6 @@ public interface SCM {
 	String goTo(ChangeSet cs);
 	Commit detail(String id);
 	String sourceOf(String hash, String fileName);
+	
+	String getPath();
 }

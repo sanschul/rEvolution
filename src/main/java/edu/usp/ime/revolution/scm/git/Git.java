@@ -73,4 +73,8 @@ public class Git implements SCM {
 			throw new SCMException(e);
 		}
 	}
+
+	public String getPath() {
+		return repository;
+	}
 }
