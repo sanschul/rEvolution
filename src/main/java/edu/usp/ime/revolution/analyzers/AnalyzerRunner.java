@@ -1,17 +1,15 @@
-package edu.usp.ime.revolution;
+package edu.usp.ime.revolution.analyzers;
 
 import java.util.List;
 
-import edu.usp.ime.revolution.analyzers.Analyzer;
-import edu.usp.ime.revolution.analyzers.Error;
 import edu.usp.ime.revolution.scm.changesets.ChangeSetCollection;
 
-public class Revolution {
+public class AnalyzerRunner {
 
 	private final Analyzer analyzer;
 	private final ChangeSetCollection collection;
 
-	public Revolution(Analyzer analyzer, ChangeSetCollection collection) {
+	public AnalyzerRunner(Analyzer analyzer, ChangeSetCollection collection) {
 		this.analyzer = analyzer;
 		this.collection = collection;
 	}
