@@ -38,8 +38,6 @@ public class DefaultGitDiffParserTests {
 		assertEquals(1, diffs.size());
 		assertEquals("FJ-ON-28/todo.txt", diffs.get(0).getName());
 		assertEquals(
-		"--- a/FJ-ON-28/todo.txt\r\n"+
-		"+++ b/FJ-ON-28/todo.txt\r\n"+
 		"@@ -1,11 +1,16 @@\r\n"+
 		" CAPITULO DI\r\n"+
 		" \r\n"+
@@ -53,16 +51,20 @@ public class DefaultGitDiffParserTests {
 		" 5. slidede 20 secs falando de requestscoped e produtodao a cada requisicao (2 a\r\n"+
 		"+   gui: feito (request-scoped)\r\n"+
 		" 6. slide de 10 secs explicando sessionscoped (2 a 3 slides)\r\n"+
-		"+   gui: feito (session-scoped)\r\n", diffs.get(0).getContent());
+		"+   gui: feito (session-scoped)\r\n", diffs.get(0).getDiff());
 	}
 	
 	@Test
 	public void shouldParseManyDiffsInOne() {
 		String log = "diff --git a/arquivo1 b/arquivo1\r\n"+
 		"index xx\r\n"+
+		"--- a/FJ-ON-28/todo.txt\r\n"+
+		"+++ b/FJ-ON-28/todo.txt\r\n"+
 		"bla bla\r\nble ble\r\n"+
 		"diff --git a/arquivo2 b/arquivo2\r\n"+
 		"index xx\r\n"+
+		"--- a/FJ-ON-28/todo.txt\r\n"+
+		"+++ b/FJ-ON-28/todo.txt\r\n"+
 		"bli bli\r\nblo blo\r\n";
 		
 		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
@@ -72,8 +74,8 @@ public class DefaultGitDiffParserTests {
 		assertEquals("arquivo1", diffs.get(0).getName());
 		assertEquals("arquivo2", diffs.get(1).getName());
 		
-		assertEquals("bla bla\r\nble ble\r\n", diffs.get(0).getContent());
-		assertEquals("bli bli\r\nblo blo\r\n", diffs.get(1).getContent());
+		assertEquals("bla bla\r\nble ble\r\n", diffs.get(0).getDiff());
+		assertEquals("bli bli\r\nblo blo\r\n", diffs.get(1).getDiff());
 	}
 
 	@Test
@@ -81,12 +83,14 @@ public class DefaultGitDiffParserTests {
 		String log = "diff --git a/arquivo1 b/arquivo1\r\n"+
 		"mode bla\r\n"+
 		"index xx\r\n"+
+		"--- a/FJ-ON-28/todo.txt\r\n"+
+		"+++ b/FJ-ON-28/todo.txt\r\n"+
 		"bla bla\r\nble ble\r\n";
 		
 		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
 		
 		assertEquals("arquivo1", diffs.get(0).getName());
-		assertEquals("bla bla\r\nble ble\r\n", diffs.get(0).getContent());
+		assertEquals("bla bla\r\nble ble\r\n", diffs.get(0).getDiff());
 		assertEquals(ArtifactStatus.DEFAULT, diffs.get(0).getStatus());
 	}
 
@@ -95,6 +99,8 @@ public class DefaultGitDiffParserTests {
 		String log = "diff --git a/arquivo1 b/arquivo1\r\n"+
 		"deleted file mode 2121\r\n"+
 		"index xx\r\n"+
+		"--- a/FJ-ON-28/todo.txt\r\n"+
+		"+++ b/FJ-ON-28/todo.txt\r\n"+
 		"bla bla\r\nble ble\r\n";
 		
 		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);
@@ -107,6 +113,8 @@ public class DefaultGitDiffParserTests {
 		String log = "diff --git a/arquivo1 b/arquivo1\r\n"+
 		"new file mode 2121\r\n"+
 		"index xx\r\n"+
+		"--- a/FJ-ON-28/todo.txt\r\n"+
+		"+++ b/FJ-ON-28/todo.txt\r\n"+
 		"bla bla\r\nble ble\r\n";
 		
 		List<Artifact> diffs = new DefaultGitDiffParser().parse(log);

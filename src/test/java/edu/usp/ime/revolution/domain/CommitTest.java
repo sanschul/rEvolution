@@ -13,7 +13,7 @@ public class CommitTest {
 		c.addArtifact(new Artifact("name", "content", ArtifactStatus.NEW));
 		
 		assertEquals("name", c.getArtifacts().get(0).getName());
-		assertEquals("content", c.getArtifacts().get(0).getContent());
+		assertEquals("content", c.getArtifacts().get(0).getDiff());
 		assertEquals(ArtifactStatus.NEW, c.getArtifacts().get(0).getStatus());
 	}
 }

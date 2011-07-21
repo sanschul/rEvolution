@@ -17,15 +17,15 @@ public class Artifact {
 	
 	private String name;
 	@Type(type="text")
-	private String content;
+	private String diff;
 	@Enumerated(EnumType.STRING)
 	private ArtifactStatus status;
 	@ManyToOne
 	private Commit commit;
 	
-	public Artifact(String name, String content, ArtifactStatus status) {
+	public Artifact(String name, String diff, ArtifactStatus status) {
 		this.name = name;
-		this.content = content;
+		this.diff = diff;
 		this.status = status;
 	}
 	
@@ -33,8 +33,8 @@ public class Artifact {
 	public String getName() {
 		return name;
 	}
-	public String getContent() {
-		return content;
+	public String getDiff() {
+		return diff;
 	}
 	public ArtifactStatus getStatus() {
 		return status;
@@ -48,8 +48,8 @@ public class Artifact {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setDiff(String diff) {
+		this.diff = diff;
 	}
 	public void setStatus(ArtifactStatus status) {
 		this.status = status;

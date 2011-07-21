@@ -37,7 +37,7 @@ public class DefaultGitDiffParser implements GitDiffParser {
 	}
 	
 	private String findContent(List<String> lines) {
-		return transformInStringTheList(lines.subList(findDiffStart(lines), lines.size()));
+		return transformInStringTheList(lines.subList(findDiffStart(lines)+2, lines.size()));
 	}
 
 	private ArtifactStatus findStatusIn(List<String> lines) {
