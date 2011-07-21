@@ -4,12 +4,12 @@ import java.util.List;
 
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildFactory;
-import br.com.caelum.revolution.changesets.ChangeSetCollection;
-import br.com.caelum.revolution.changesets.ChangeSetCollectionFactory;
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.SCMFactory;
+import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
+import br.com.caelum.revolution.scm.changesets.ChangeSetCollectionFactory;
 import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolsFactory;
 

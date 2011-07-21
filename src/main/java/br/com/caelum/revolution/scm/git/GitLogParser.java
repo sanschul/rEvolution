@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.caelum.revolution.changesets.ChangeSet;
+import br.com.caelum.revolution.scm.changesets.ChangeSet;
 
 
 public class GitLogParser {

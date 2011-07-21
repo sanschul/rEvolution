@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.changesets;
+package br.com.caelum.revolution.scm.changesets;
 
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.config.Configs;

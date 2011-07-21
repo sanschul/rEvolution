@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import br.com.caelum.revolution.changesets.ChangeSet;
 import br.com.caelum.revolution.executor.CommandExecutor;
 import br.com.caelum.revolution.scm.SCMException;
+import br.com.caelum.revolution.scm.changesets.ChangeSet;
 import br.com.caelum.revolution.scm.git.Git;
 import br.com.caelum.revolution.scm.git.GitBlameParser;
 import br.com.caelum.revolution.scm.git.GitDiffParser;

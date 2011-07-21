@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import br.com.caelum.revolution.analyzers.Analyzer;
 import br.com.caelum.revolution.analyzers.AnalyzerRunner;
-import br.com.caelum.revolution.changesets.ChangeSetCollection;
+import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
 import static org.mockito.Mockito.*;
 
 public class RevolutionTest {

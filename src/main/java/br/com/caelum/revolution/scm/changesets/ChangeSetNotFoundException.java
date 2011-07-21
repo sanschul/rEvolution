@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.changesets;
+package br.com.caelum.revolution.scm.changesets;
 
 public class ChangeSetNotFoundException extends RuntimeException {
 

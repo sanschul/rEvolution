@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Artifact;
@@ -18,6 +20,7 @@ import br.com.caelum.revolution.tools.ToolException;
 
 public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM {
 
+	private static Logger log = LoggerFactory.getLogger(SearchBugOrigin.class);
 	private SCM scm;
 	private Session session;
 	private Set<String> commitsAlreadyAdded;
@@ -45,7 +48,9 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 		
 		if(!noKeywordsIn(commit)) return;
 		
+		
 		for (Artifact artifact : commit.getArtifacts()) {
+			log.info("Looking for bugs in artifact "+ artifact.getName()  + "(commit " + commit.getCommitId()+")");
 			String[] lines = artifact.getDiff().replace("\r", "").split("\n");
 
 			int currentLine = 0;
@@ -56,6 +61,8 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 				}
 				else if (itRepresentsCodeThatWasRemoved(lines[i])) {
 					String hash = scm.blameCurrent(artifact.getName(), currentLine);
+					log.info("Bugged hash for line "+ currentLine + ": " + hash);
+					
 					if (!commitsAlreadyAdded.contains(hash)) {
 						
 						Commit buggedCommit = (Commit) session

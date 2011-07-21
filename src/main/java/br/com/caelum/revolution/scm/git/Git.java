@@ -2,12 +2,12 @@ package br.com.caelum.revolution.scm.git;
 
 import java.util.List;
 
-import br.com.caelum.revolution.changesets.ChangeSet;
 import br.com.caelum.revolution.domain.Artifact;
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.executor.CommandExecutor;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.SCMException;
+import br.com.caelum.revolution.scm.changesets.ChangeSet;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;

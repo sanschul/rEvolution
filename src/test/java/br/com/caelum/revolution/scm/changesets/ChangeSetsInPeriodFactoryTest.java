@@ -4,11 +4,11 @@ import java.text.SimpleDateFormat;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.caelum.revolution.changesets.ChangeSetNotFoundException;
-import br.com.caelum.revolution.changesets.ChangeSetsInPeriod;
-import br.com.caelum.revolution.changesets.ChangeSetsInPeriodFactory;
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.scm.SCM;
+import br.com.caelum.revolution.scm.changesets.ChangeSetNotFoundException;
+import br.com.caelum.revolution.scm.changesets.ChangeSetsInPeriod;
+import br.com.caelum.revolution.scm.changesets.ChangeSetsInPeriodFactory;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 

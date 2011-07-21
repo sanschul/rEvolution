@@ -1,7 +1,7 @@
 package br.com.caelum.revolution.analyzers;
 
-import br.com.caelum.revolution.changesets.ChangeSet;
 import br.com.caelum.revolution.domain.Commit;
+import br.com.caelum.revolution.scm.changesets.ChangeSet;
 import br.com.caelum.revolution.tools.Tool;
 
 public class Error {
