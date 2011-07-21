@@ -37,7 +37,11 @@ public class DefaultGitDiffParser implements GitDiffParser {
 	}
 	
 	private String findContent(List<String> lines) {
-		return transformInStringTheList(lines.subList(findDiffStart(lines)+2, lines.size()));
+		int lineDiffsStarts = findDiffStart(lines);
+		if(!lines.get(lineDiffsStarts).startsWith("Binary files")) {
+			return transformInStringTheList(lines.subList(lineDiffsStarts+2, lines.size()));
+		}
+		return "";
 	}
 
 	private ArtifactStatus findStatusIn(List<String> lines) {

@@ -3,6 +3,9 @@ package edu.usp.ime.revolution.analyzers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.usp.ime.revolution.builds.Build;
 import edu.usp.ime.revolution.builds.BuildResult;
 import edu.usp.ime.revolution.domain.Commit;
@@ -23,6 +26,7 @@ public class DefaultAnalyzer implements Analyzer {
 	private final List<Error> errors;
 	private final SCM scm;
 	private final HibernatePersistence persistence;
+	private static Logger log = LoggerFactory.getLogger(DefaultAnalyzer.class);
 
 	public DefaultAnalyzer(SCM scm, Build build, List<Tool> tools,
 			HibernatePersistence persistence) {
@@ -54,6 +58,7 @@ public class DefaultAnalyzer implements Analyzer {
 
 				persistence.commit();
 			} catch (Exception e) {
+				log.warn("Something happened in changeset " + changeSet.getId(), e);
 				errors.add(new Error(changeSet, e));
 			}
 		}
