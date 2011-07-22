@@ -6,9 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import br.com.caelum.revolution.domain.Artifact;
-import br.com.caelum.revolution.domain.ArtifactStatus;
-import br.com.caelum.revolution.scm.git.GitDiffParser;
+import br.com.caelum.revolution.domain.ModificationKind;
+import br.com.caelum.revolution.scm.DiffData;
 
 
 public class GitDiffParserTests {
@@ -34,7 +33,7 @@ public class GitDiffParserTests {
 				+ " 6. slide de 10 secs explicando sessionscoped (2 a 3 slides)\r\n"
 				+ "+   gui: feito (session-scoped)\r\n";
 
-		List<Artifact> diffs = new GitDiffParser().parse(log);
+		List<DiffData> diffs = new GitDiffParser().parse(log);
 
 		assertEquals(1, diffs.size());
 		assertEquals("FJ-ON-28/todo.txt", diffs.get(0).getName());
@@ -65,7 +64,7 @@ public class GitDiffParserTests {
 				+ "--- a/FJ-ON-28/todo.txt\r\n" + "+++ b/FJ-ON-28/todo.txt\r\n"
 				+ "bli bli\r\nblo blo\r\n";
 
-		List<Artifact> diffs = new GitDiffParser().parse(log);
+		List<DiffData> diffs = new GitDiffParser().parse(log);
 
 		assertEquals(2, diffs.size());
 
@@ -82,11 +81,11 @@ public class GitDiffParserTests {
 				+ "index xx\r\n" + "--- a/FJ-ON-28/todo.txt\r\n"
 				+ "+++ b/FJ-ON-28/todo.txt\r\n" + "bla bla\r\nble ble\r\n";
 
-		List<Artifact> diffs = new GitDiffParser().parse(log);
+		List<DiffData> diffs = new GitDiffParser().parse(log);
 
 		assertEquals("arquivo1", diffs.get(0).getName());
 		assertEquals("bla bla\r\nble ble\r\n", diffs.get(0).getDiff());
-		assertEquals(ArtifactStatus.DEFAULT, diffs.get(0).getStatus());
+		assertEquals(ModificationKind.DEFAULT, diffs.get(0).getModificationKind());
 	}
 
 	@Test
@@ -96,9 +95,9 @@ public class GitDiffParserTests {
 				+ "--- a/FJ-ON-28/todo.txt\r\n" + "+++ b/FJ-ON-28/todo.txt\r\n"
 				+ "bla bla\r\nble ble\r\n";
 
-		List<Artifact> diffs = new GitDiffParser().parse(log);
+		List<DiffData> diffs = new GitDiffParser().parse(log);
 
-		assertEquals(ArtifactStatus.DELETED, diffs.get(0).getStatus());
+		assertEquals(ModificationKind.DELETED, diffs.get(0).getModificationKind());
 	}
 
 	@Test
@@ -108,9 +107,9 @@ public class GitDiffParserTests {
 				+ "--- a/FJ-ON-28/todo.txt\r\n" + "+++ b/FJ-ON-28/todo.txt\r\n"
 				+ "bla bla\r\nble ble\r\n";
 
-		List<Artifact> diffs = new GitDiffParser().parse(log);
+		List<DiffData> diffs = new GitDiffParser().parse(log);
 
-		assertEquals(ArtifactStatus.NEW, diffs.get(0).getStatus());
+		assertEquals(ModificationKind.NEW, diffs.get(0).getModificationKind());
 	}
 
 	@Test
@@ -120,9 +119,9 @@ public class GitDiffParserTests {
 				+ "index 0000000..f95d90e\r\n"
 				+ "Binary files /dev/null and b/common/sqlitejdbc-v056.jar differ\r\n";
 		
-		List<Artifact> diffs = new GitDiffParser().parse(log);
+		List<DiffData> diffs = new GitDiffParser().parse(log);
 
-		assertEquals(ArtifactStatus.NEW, diffs.get(0).getStatus());
+		assertEquals(ModificationKind.NEW, diffs.get(0).getModificationKind());
 		assertEquals("", diffs.get(0).getDiff());
 	}
 }

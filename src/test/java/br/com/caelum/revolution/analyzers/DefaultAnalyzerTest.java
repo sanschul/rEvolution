@@ -17,14 +17,13 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import br.com.caelum.revolution.analyzers.Analyzer;
-import br.com.caelum.revolution.analyzers.DefaultAnalyzer;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildException;
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.postaction.PostAction;
+import br.com.caelum.revolution.scm.CommitData;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.changesets.ChangeSet;
 import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
@@ -124,7 +123,7 @@ public class DefaultAnalyzerTest {
 	
 	@Test
 	public void shouldDetailACommit() {
-		Commit commit = aCommitWithId("123");
+		CommitData commit = aCommitDataWithId("123");
 		when(scm.detail("123")).thenReturn(commit);
 		
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), persistence);
@@ -137,7 +136,7 @@ public class DefaultAnalyzerTest {
 		Tool failedTool = mock(Tool.class);
 		when(failedTool.getName()).thenReturn("bad tool");
 		
-		Commit commit = aCommitWithId("123");
+		CommitData commit = aCommitDataWithId("123");
 		when(scm.detail("123")).thenReturn(commit);
 		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(Commit.class), any(BuildResult.class));
 		
@@ -169,10 +168,10 @@ public class DefaultAnalyzerTest {
 	}
 	
 	
-	private Commit aCommitWithId(String id) {
-		Commit c = mock(Commit.class);
+	private CommitData aCommitDataWithId(String id) {
+		CommitData c = mock(CommitData.class);
 		when(c.getCommitId()).thenReturn(id);
 		return c;
 	}
-
+	
 }

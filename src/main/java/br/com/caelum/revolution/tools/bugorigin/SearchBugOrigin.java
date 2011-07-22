@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.revolution.builds.BuildResult;
-import br.com.caelum.revolution.domain.Artifact;
 import br.com.caelum.revolution.domain.Commit;
+import br.com.caelum.revolution.domain.Modification;
 import br.com.caelum.revolution.persistence.ToolThatPersists;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.ToolThatUsesSCM;
@@ -48,10 +48,9 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 		
 		if(!noKeywordsIn(commit)) return;
 		
-		
-		for (Artifact artifact : commit.getArtifacts()) {
-			log.info("Looking for bugs in artifact "+ artifact.getName()  + "(commit " + commit.getCommitId()+")");
-			String[] lines = artifact.getDiff().replace("\r", "").split("\n");
+		for (Modification modification : commit.getModifications()) {
+			log.info("Looking for bugs in artifact "+ modification.getArtifact().getName()  + "(commit " + commit.getCommitId()+")");
+			String[] lines = modification.getDiff().replace("\r", "").split("\n");
 
 			int currentLine = 0;
 			for (int i = 0; i < lines.length; i++) {
@@ -60,7 +59,7 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 					currentLine = Integer.parseInt(lines[i].substring(4, lines[i].indexOf(",")));
 				}
 				else if (itRepresentsCodeThatWasRemoved(lines[i])) {
-					String hash = scm.blameCurrent(artifact.getName(), currentLine);
+					String hash = scm.blameCurrent(modification.getArtifact().getName(), currentLine);
 					log.info("Bugged hash for line "+ currentLine + ": " + hash);
 					
 					if (!commitsAlreadyAdded.contains(hash)) {
@@ -70,9 +69,7 @@ public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM 
 								.add(Restrictions.eq("commitId", hash))
 								.uniqueResult();
 
-						BugOrigin origin = new BugOrigin();
-						origin.setBuggedCommit(buggedCommit);
-						origin.setFixedArtifact(artifact);
+						BugOrigin origin = new BugOrigin(buggedCommit, modification);
 						session.save(origin);
 
 						commitsAlreadyAdded.add(hash);

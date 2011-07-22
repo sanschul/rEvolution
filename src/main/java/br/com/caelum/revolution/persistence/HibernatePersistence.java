@@ -10,6 +10,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.domain.Artifact;
 import br.com.caelum.revolution.domain.Commit;
+import br.com.caelum.revolution.domain.Modification;
 
 
 public class HibernatePersistence {
@@ -29,12 +30,11 @@ public class HibernatePersistence {
 		configuration.setProperty("hibernate.dialect", config.get("dialect"));
 		configuration.setProperty("hibernate.connection.username", config.get("db_user"));
 		configuration.setProperty("hibernate.connection.password", config.get("db_pwd"));
-//		configuration.setProperty("hibernate.show_sql", "true");
-//		configuration.setProperty("hibernate.format_sql", "true");
 		configuration.setProperty("hibernate.jdbc.batch_size", "20");
 		
 		configuration.addAnnotatedClass(Commit.class);
 		configuration.addAnnotatedClass(Artifact.class);
+		configuration.addAnnotatedClass(Modification.class);
 		for (Class<?> clazz : classes) {
 			configuration.addAnnotatedClass(clazz);
 		}

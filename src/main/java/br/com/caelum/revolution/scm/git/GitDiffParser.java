@@ -5,14 +5,15 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
-import br.com.caelum.revolution.domain.Artifact;
-import br.com.caelum.revolution.domain.ArtifactStatus;
+import br.com.caelum.revolution.domain.ArtifactKind;
+import br.com.caelum.revolution.domain.ModificationKind;
+import br.com.caelum.revolution.scm.DiffData;
 
 
 public class GitDiffParser {
 
-	public List<Artifact> parse(String diff) {
-		List<Artifact> allDiffs = new ArrayList<Artifact>();
+	public List<DiffData> parse(String diff) {
+		List<DiffData> allDiffs = new ArrayList<DiffData>();
 
 		List<String> diffs = Arrays.asList(diff.split("diff --git "));
 		diffs = diffs.subList(1, diffs.size());
@@ -21,8 +22,8 @@ public class GitDiffParser {
 			
 			String content = findContent(lines);
 			String name = extractFileNameIn(lines.get(0));
-			ArtifactStatus status = findStatusIn(lines);
-			allDiffs.add(new Artifact(name, content, status));
+			ModificationKind status = findStatusIn(lines);
+			allDiffs.add(new DiffData(name, content, status, content.isEmpty() ?  ArtifactKind.BINARY : ArtifactKind.CODE));
 		}
 
 		return allDiffs;
@@ -45,15 +46,15 @@ public class GitDiffParser {
 		return "";
 	}
 
-	private ArtifactStatus findStatusIn(List<String> lines) {
+	private ModificationKind findStatusIn(List<String> lines) {
 		
 		int modeLine = findDiffStart(lines) - 2;
 		
-		for(ArtifactStatus st : EnumSet.allOf(ArtifactStatus.class)) {
+		for(ModificationKind st : EnumSet.allOf(ModificationKind.class)) {
 			if(lines.get(modeLine).startsWith(st.getPattern())) return st;
 		}
 		
-		return ArtifactStatus.DEFAULT;
+		return ModificationKind.DEFAULT;
 	}
 
 	public String extractFileNameIn(String line) {

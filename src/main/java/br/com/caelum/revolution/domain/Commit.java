@@ -1,12 +1,14 @@
 package br.com.caelum.revolution.domain;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
@@ -20,15 +22,30 @@ public class Commit {
 	private String commitId;
 	private String author;
 	private String email;
-	private String date;
+	private Calendar date;
 	private String message;
 	@Type(type="text")
 	private String diff;
-	@OneToMany(mappedBy="commit", cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="commits")
 	private List<Artifact> artifacts;
+	@OneToMany(mappedBy="commit", cascade=CascadeType.ALL)
+	private List<Modification> modifications;
+	
+	
+	public Commit(String commitId, String author, String email, Calendar date,
+			String message, String diff) {
+		this();
+		this.commitId = commitId;
+		this.author = author;
+		this.email = email;
+		this.date = date;
+		this.message = message;
+		this.diff = diff;
+	}
 
 	public Commit() {
 		this.artifacts = new ArrayList<Artifact>();
+		this.modifications = new ArrayList<Modification>();
 	}
 	
 	public String getCommitId() {
@@ -47,11 +64,11 @@ public class Commit {
 		this.author = author;
 	}
 
-	public String getDate() {
+	public Calendar getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Calendar date) {
 		this.date = date;
 	}
 
@@ -83,16 +100,11 @@ public class Commit {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public void addArtifact(Artifact artifact) {
 		if(artifacts == null) {
 			artifacts = new ArrayList<Artifact>();
 		}
 		
-		artifact.setCommit(this);
 		artifacts.add(artifact);
 	}
 
@@ -100,9 +112,14 @@ public class Commit {
 		return artifacts;
 	}
 
-	public void setArtifacts(List<Artifact> artifacts) {
-		this.artifacts = artifacts;
+	public List<Modification> getModifications() {
+		return modifications;
 	}
+
+	public void addModification(Modification modification) {
+		modifications.add(modification);
+	}
+
 	
 	
 }

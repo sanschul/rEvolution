@@ -1,8 +1,8 @@
 package br.com.caelum.revolution.tools.bugorigin;
 
 import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,12 +16,12 @@ import org.mockito.ArgumentCaptor;
 
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Artifact;
-import br.com.caelum.revolution.domain.ArtifactStatus;
+import br.com.caelum.revolution.domain.ArtifactKind;
 import br.com.caelum.revolution.domain.Commit;
+import br.com.caelum.revolution.domain.Modification;
+import br.com.caelum.revolution.domain.ModificationKind;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.tools.ToolException;
-import br.com.caelum.revolution.tools.bugorigin.BugOrigin;
-import br.com.caelum.revolution.tools.bugorigin.SearchBugOrigin;
 
 
 public class SearchBugOriginTest {
@@ -58,10 +58,12 @@ public class SearchBugOriginTest {
 		when(scm.blameCurrent("file 1", 11)).thenReturn("bugged hash");
 		
 		// creating current artifact
-		Artifact artifact = new Artifact("file 1", code, ArtifactStatus.DEFAULT);
+		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
+		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a bug here");
 		commit.addArtifact(artifact);
+		commit.addModification(modification);
 		
 		tool.calculate(commit, new BuildResult("any path"));
 		
@@ -79,7 +81,6 @@ public class SearchBugOriginTest {
 	public void shouldIgnoreCommitMessagesThatDoNotContainKeywords() throws ToolException {
 		Commit commit = new Commit();
 		commit.setMessage("no matched keyword here");
-		commit.addArtifact(new Artifact("name", "- removed", ArtifactStatus.NEW));
 		
 		tool.calculate(commit, new BuildResult("path"));
 		
@@ -104,10 +105,13 @@ public class SearchBugOriginTest {
 		when(scm.blameCurrent("file 1", 2)).thenReturn("bugged hash");
 		
 		// creating current artifact
-		Artifact artifact = new Artifact("file 1", code, ArtifactStatus.DEFAULT);
+		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
+		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a bug here");
 		commit.addArtifact(artifact);
+		commit.addModification(modification);
+
 		
 		tool.calculate(commit, new BuildResult("any path"));
 		
@@ -141,10 +145,13 @@ public class SearchBugOriginTest {
 		when(scm.blameCurrent("file 1", 3)).thenReturn("bugged hash");
 		
 		// creating current artifact
-		Artifact artifact = new Artifact("file 1", code, ArtifactStatus.DEFAULT);
+		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
+		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a fix here");
 		commit.addArtifact(artifact);
+		commit.addModification(modification);
+
 		
 		tool.calculate(commit, new BuildResult("any path"));
 		

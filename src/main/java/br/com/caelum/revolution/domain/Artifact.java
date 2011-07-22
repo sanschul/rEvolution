@@ -1,65 +1,70 @@
 package br.com.caelum.revolution.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Type;
 
 @Entity
 public class Artifact {
 
 	@Id @GeneratedValue
 	private int id;
-	
 	private String name;
-	@Type(type="text")
-	private String diff;
 	@Enumerated(EnumType.STRING)
-	private ArtifactStatus status;
-	@ManyToOne
-	private Commit commit;
+	private ArtifactKind kind;
+	@ManyToMany
+	private List<Commit> commits;
+	@OneToMany(mappedBy="artifact", cascade=CascadeType.ALL)
+	private List<Modification> modifications;
 	
-	public Artifact(String name, String diff, ArtifactStatus status) {
+	public Artifact(String name, ArtifactKind kind) {
 		this.name = name;
-		this.diff = diff;
-		this.status = status;
+		this.kind = kind;
+		modifications = new ArrayList<Modification>();
 	}
-	
-	public Artifact(){}
-	public String getName() {
-		return name;
-	}
-	public String getDiff() {
-		return diff;
-	}
-	public ArtifactStatus getStatus() {
-		return status;
-	}
-	public Commit getCommit() {
-		return commit;
-	}
-	public void setCommit(Commit commit) {
-		this.commit = commit;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setDiff(String diff) {
-		this.diff = diff;
-	}
-	public void setStatus(ArtifactStatus status) {
-		this.status = status;
-	}
+
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	public String getName() {
+		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public ArtifactKind getKind() {
+		return kind;
+	}
+
+	public void setKind(ArtifactKind kind) {
+		this.kind = kind;
+	}
+
+	public void addModification(Modification modification) {
+		modification.setArtifact(this);
+		modifications.add(modification);
+	}
+
+	public List<Commit> getCommits() {
+		return commits;
+	}
+
+	public List<Modification> getModifications() {
+		return modifications;
+	}
+	
 	
 	
 }

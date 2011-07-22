@@ -1,6 +1,6 @@
 package br.com.caelum.revolution.domain;
 
-public enum ArtifactStatus {
+public enum ModificationKind {
 
 	NEW("new file mode"), 
 	DELETED("deleted file mode"), 
@@ -8,7 +8,7 @@ public enum ArtifactStatus {
 	
 	private final String pattern;
 
-	ArtifactStatus(String pattern) {
+	ModificationKind(String pattern) {
 		this.pattern = pattern;
 	}
 

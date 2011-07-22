@@ -1,23 +1,31 @@
 package br.com.caelum.revolution.analyzers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildResult;
+import br.com.caelum.revolution.domain.Artifact;
 import br.com.caelum.revolution.domain.Commit;
+import br.com.caelum.revolution.domain.Modification;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.persistence.ToolThatPersists;
 import br.com.caelum.revolution.postaction.PostAction;
+import br.com.caelum.revolution.scm.CommitData;
+import br.com.caelum.revolution.scm.DiffData;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.ToolThatUsesSCM;
 import br.com.caelum.revolution.scm.changesets.ChangeSet;
 import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
 import br.com.caelum.revolution.tools.Tool;
-
 
 public class DefaultAnalyzer implements Analyzer {
 
@@ -48,8 +56,8 @@ public class DefaultAnalyzer implements Analyzer {
 			try {
 				persistence.beginTransaction();
 
-				Commit commit = scm.detail(changeSet.getId());
-				persistence.getSession().save(commit);
+				CommitData data = scm.detail(changeSet.getId());
+				Commit commit = transform(data);
 
 				String path = scm.goTo(changeSet);
 				BuildResult currentBuild = sourceBuilder.build(path);
@@ -59,12 +67,43 @@ public class DefaultAnalyzer implements Analyzer {
 
 				persistence.commit();
 			} catch (Exception e) {
-				log.warn("Something happened in changeset " + changeSet.getId(), e);
+				log.warn(
+						"Something happened in changeset " + changeSet.getId(),
+						e);
 				errors.add(new Error(changeSet, e));
 			}
 		}
 
 		persistence.end();
+	}
+
+	private Commit transform(CommitData data) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(data
+				.getDate());
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+
+		Commit commit = new Commit(data.getCommitId(), data.getAuthor(),
+				data.getEmail(), calendar, data.getMessage(), data.getDiff());
+		persistence.getSession().save(commit);
+		
+		for (DiffData diff : data.getDiffs()) {
+			Artifact artifact = (Artifact) persistence.getSession()
+					.createCriteria(Artifact.class)
+					.add(Restrictions.eq("name", diff.getName()))
+					.uniqueResult();
+
+			if (artifact == null) {
+				artifact = new Artifact(diff.getName(), diff.getArtifactKind());
+				persistence.getSession().save(artifact);
+			}
+			Modification modification = new Modification(diff.getDiff(), commit, artifact, diff.getModificationKind());
+			artifact.addModification(modification);
+			commit.addModification(modification);
+			persistence.getSession().save(modification);
+		}
+
+		return commit;
 	}
 
 	private void giveSCMToTools() {

@@ -2,9 +2,9 @@ package br.com.caelum.revolution.scm.git;
 
 import java.util.List;
 
-import br.com.caelum.revolution.domain.Artifact;
-import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.executor.CommandExecutor;
+import br.com.caelum.revolution.scm.CommitData;
+import br.com.caelum.revolution.scm.DiffData;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.SCMException;
 import br.com.caelum.revolution.scm.changesets.ChangeSet;
@@ -51,24 +51,24 @@ public class Git implements SCM {
 		}
 	}
 	
-	public String sourceOf(String hash, String fileName) {
-		return exec.execute("git show " + hash + ":" + fileName, repository);
+	public String sourceOf(String id, String fileName) {
+		return exec.execute("git show " + id + ":" + fileName, repository);
 	}
 
-	public Commit detail(String id) {
+	public CommitData detail(String id) {
 		try {
 			String response = exec.execute("git show "
 					+ id
 					+ " --pretty=format:<Commit><commitId>%H</commitId><author>%an</author><email>%ae</email><date>%ai</date><message>%s</message></Commit>", repository);
 			XStream xs = new XStream(new DomDriver());
-			xs.alias("Commit", Commit.class);
+			xs.alias("Commit", CommitData.class);
 
-			Commit parsedCommit = (Commit) xs.fromXML(response.substring(0,
+			CommitData parsedCommit = (CommitData) xs.fromXML(response.substring(0,
 					response.indexOf("</Commit>") + 9));
 			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));
 			
-			for(Artifact artifact : diffParser.parse(parsedCommit.getDiff())) {
-				parsedCommit.addArtifact(artifact);
+			for(DiffData diffData : diffParser.parse(parsedCommit.getDiff())) {
+				parsedCommit.addDiff(diffData);
 			}
 			
 			return parsedCommit;

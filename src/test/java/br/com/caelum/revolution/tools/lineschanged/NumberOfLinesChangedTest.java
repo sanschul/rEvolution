@@ -11,7 +11,9 @@ import org.mockito.ArgumentCaptor;
 
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Artifact;
-import br.com.caelum.revolution.domain.ArtifactStatus;
+import br.com.caelum.revolution.domain.ArtifactKind;
+import br.com.caelum.revolution.domain.Modification;
+import br.com.caelum.revolution.domain.ModificationKind;
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.tools.ToolException;
 import br.com.caelum.revolution.tools.lineschanged.LinesChangedCount;
@@ -52,10 +54,12 @@ public class NumberOfLinesChangedTest {
 				+ "throw new BuildNotFoundException();\r\n" + "+\r\n" + "}\r\n"
 				+ "}\r\n";
 
+		Artifact artifact = new Artifact("file.java", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		Artifact artifact = new Artifact("file.java", code,
-				ArtifactStatus.DEFAULT);
+		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
 		commit.addArtifact(artifact);
+		commit.addModification(modification);
+
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
@@ -90,10 +94,12 @@ public class NumberOfLinesChangedTest {
 				+ "throw new BuildNotFoundException();\r\n" + "+\r\n" + "}\r\n"
 				+ "}\r\n";
 
+		Artifact artifact = new Artifact("file.java", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		Artifact artifact = new Artifact("file.java", code,
-				ArtifactStatus.DEFAULT);
+		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
 		commit.addArtifact(artifact);
+		commit.addModification(modification);
+
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
@@ -116,10 +122,12 @@ public class NumberOfLinesChangedTest {
 				+ "public Build basedOn(Config config) {\r\n" + "}\r\n"
 				+ "throw new BuildNotFoundException();\r\n" + "}\r\n" + "}\r\n";
 
+		Artifact artifact = new Artifact("file.kava", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		Artifact artifact = new Artifact("file.java", code,
-				ArtifactStatus.DEFAULT);
+		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
 		commit.addArtifact(artifact);
+		commit.addModification(modification);
+
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
@@ -137,10 +145,12 @@ public class NumberOfLinesChangedTest {
 	public void shouldSetTheArtifact() throws ToolException {
 		String code = "any diff \r\n";
 
+		Artifact artifact = new Artifact("file.java", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		Artifact artifact = new Artifact("file.java", code,
-				ArtifactStatus.DEFAULT);
+		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
 		commit.addArtifact(artifact);
+		commit.addModification(modification);
+
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
