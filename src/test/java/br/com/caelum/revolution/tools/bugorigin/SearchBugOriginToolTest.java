@@ -24,9 +24,9 @@ import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.tools.ToolException;
 
 
-public class SearchBugOriginTest {
+public class SearchBugOriginToolTest {
 
-	private SearchBugOrigin tool;
+	private SearchBugOriginTool tool;
 	private Session session;
 	private SCM scm;
 
@@ -34,7 +34,7 @@ public class SearchBugOriginTest {
 	public void setUp() {
 		session = mock(Session.class);
 		scm = mock(SCM.class);
-		tool = new SearchBugOrigin(new String[] { "bug", "fix"});
+		tool = new SearchBugOriginTool(new String[] { "bug", "fix"});
 		tool.setSession(session);
 		tool.setSCM(scm);
 	}

@@ -10,7 +10,7 @@ import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
 
-public class NumberOfLinesChanged implements Tool, ToolThatPersists {
+public class NumberOfLinesChangedTool implements Tool, ToolThatPersists {
 
 	private Session session;
 

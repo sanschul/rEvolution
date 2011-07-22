@@ -18,15 +18,15 @@ import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
 
-public class SearchBugOrigin implements Tool, ToolThatPersists, ToolThatUsesSCM {
+public class SearchBugOriginTool implements Tool, ToolThatPersists, ToolThatUsesSCM {
 
-	private static Logger log = LoggerFactory.getLogger(SearchBugOrigin.class);
+	private static Logger log = LoggerFactory.getLogger(SearchBugOriginTool.class);
 	private SCM scm;
 	private Session session;
 	private Set<String> commitsAlreadyAdded;
 	private final String[] keywords;
 
-	public SearchBugOrigin(String[] keywords) {
+	public SearchBugOriginTool(String[] keywords) {
 		this.keywords = keywords;
 	}
 

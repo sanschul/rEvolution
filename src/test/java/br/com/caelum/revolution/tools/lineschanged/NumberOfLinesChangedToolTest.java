@@ -17,18 +17,18 @@ import br.com.caelum.revolution.domain.ModificationKind;
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.tools.ToolException;
 import br.com.caelum.revolution.tools.lineschanged.LinesChangedCount;
-import br.com.caelum.revolution.tools.lineschanged.NumberOfLinesChanged;
+import br.com.caelum.revolution.tools.lineschanged.NumberOfLinesChangedTool;
 
 
-public class NumberOfLinesChangedTest {
+public class NumberOfLinesChangedToolTest {
 
-	private NumberOfLinesChanged tool;
+	private NumberOfLinesChangedTool tool;
 	private Session session;
 
 	@Before
 	public void setUp() {
 		session = mock(Session.class);
-		tool = new NumberOfLinesChanged();
+		tool = new NumberOfLinesChangedTool();
 		tool.setSession(session);
 	}
 

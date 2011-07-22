@@ -13,14 +13,14 @@ import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
 
-public class JDepend implements Tool, ToolThatPersists {
+public class JDependTool implements Tool, ToolThatPersists {
 
 	private final CommandExecutor executor;
 	private final JDependXMLInterpreter interpreter;
 	private final String jDependPath;
 	private Session session;
 
-	public JDepend(CommandExecutor executor, JDependXMLInterpreter interpreter, String jDependPath) {
+	public JDependTool(CommandExecutor executor, JDependXMLInterpreter interpreter, String jDependPath) {
 		this.executor = executor;
 		this.interpreter = interpreter;
 		this.jDependPath = jDependPath;	

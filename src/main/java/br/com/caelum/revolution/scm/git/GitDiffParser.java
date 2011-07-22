@@ -3,6 +3,7 @@ package br.com.caelum.revolution.scm.git;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class GitDiffParser {
 	private static Map<ModificationKind, String> map;
 	
 	static {
+		map = new HashMap<ModificationKind, String>();
 		map.put(ModificationKind.NEW, "new file mode");
 		map.put(ModificationKind.DELETED, "deleted file mode");
 		map.put(ModificationKind.DEFAULT, "nothing");

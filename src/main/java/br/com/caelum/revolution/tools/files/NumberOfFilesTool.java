@@ -13,13 +13,13 @@ import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
 
-public class NumberOfFiles implements Tool, ToolThatPersists, ToolThatUsesSCM {
+public class NumberOfFilesTool implements Tool, ToolThatPersists, ToolThatUsesSCM {
 
 	private String extension;
 	private Session session;
 	private SCM scm;
 
-	public NumberOfFiles(String extension) {
+	public NumberOfFilesTool(String extension) {
 		this.extension = extension;
 	}
 

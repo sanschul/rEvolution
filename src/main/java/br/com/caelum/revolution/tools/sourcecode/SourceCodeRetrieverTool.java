@@ -12,14 +12,14 @@ import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
 
-public class SourceCodeRetriever implements Tool, ToolThatPersists,
+public class SourceCodeRetrieverTool implements Tool, ToolThatPersists,
 		ToolThatUsesSCM {
 
 	private Session session;
 	private SCM scm;
 	private final String[] extensions;
 
-	public SourceCodeRetriever(String[] extensions) {
+	public SourceCodeRetrieverTool(String[] extensions) {
 		this.extensions = extensions;
 	}
 

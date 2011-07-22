@@ -22,12 +22,12 @@ import org.xml.sax.SAXException;
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.executor.CommandExecutor;
-import br.com.caelum.revolution.tools.jdepend.JDepend;
+import br.com.caelum.revolution.tools.jdepend.JDependTool;
 import br.com.caelum.revolution.tools.jdepend.JDependMetric;
 import br.com.caelum.revolution.tools.jdepend.JDependXMLInterpreter;
 
 
-public class JDependTest {
+public class JDependToolTest {
 	private CommandExecutor exec;
 	private JDependXMLInterpreter interpreter;
 	private String jDependPath;
@@ -52,7 +52,7 @@ public class JDependTest {
 	
 	@Test
 	public void shouldInterpretResultsFromJDepend() throws Exception {
-		JDepend jdepend = new JDepend(exec, interpreter, jDependPath);
+		JDependTool jdepend = new JDependTool(exec, interpreter, jDependPath);
 		jdepend.setSession(session);
 		jdepend.calculate(commit, current);
 		
@@ -63,7 +63,7 @@ public class JDependTest {
 	
 	@Test
 	public void shouldStoreValuesInEntityAndSaveIt() throws Exception {
-		JDepend jdepend = new JDepend(exec, interpreter, jDependPath);
+		JDependTool jdepend = new JDependTool(exec, interpreter, jDependPath);
 		jdepend.setSession(session);
 		jdepend.calculate(commit, current);		
 		
