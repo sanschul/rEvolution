@@ -124,4 +124,11 @@ public class GitDiffParserTests {
 		assertEquals(ModificationKind.NEW, diffs.get(0).getModificationKind());
 		assertEquals("", diffs.get(0).getDiff());
 	}
+	
+	@Test
+	public void shouldIgnoreBlankDiffs() {
+		List<DiffData> diffs = new GitDiffParser().parse("");
+		
+		assertEquals(0, diffs.size());
+	}
 }

@@ -61,7 +61,7 @@ public class CommitData {
 	}
 
 	public List<DiffData> getDiffs() {
-		return diffs;
+		return (diffs == null ? new ArrayList<DiffData>() : diffs);
 	}
 
 

@@ -68,5 +68,9 @@ public class HibernatePersistence {
 		session.close();
 		sessionFactory.close();
 	}
+
+	public void rollback() {
+		session.getTransaction().rollback();
+	}
 	
 }

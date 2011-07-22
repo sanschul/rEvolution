@@ -119,6 +119,11 @@ public class DefaultAnalyzerTest {
 	}
 
 	@Test @Ignore
+	public void shouldRollbackIfSometingHappens() {
+		
+	}
+	
+	@Test @Ignore
 	public void shouldConvertScmDataToCommit() {
 		
 	}

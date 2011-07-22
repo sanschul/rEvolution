@@ -61,6 +61,7 @@ public class DefaultAnalyzer implements Analyzer {
 				runTools(commit, currentBuild);
 				persistence.commit();
 			} catch (Exception e) {
+				persistence.rollback();
 				log.warn("Something went wrong in changeset " + changeSet.getId(), e);
 				errors.add(new Error(changeSet, e));
 			}
