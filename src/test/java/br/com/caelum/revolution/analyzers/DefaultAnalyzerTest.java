@@ -127,6 +127,11 @@ public class DefaultAnalyzerTest {
 	public void shouldConvertScmDataToCommit() {
 		
 	}
+
+	@Test @Ignore
+	public void shouldResetPriorCommitIfSomethingHappens() {
+		
+	}
 	
 	@Test
 	public void shouldDetailACommit() {
