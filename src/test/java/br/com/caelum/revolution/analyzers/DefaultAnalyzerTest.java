@@ -21,6 +21,7 @@ import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildException;
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Commit;
+import br.com.caelum.revolution.domain.CommitConverter;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.postaction.PostAction;
 import br.com.caelum.revolution.scm.CommitData;
@@ -39,6 +40,7 @@ public class DefaultAnalyzerTest {
 	private SCM scm;
 	private HibernatePersistence persistence;
 	private Session session;
+	private CommitConverter converter;
 
 	@Before
 	public void setUp() {
@@ -46,6 +48,8 @@ public class DefaultAnalyzerTest {
 		changeSets = aCollectionWith(changeSet);
 		build = mock(Build.class);
 		scm = mock(SCM.class);
+		converter = mock(CommitConverter.class);
+		
 		session = mock(Session.class);
 		persistence = mock(HibernatePersistence.class);
 		when(persistence.getSession()).thenReturn(session);
@@ -53,7 +57,7 @@ public class DefaultAnalyzerTest {
 	
 	@Test
 	public void shouldBuildAllChangeSets() throws BuildException {		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, someMetricTools(), persistence);
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, someMetricTools(), converter, persistence);
 		
 		String path = "/repo/path";
 		when(scm.goTo(changeSet)).thenReturn(path);
@@ -67,7 +71,7 @@ public class DefaultAnalyzerTest {
 	public void shouldCalculateAllMetrics() throws ToolException {
 		Tool tool = mock(Tool.class);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(tool), persistence);
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(tool), converter, persistence);
 		analyzer.start(changeSets);
 		
 		verify(tool).calculate(any(Commit.class), any(BuildResult.class));
@@ -77,7 +81,7 @@ public class DefaultAnalyzerTest {
 	public void shouldTellAllObserversAboutAChangeSet() {
 		PostAction observer = mock(PostAction.class);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), persistence);
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), converter, persistence);
 		analyzer.addPostAction(observer);
 
 		analyzer.start(changeSets);
@@ -120,13 +124,18 @@ public class DefaultAnalyzerTest {
 	public void shouldOpenAndCommitTransaction() {
 		
 	}
+
+	@Test @Ignore
+	public void shouldConvertScmDataToCommit() {
+		
+	}
 	
 	@Test
 	public void shouldDetailACommit() {
 		CommitData commit = aCommitDataWithId("123");
 		when(scm.detail("123")).thenReturn(commit);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), persistence);
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), converter,  persistence);
 		analyzer.start(changeSets);
 		
 		verify(scm).detail("123");
@@ -140,7 +149,7 @@ public class DefaultAnalyzerTest {
 		when(scm.detail("123")).thenReturn(commit);
 		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(Commit.class), any(BuildResult.class));
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(failedTool), persistence);
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(failedTool), converter, persistence);
 		analyzer.start(changeSets);
 		
 		assertEquals(1, analyzer.getErrors().size());
@@ -149,7 +158,7 @@ public class DefaultAnalyzerTest {
 	@Test
 	public void shouldGenerateAErrorIfSomethingFailsInChangeset() throws BuildException {
 		when(build.build(any(String.class))).thenThrow(new BuildException(new Exception()));
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), persistence);
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), converter, persistence);
 		analyzer.start(changeSets);
 		
 		assertEquals(1, analyzer.getErrors().size());

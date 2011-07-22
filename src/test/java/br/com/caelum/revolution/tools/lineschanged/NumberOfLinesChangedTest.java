@@ -142,7 +142,7 @@ public class NumberOfLinesChangedTest {
 	}
 
 	@Test
-	public void shouldSetTheArtifact() throws ToolException {
+	public void shouldSetTheArtifactAndCommit() throws ToolException {
 		String code = "any diff \r\n";
 
 		Artifact artifact = new Artifact("file.java", ArtifactKind.CODE);
@@ -160,6 +160,7 @@ public class NumberOfLinesChangedTest {
 
 		LinesChangedCount value = argument.getValue();
 		assertSame(artifact, value.getArtifact());
+		assertSame(commit, value.getCommit());
 	}
 
 }

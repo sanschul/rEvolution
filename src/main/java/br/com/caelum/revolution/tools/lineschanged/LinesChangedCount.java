@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import br.com.caelum.revolution.domain.Artifact;
+import br.com.caelum.revolution.domain.Commit;
 
 
 @Entity
@@ -15,6 +16,8 @@ public class LinesChangedCount {
 	private int id;
 	@ManyToOne
 	private Artifact artifact;
+	@ManyToOne
+	private Commit commit;
 	private int linesAdded;
 	private int linesRemoved;
 	public int getId() {
@@ -40,6 +43,12 @@ public class LinesChangedCount {
 	}
 	public void setLinesRemoved(int linesRemoved) {
 		this.linesRemoved = linesRemoved;
+	}
+	public Commit getCommit() {
+		return commit;
+	}
+	public void setCommit(Commit commit) {
+		this.commit = commit;
 	}
 	
 	

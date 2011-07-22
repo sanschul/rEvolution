@@ -22,6 +22,7 @@ public class NumberOfLinesChanged implements Tool, ToolThatPersists {
 			
 			LinesChangedCount stat = new LinesChangedCount();
 			stat.setArtifact(modification.getArtifact());
+			stat.setCommit(commit);
 			
 			for(String line : diff.replace("\r", "").split("\n")) {
 				if(line.startsWith("+")) {
