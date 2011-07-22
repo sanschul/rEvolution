@@ -96,7 +96,6 @@ public class Commit {
 		if(artifacts == null) {
 			artifacts = new ArrayList<Artifact>();
 		}
-		
 		artifacts.add(artifact);
 	}
 
@@ -109,6 +108,7 @@ public class Commit {
 	}
 
 	public void addModification(Modification modification) {
+		modification.setCommit(this);
 		modifications.add(modification);
 	}
 

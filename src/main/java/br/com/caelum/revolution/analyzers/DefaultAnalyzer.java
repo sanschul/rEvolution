@@ -46,10 +46,13 @@ public class DefaultAnalyzer implements Analyzer {
 
 		for (ChangeSet changeSet : collection) {
 			try {
+				log.info("--------------------------");
+				log.info("Starting analyzing changeset " + changeSet.getId());
 				persistence.beginTransaction();
 
 				CommitData data = scm.detail(changeSet.getId());
 				Commit commit = convert.toDomain(data, persistence.getSession());
+				log.info("Author: " + commit.getAuthor().getName() + " on " + commit.getDate().getTime() + " with " + commit.getArtifacts().size() + " artifacts");
 
 				String path = scm.goTo(changeSet);
 				BuildResult currentBuild = sourceBuilder.build(path);
@@ -57,9 +60,7 @@ public class DefaultAnalyzer implements Analyzer {
 				runTools(commit, currentBuild);
 				persistence.commit();
 			} catch (Exception e) {
-				log.warn(
-						"Something happened in changeset " + changeSet.getId(),
-						e);
+				log.warn("Something went wrong in changeset " + changeSet.getId(), e);
 				errors.add(new Error(changeSet, e));
 			}
 		}
@@ -110,6 +111,7 @@ public class DefaultAnalyzer implements Analyzer {
 	private void runTools(Commit commit, BuildResult currentBuild) {
 		for (Tool tool : tools) {
 			try {
+				log.info("running tool: " + tool.getName());
 				tool.calculate(commit, currentBuild);
 			} catch (Exception e) {
 				errors.add(new Error(tool, commit, e));

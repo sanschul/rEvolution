@@ -55,7 +55,7 @@ public class SearchBugOriginToolTest {
 		when(criteria.uniqueResult()).thenReturn(buggedCommit);
 
 		// blame returning the bugged hash
-		when(scm.blameCurrent("file 1", 11)).thenReturn("bugged hash");
+		when(scm.blameCurrent("file 1", 10)).thenReturn("bugged hash");
 		
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
@@ -73,7 +73,7 @@ public class SearchBugOriginToolTest {
 		BugOrigin value = argument.getValue();
 		
 		assertSame(buggedCommit, value.getBuggedCommit());
-		verify(scm).blameCurrent("file 1", 11);
+		verify(scm).blameCurrent("file 1", 10);
 		
 	}
 	

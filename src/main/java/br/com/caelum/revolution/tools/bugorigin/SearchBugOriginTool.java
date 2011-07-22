@@ -56,7 +56,7 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists, ToolThatUses
 			for (int i = 0; i < lines.length; i++) {
 				currentLine++;
 				if (itRepresentsALineNumber(lines[i])) {
-					currentLine = Integer.parseInt(lines[i].substring(4, lines[i].indexOf(",")));
+					currentLine = Integer.parseInt(lines[i].substring(4, lines[i].indexOf(",")))-1;
 				}
 				else if (itRepresentsCodeThatWasRemoved(lines[i])) {
 					String hash = scm.blameCurrent(modification.getArtifact().getName(), currentLine);

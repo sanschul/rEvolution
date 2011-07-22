@@ -35,6 +35,7 @@ public class CommitConverter {
 			Modification modification = new Modification(diff.getDiff(), commit, artifact, diff.getModificationKind());
 			artifact.addModification(modification);
 			commit.addModification(modification);
+			commit.addArtifact(artifact);
 			session.save(modification);
 		}
 
