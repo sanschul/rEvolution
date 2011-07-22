@@ -62,6 +62,7 @@ public class DefaultAnalyzer implements Analyzer {
 				persistence.commit();
 			} catch (Exception e) {
 				persistence.rollback();
+				commit = null;
 				log.warn("Something went wrong in changeset " + changeSet.getId(), e);
 				errors.add(new Error(changeSet, e));
 			}
