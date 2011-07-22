@@ -29,10 +29,10 @@ public class Git implements SCM {
 		this.exec = exec;
 	}
 
-	public String goTo(ChangeSet cs) {
+	public String goTo(String id) {
 		try {
 			exec.execute("git checkout master", repository);
-			exec.execute("git branch --no-track -f revolution " + cs.getId(), repository);
+			exec.execute("git branch --no-track -f revolution " + id, repository);
 			exec.execute("git checkout revolution ", repository);
 		} catch (Exception e) {
 			throw new SCMException(e);

@@ -39,9 +39,14 @@ public class SearchBugOriginToolTest {
 		tool.setSCM(scm);
 	}
 	
+	private Commit aCommitWithId(String id) {
+		Commit commit = new Commit();
+		commit.setCommitId(id);
+		return commit;
+	}
 	@Test
 	public void shouldIdentifyLineNumbersInTheMiddleOfTheDiff() throws ToolException {
-		String code = "+ line added\r\n" 
+		String diff = "+ line added\r\n" 
 			+ "@@ -10, 8 @@ bla bla\r\n" +
 			"- line removed\r\n"
 			+ "common line\r\n" 
@@ -60,8 +65,9 @@ public class SearchBugOriginToolTest {
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
-		commit.setMessage("a bug here");
+		commit.setPriorCommit(aCommitWithId("prior-commit"));
+		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
+		commit.setMessage("a bug was fixed here");
 		commit.addArtifact(artifact);
 		commit.addModification(modification);
 		
@@ -71,9 +77,10 @@ public class SearchBugOriginToolTest {
 		verify(session).save(argument.capture());
 		
 		BugOrigin value = argument.getValue();
-		
 		assertSame(buggedCommit, value.getBuggedCommit());
+		
 		verify(scm).blameCurrent("file 1", 10);
+		verify(scm).goTo("prior-commit");
 		
 	}
 	
@@ -89,45 +96,7 @@ public class SearchBugOriginToolTest {
 	
 	@Test
 	public void shouldGetCommitsForAllBuggedLines() throws ToolException {
-		String code = "+ line added\r\n" 
-			+ "- line removed\r\n"
-			+ "common line\r\n" 
-			+ "+line added";
-		
-		// bugged commit
-		Commit buggedCommit = new Commit();
-		Criteria criteria = mock(Criteria.class);
-		when(session.createCriteria(Commit.class)).thenReturn(criteria);
-		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
-		when(criteria.uniqueResult()).thenReturn(buggedCommit);
-
-		// blame returning the bugged hash
-		when(scm.blameCurrent("file 1", 2)).thenReturn("bugged hash");
-		
-		// creating current artifact
-		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
-		Commit commit = new Commit();
-		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
-		commit.setMessage("a bug here");
-		commit.addArtifact(artifact);
-		commit.addModification(modification);
-
-		
-		tool.calculate(commit, new BuildResult("any path"));
-		
-		ArgumentCaptor<BugOrigin> argument = ArgumentCaptor.forClass(BugOrigin.class);
-		verify(session).save(argument.capture());
-		
-		BugOrigin value = argument.getValue();
-		
-		assertSame(buggedCommit, value.getBuggedCommit());
-		verify(scm).blameCurrent("file 1", 2);
-		
-	}
-	
-	@Test
-	public void shouldNotGetRepeatedCommits() throws ToolException {
-		String code = "+ line added\r\n" 
+		String diff = "old line\r\n" 
 			+ "- line removed\r\n"
 			+ "- line removed\r\n"
 			+ "common line\r\n" 
@@ -147,21 +116,66 @@ public class SearchBugOriginToolTest {
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
-		commit.setMessage("a fix here");
+		commit.setPriorCommit(aCommitWithId("prior-commit"));
+		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
+		commit.setMessage("a bug was fixed here");
 		commit.addArtifact(artifact);
 		commit.addModification(modification);
-
 		
 		tool.calculate(commit, new BuildResult("any path"));
 		
 		ArgumentCaptor<BugOrigin> argument = ArgumentCaptor.forClass(BugOrigin.class);
-		verify(session, times(1)).save(argument.capture());
+		verify(session).save(argument.capture());
 		
 		BugOrigin value = argument.getValue();
 		
 		assertSame(buggedCommit, value.getBuggedCommit());
 		verify(scm).blameCurrent("file 1", 2);
-		
+		verify(scm).blameCurrent("file 1", 3);
 	}
+	
+	@Test
+	public void shouldMakeTheRightMathIfLinesWereAddedInTheNewFileSoTheyDoNotExistInPrior() throws ToolException {
+		String diff = "old line\r\n" 
+			+ "- line removed\r\n"
+			+ "+ line added that must be ignored in math\r\n"
+			+ "+ line added that must be ignored in math\r\n"
+			+ "- line removed\r\n"
+			+ "common line\r\n" 
+			+ "+line added";
+		
+		// bugged commit
+		Commit buggedCommit = new Commit();
+		Criteria criteria = mock(Criteria.class);
+		when(session.createCriteria(Commit.class)).thenReturn(criteria);
+		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
+		when(criteria.uniqueResult()).thenReturn(buggedCommit);
+
+		// blame returning the bugged hash
+		when(scm.blameCurrent("file 1", 2)).thenReturn("bugged hash");
+		when(scm.blameCurrent("file 1", 3)).thenReturn("bugged hash");
+		
+		// creating current artifact
+		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
+		Commit commit = new Commit();
+		commit.setPriorCommit(aCommitWithId("prior-commit"));
+		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
+		commit.setMessage("a bug was fixed here");
+		commit.addArtifact(artifact);
+		commit.addModification(modification);
+		
+		tool.calculate(commit, new BuildResult("any path"));
+		
+		ArgumentCaptor<BugOrigin> argument = ArgumentCaptor.forClass(BugOrigin.class);
+		verify(session).save(argument.capture());
+		
+		BugOrigin value = argument.getValue();
+		
+		assertSame(buggedCommit, value.getBuggedCommit());
+		verify(scm).blameCurrent("file 1", 2);
+		verify(scm).blameCurrent("file 1", 3);
+	}
+	
+	
+	
 }

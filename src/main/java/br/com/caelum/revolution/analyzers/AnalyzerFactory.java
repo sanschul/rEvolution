@@ -5,7 +5,7 @@ import java.util.List;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildFactory;
 import br.com.caelum.revolution.config.Config;
-import br.com.caelum.revolution.domain.CommitConverter;
+import br.com.caelum.revolution.domain.PersistedCommitConverter;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.SCMFactory;
@@ -23,7 +23,7 @@ public class AnalyzerFactory {
 		List<Tool> tools = new ToolsFactory().basedOn(config);
 		ChangeSetCollection collection = new ChangeSetCollectionFactory(scm).basedOn(config);
 		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, tools, new CommitConverter(), new HibernatePersistence(config));
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, tools, new PersistedCommitConverter(), new HibernatePersistence(config));
 		
 		return new AnalyzerRunner(analyzer, collection);
 	}

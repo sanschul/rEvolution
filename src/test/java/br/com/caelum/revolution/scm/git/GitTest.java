@@ -64,8 +64,7 @@ public class GitTest {
 	
 	@Test
 	public void shouldGoToASpecificChangeSet() throws Exception {
-		ChangeSet specificChangeSet = new ChangeSet("abcd", Calendar.getInstance());
-		String path = new Git(repository, logParser, diffParser,blameParser,exec).goTo(specificChangeSet);
+		String path = new Git(repository, logParser, diffParser,blameParser,exec).goTo("abcd");
 		
 		assertEquals(repository, path);
 		verify(exec, times(3)).execute(any(String.class), any(String.class));		
@@ -75,7 +74,7 @@ public class GitTest {
 	public void shouldThrowSCMExceptionIfGetChangeSetFails() throws Exception {
 		when(exec.execute(any(String.class), any(String.class))).thenThrow(new RuntimeException());
 		
-		new Git(repository, logParser, diffParser,blameParser,exec).goTo(new ChangeSet("123", Calendar.getInstance()));
+		new Git(repository, logParser, diffParser,blameParser,exec).goTo("123");
 	}
 	
 	@Test @Ignore

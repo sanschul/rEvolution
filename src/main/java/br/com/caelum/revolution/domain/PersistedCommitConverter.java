@@ -11,9 +11,9 @@ import org.hibernate.criterion.Restrictions;
 import br.com.caelum.revolution.scm.CommitData;
 import br.com.caelum.revolution.scm.DiffData;
 
-public class CommitConverter {
+public class PersistedCommitConverter {
 
-	public Commit toDomain(CommitData data, Session session) throws ParseException {
+	public Commit toDomain(CommitData data, Session session, Commit priorCommit) throws ParseException {
 		
 		Author author = searchForPreviouslySavedAuthor(data.getAuthor(), session);
 		if(author == null) {
@@ -21,7 +21,7 @@ public class CommitConverter {
 			session.save(author);
 		}
 		
-		Commit commit = new Commit(data.getCommitId(), author, convertDate(data), data.getMessage(), data.getDiff());
+		Commit commit = new Commit(data.getCommitId(), author, convertDate(data), data.getMessage(), data.getDiff(), priorCommit);
 		session.save(commit);
 		
 		for (DiffData diff : data.getDiffs()) {

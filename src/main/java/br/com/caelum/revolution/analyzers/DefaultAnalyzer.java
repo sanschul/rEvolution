@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Commit;
-import br.com.caelum.revolution.domain.CommitConverter;
+import br.com.caelum.revolution.domain.PersistedCommitConverter;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.persistence.ToolThatPersists;
 import br.com.caelum.revolution.scm.CommitData;
@@ -27,10 +27,10 @@ public class DefaultAnalyzer implements Analyzer {
 	private final SCM scm;
 	private final HibernatePersistence persistence;
 	private static Logger log = LoggerFactory.getLogger(DefaultAnalyzer.class);
-	private final CommitConverter convert;
+	private final PersistedCommitConverter convert;
 
 	public DefaultAnalyzer(SCM scm, Build build, List<Tool> tools,
-			CommitConverter convert, HibernatePersistence persistence) {
+			PersistedCommitConverter convert, HibernatePersistence persistence) {
 		this.scm = scm;
 		this.sourceBuilder = build;
 		this.tools = tools;
@@ -44,6 +44,7 @@ public class DefaultAnalyzer implements Analyzer {
 		giveSessionToTools();
 		giveSCMToTools();
 
+		Commit commit = null;
 		for (ChangeSet changeSet : collection) {
 			try {
 				log.info("--------------------------");
@@ -51,10 +52,10 @@ public class DefaultAnalyzer implements Analyzer {
 				persistence.beginTransaction();
 
 				CommitData data = scm.detail(changeSet.getId());
-				Commit commit = convert.toDomain(data, persistence.getSession());
+				commit = convert.toDomain(data, persistence.getSession(), commit);
 				log.info("Author: " + commit.getAuthor().getName() + " on " + commit.getDate().getTime() + " with " + commit.getArtifacts().size() + " artifacts");
 
-				String path = scm.goTo(changeSet);
+				String path = scm.goTo(changeSet.getId());
 				BuildResult currentBuild = sourceBuilder.build(path);
 
 				runTools(commit, currentBuild);

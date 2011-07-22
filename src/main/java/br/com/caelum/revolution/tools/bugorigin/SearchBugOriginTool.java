@@ -1,6 +1,8 @@
 package br.com.caelum.revolution.tools.bugorigin;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
@@ -17,10 +19,11 @@ import br.com.caelum.revolution.scm.ToolThatUsesSCM;
 import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
+public class SearchBugOriginTool implements Tool, ToolThatPersists,
+		ToolThatUsesSCM {
 
-public class SearchBugOriginTool implements Tool, ToolThatPersists, ToolThatUsesSCM {
-
-	private static Logger log = LoggerFactory.getLogger(SearchBugOriginTool.class);
+	private static Logger log = LoggerFactory
+			.getLogger(SearchBugOriginTool.class);
 	private SCM scm;
 	private Session session;
 	private Set<String> commitsAlreadyAdded;
@@ -45,38 +48,65 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists, ToolThatUses
 	public void calculate(Commit commit, BuildResult current)
 			throws ToolException {
 		commitsAlreadyAdded = new HashSet<String>();
-		
-		if(!noKeywordsIn(commit)) return;
-		
+
+		if (!noKeywordsIn(commit))
+			return;
+
 		for (Modification modification : commit.getModifications()) {
-			log.info("Looking for bugs in artifact "+ modification.getArtifact().getName()  + "(commit " + commit.getCommitId()+")");
-			String[] lines = modification.getDiff().replace("\r", "").split("\n");
+			List<Integer> lines = findLinesToBeBlamedIn(modification);
 
-			int currentLine = 0;
-			for (int i = 0; i < lines.length; i++) {
-				currentLine++;
-				if (itRepresentsALineNumber(lines[i])) {
-					currentLine = Integer.parseInt(lines[i].substring(4, lines[i].indexOf(",")))-1;
-				}
-				else if (itRepresentsCodeThatWasRemoved(lines[i])) {
-					String hash = scm.blameCurrent(modification.getArtifact().getName(), currentLine);
-					log.info("Bugged hash for line "+ currentLine + ": " + hash);
-					
-					if (!commitsAlreadyAdded.contains(hash)) {
-						
-						Commit buggedCommit = (Commit) session
-								.createCriteria(Commit.class)
-								.add(Restrictions.eq("commitId", hash))
-								.uniqueResult();
+			log.info("Comming back to prior commit: " + modification.getCommit().getPriorCommit().getCommitId());
+			scm.goTo(modification.getCommit().getPriorCommit().getCommitId());
 
-						BugOrigin origin = new BugOrigin(buggedCommit, modification);
-						session.save(origin);
+			for (Integer buggedLine : lines) {
+				
+				String hash = scm.blameCurrent(modification.getArtifact().getName(), buggedLine);
+				log.info("Bugged hash for line " + buggedLine + ": " + hash);
 
-						commitsAlreadyAdded.add(hash);
-					}
+				if (!commitsAlreadyAdded.contains(hash)) {
+
+					Commit buggedCommit = (Commit) session
+							.createCriteria(Commit.class)
+							.add(Restrictions.eq("commitId", hash))
+							.uniqueResult();
+
+					BugOrigin origin = new BugOrigin(buggedCommit, modification);
+					session.save(origin);
+
+					commitsAlreadyAdded.add(hash);
 				}
 			}
 		}
+	}
+
+	private List<Integer> findLinesToBeBlamedIn(Modification modification) {
+		String[] lines = modification.getDiff().replace("\r", "").split("\n");
+		List<Integer> linesToBeBlamed = new ArrayList<Integer>();
+
+		int currentLine = 0;
+		for (int i = 0; i < lines.length; i++) {
+			currentLine++;
+			
+			if (itRepresentsALineNumber(lines[i])) {
+				currentLine = getLineNumberItGitDiffNotation(lines[i]);
+			}
+			if (itRepresentsCodeThatWasRemoved(lines[i])) {
+				linesToBeBlamed.add(currentLine);
+			}
+			if (itRepresentsCodeThatWasAdded(lines[i])) {
+				currentLine--;
+			}
+		}
+
+		return linesToBeBlamed;
+	}
+
+	private int getLineNumberItGitDiffNotation(String line) {
+		return Integer.parseInt(line.substring(4, line.indexOf(","))) - 1;
+	}
+
+	private boolean itRepresentsCodeThatWasAdded(String line) {
+		return line.startsWith("+");
 	}
 
 	private boolean itRepresentsALineNumber(String line) {
@@ -85,7 +115,8 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists, ToolThatUses
 
 	private boolean noKeywordsIn(Commit commit) {
 		for (String keyword : keywords) {
-			if(commit.getMessage().contains(keyword)) return true;
+			if (commit.getMessage().contains(keyword))
+				return true;
 		}
 		return false;
 	}

@@ -27,8 +27,8 @@ public class GitClone implements SCM{
 		return git.getChangeSets();
 	}
 
-	public String goTo(ChangeSet cs) {
-		return git.goTo(cs);
+	public String goTo(String id) {
+		return git.goTo(id);
 	}
 
 	public CommitData detail(String id) {

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,8 +21,9 @@ import org.junit.Test;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildException;
 import br.com.caelum.revolution.builds.BuildResult;
+import br.com.caelum.revolution.domain.Author;
 import br.com.caelum.revolution.domain.Commit;
-import br.com.caelum.revolution.domain.CommitConverter;
+import br.com.caelum.revolution.domain.PersistedCommitConverter;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.scm.CommitData;
 import br.com.caelum.revolution.scm.SCM;
@@ -39,19 +41,23 @@ public class DefaultAnalyzerTest {
 	private SCM scm;
 	private HibernatePersistence persistence;
 	private Session session;
-	private CommitConverter converter;
+	private PersistedCommitConverter converter;
+	private Commit commit;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws ParseException {
 		changeSet = new ChangeSet("123", Calendar.getInstance());
 		changeSets = aCollectionWith(changeSet);
 		build = mock(Build.class);
 		scm = mock(SCM.class);
-		converter = mock(CommitConverter.class);
+		converter = mock(PersistedCommitConverter.class);
 		
 		session = mock(Session.class);
 		persistence = mock(HibernatePersistence.class);
 		when(persistence.getSession()).thenReturn(session);
+		
+		commit = new Commit("123", new Author("John Doe", "email@email.com"), Calendar.getInstance(), "commit message", "all diff", null);
+		when(converter.toDomain(any(CommitData.class), any(Session.class), any(Commit.class))).thenReturn(commit);
 	}
 	
 	@Test
@@ -59,10 +65,10 @@ public class DefaultAnalyzerTest {
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, someMetricTools(), converter, persistence);
 		
 		String path = "/repo/path";
-		when(scm.goTo(changeSet)).thenReturn(path);
+		when(scm.goTo(changeSet.getId())).thenReturn(path);
 		analyzer.start(changeSets);
 		
-		verify(scm).goTo(changeSet);
+		verify(scm).goTo(changeSet.getId());
 		verify(build).build(path);
 	}
 	
