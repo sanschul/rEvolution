@@ -14,14 +14,20 @@ import br.com.caelum.revolution.scm.DiffData;
 public class CommitConverter {
 
 	public Commit toDomain(CommitData data, Session session) throws ParseException {
-		Commit commit = new Commit(data.getCommitId(), data.getAuthor(),
-				data.getEmail(), convertDate(data), data.getMessage(), data.getDiff());
+		
+		Author author = searchForPreviouslySavedAuthor(data.getAuthor(), session);
+		if(author == null) {
+			author = new Author(data.getAuthor(), data.getEmail());
+			session.save(author);
+		}
+		
+		Commit commit = new Commit(data.getCommitId(), author, convertDate(data), data.getMessage(), data.getDiff());
 		session.save(commit);
 		
 		for (DiffData diff : data.getDiffs()) {
-			Artifact artifact = searchForPreviouslySaved(diff.getName(), session);
+			Artifact artifact = searchForPreviouslySavedArtifact(diff.getName(), session);
 
-			if (itDoesNotExist(artifact)) {
+			if (artifact == null) {
 				artifact = new Artifact(diff.getName(), diff.getArtifactKind());
 				session.save(artifact);
 			}
@@ -35,11 +41,12 @@ public class CommitConverter {
 		return commit;
 	}
 
-	private boolean itDoesNotExist(Artifact artifact) {
-		return artifact == null;
+	private Author searchForPreviouslySavedAuthor(String name, Session session) {
+		Author author = (Author)session.createCriteria(Author.class).add(Restrictions.eq("name", name)).uniqueResult();
+		return author;
 	}
 
-	private Artifact searchForPreviouslySaved(String name, Session session) {
+	private Artifact searchForPreviouslySavedArtifact(String name, Session session) {
 		Artifact artifact = (Artifact) session
 				.createCriteria(Artifact.class)
 				.add(Restrictions.eq("name", name))

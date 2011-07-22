@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
@@ -20,8 +21,8 @@ public class Commit {
 	private int id;
 	
 	private String commitId;
-	private String author;
-	private String email;
+	@ManyToOne
+	private Author author;
 	private Calendar date;
 	private String message;
 	@Type(type="text")
@@ -32,12 +33,11 @@ public class Commit {
 	private List<Modification> modifications;
 	
 	
-	public Commit(String commitId, String author, String email, Calendar date,
+	public Commit(String commitId, Author author, Calendar date,
 			String message, String diff) {
 		this();
 		this.commitId = commitId;
 		this.author = author;
-		this.email = email;
 		this.date = date;
 		this.message = message;
 		this.diff = diff;
@@ -56,11 +56,11 @@ public class Commit {
 		this.commitId = commitId;
 	}
 
-	public String getAuthor() {
+	public Author getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(Author author) {
 		this.author = author;
 	}
 
@@ -86,14 +86,6 @@ public class Commit {
 
 	public void setDiff(String diff) {
 		this.diff = diff;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public int getId() {

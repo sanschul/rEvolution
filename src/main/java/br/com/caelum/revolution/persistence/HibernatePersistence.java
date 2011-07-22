@@ -9,6 +9,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.domain.Artifact;
+import br.com.caelum.revolution.domain.Author;
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.domain.Modification;
 
@@ -35,6 +36,8 @@ public class HibernatePersistence {
 		configuration.addAnnotatedClass(Commit.class);
 		configuration.addAnnotatedClass(Artifact.class);
 		configuration.addAnnotatedClass(Modification.class);
+		configuration.addAnnotatedClass(Author.class);
+		
 		for (Class<?> clazz : classes) {
 			configuration.addAnnotatedClass(clazz);
 		}
