@@ -1,7 +1,7 @@
 package br.com.caelum.revolution.scm.changesets;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import br.com.caelum.revolution.scm.SCM;
@@ -11,42 +11,16 @@ public class ChangeSetsInPeriod implements ChangeSetCollection {
 
 	private final Calendar startPeriod;
 	private final Calendar endPeriod;
-	private final List<ChangeSet> changeSets;
-	private final Iterator<ChangeSet> iterator;
-	private ChangeSet currentChangeSetInfo;
+	private final SCM scm;
 
 	public ChangeSetsInPeriod(SCM scm, Calendar startPeriod, Calendar endPeriod) {
+		this.scm = scm;
 		this.startPeriod = startPeriod;
 		this.endPeriod = endPeriod;
-		this.changeSets = scm.getChangeSets();
-		this.iterator = changeSets.iterator();
 	}
 
-	public boolean hasNext() {
-		while (iterator.hasNext()) {
-			currentChangeSetInfo = iterator.next();
-			if(isInPeriod()) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
-	private boolean isInPeriod() {
+	private boolean isInPeriod(ChangeSet currentChangeSetInfo) {
 		return currentChangeSetInfo.getTime().after(startPeriod) && currentChangeSetInfo.getTime().before(endPeriod);
-	}
-
-	public ChangeSet next() {
-		return currentChangeSetInfo;
-	}
-
-	public void remove() {
-		throw new UnsupportedOperationException(); 
-	}
-
-	public Iterator<ChangeSet> iterator() {
-		return this;
 	}
 
 	public Calendar getStartPeriod() {
@@ -55,6 +29,14 @@ public class ChangeSetsInPeriod implements ChangeSetCollection {
 
 	public Calendar getEndPeriod() {
 		return endPeriod;
+	}
+
+	public List<ChangeSet> get() {
+		List<ChangeSet> filteredList = new ArrayList<ChangeSet>();
+		for(ChangeSet cs : scm.getChangeSets()) {
+			if(isInPeriod(cs)) filteredList.add(cs);
+		}
+		return filteredList;
 	}
 
 }

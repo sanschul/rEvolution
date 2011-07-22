@@ -1,24 +1,18 @@
 package br.com.caelum.revolution.scm.changesets;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import br.com.caelum.revolution.scm.SCM;
-import br.com.caelum.revolution.scm.changesets.ChangeSet;
-import br.com.caelum.revolution.scm.changesets.ChangeSetsInPeriod;
-
 
 public class ChangeSetsInPeriodTest {
 	private Calendar someNewDate;
@@ -54,13 +48,11 @@ public class ChangeSetsInPeriodTest {
 		
 		ChangeSetsInPeriod collection = new ChangeSetsInPeriod(scm, startPeriod, endPeriod);
 		
-		Iterator<ChangeSet> sets = collection.iterator();
-		assertTrue(sets.hasNext());
+		List<ChangeSet> list = collection.get();
+		assertEquals(1, list.size());
 		
-		ChangeSet cs1 = sets.next();
+		ChangeSet cs1 = list.get(0);
 		assertEquals("abcd", cs1.getId());
-		
-		assertFalse(sets.hasNext());
 		
 		verify(scm).getChangeSets();
 	}
@@ -77,16 +69,14 @@ public class ChangeSetsInPeriodTest {
 		endPeriod.set(2010, 06, 01);
 		
 		ChangeSetsInPeriod collection = new ChangeSetsInPeriod(scm, startPeriod, endPeriod);
+		List<ChangeSet> list = collection.get();
+
+		assertEquals(2, list.size());
 		
-		Iterator<ChangeSet> sets = collection.iterator();
-		assertTrue(sets.hasNext());
-		
-		ChangeSet cs1 = sets.next();
+		ChangeSet cs1 = list.get(0);
 		assertEquals("abcd", cs1.getId());
 		
-		assertTrue(sets.hasNext());
-		
-		ChangeSet cs2 = sets.next();
+		ChangeSet cs2 = list.get(1);
 		assertEquals("efgh", cs2.getId());
 		
 		verify(scm).getChangeSets();

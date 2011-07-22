@@ -1,8 +1,7 @@
 package br.com.caelum.revolution.scm.changesets;
 
-import java.util.Iterator;
+import java.util.List;
 
-
-public interface ChangeSetCollection extends Iterator<ChangeSet>, Iterable<ChangeSet> {
-
+public interface ChangeSetCollection {
+	List<ChangeSet> get();
 }

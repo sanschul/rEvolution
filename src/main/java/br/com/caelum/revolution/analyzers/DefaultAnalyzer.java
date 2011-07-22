@@ -45,7 +45,7 @@ public class DefaultAnalyzer implements Analyzer {
 		giveSCMToTools();
 
 		Commit commit = null;
-		for (ChangeSet changeSet : collection) {
+		for (ChangeSet changeSet : collection.get()) {
 			try {
 				log.info("--------------------------");
 				log.info("Starting analyzing changeset " + changeSet.getId());

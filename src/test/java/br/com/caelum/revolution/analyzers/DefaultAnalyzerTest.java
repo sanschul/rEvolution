@@ -1,6 +1,5 @@
 package br.com.caelum.revolution.analyzers;
 
-import static br.com.caelum.revolution.scm.changesets.ChangeSetBuilder.aCollectionWith;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -10,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -185,5 +185,11 @@ public class DefaultAnalyzerTest {
 		when(c.getCommitId()).thenReturn(id);
 		return c;
 	}
-	
+
+	private ChangeSetCollection aCollectionWith(ChangeSet changeSet) {
+		ChangeSetCollection csc = mock(ChangeSetCollection.class);
+		when(csc.get()).thenReturn(Arrays.asList(changeSet));
+		return csc;
+	}
+
 }
