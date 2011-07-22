@@ -12,7 +12,6 @@ import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.domain.CommitConverter;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.persistence.ToolThatPersists;
-import br.com.caelum.revolution.postaction.PostAction;
 import br.com.caelum.revolution.scm.CommitData;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.ToolThatUsesSCM;
@@ -24,7 +23,6 @@ public class DefaultAnalyzer implements Analyzer {
 
 	private final Build sourceBuilder;
 	private final List<Tool> tools;
-	private final List<PostAction> actions;
 	private final List<Error> errors;
 	private final SCM scm;
 	private final HibernatePersistence persistence;
@@ -38,7 +36,6 @@ public class DefaultAnalyzer implements Analyzer {
 		this.tools = tools;
 		this.convert = convert;
 		this.persistence = persistence;
-		this.actions = new ArrayList<PostAction>();
 		this.errors = new ArrayList<Error>();
 	}
 
@@ -58,8 +55,6 @@ public class DefaultAnalyzer implements Analyzer {
 				BuildResult currentBuild = sourceBuilder.build(path);
 
 				runTools(commit, currentBuild);
-				notifyAll(commit);
-
 				persistence.commit();
 			} catch (Exception e) {
 				log.warn(
@@ -108,10 +103,6 @@ public class DefaultAnalyzer implements Analyzer {
 
 	}
 
-	public void addPostAction(PostAction observer) {
-		actions.add(observer);
-	}
-
 	public List<Error> getErrors() {
 		return errors;
 	}
@@ -123,12 +114,6 @@ public class DefaultAnalyzer implements Analyzer {
 			} catch (Exception e) {
 				errors.add(new Error(tool, commit, e));
 			}
-		}
-	}
-
-	private void notifyAll(Commit commit) {
-		for (PostAction action : actions) {
-			action.notify(commit);
 		}
 	}
 

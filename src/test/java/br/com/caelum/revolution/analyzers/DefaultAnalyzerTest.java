@@ -23,7 +23,6 @@ import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.domain.CommitConverter;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
-import br.com.caelum.revolution.postaction.PostAction;
 import br.com.caelum.revolution.scm.CommitData;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.changesets.ChangeSet;
@@ -77,18 +76,6 @@ public class DefaultAnalyzerTest {
 		verify(tool).calculate(any(Commit.class), any(BuildResult.class));
 	}
 	
-	@Test
-	public void shouldTellAllObserversAboutAChangeSet() {
-		PostAction observer = mock(PostAction.class);
-		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), converter, persistence);
-		analyzer.addPostAction(observer);
-
-		analyzer.start(changeSets);
-		
-		verify(observer).notify(any(Commit.class));
-	}
-
 	@Test @Ignore
 	public void shouldGiveSessionToTools() {
 		
