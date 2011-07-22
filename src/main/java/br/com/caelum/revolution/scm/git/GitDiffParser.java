@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 
 import br.com.caelum.revolution.domain.ArtifactKind;
 import br.com.caelum.revolution.domain.ModificationKind;
@@ -12,6 +13,14 @@ import br.com.caelum.revolution.scm.DiffData;
 
 public class GitDiffParser {
 
+	private static Map<ModificationKind, String> map;
+	
+	static {
+		map.put(ModificationKind.NEW, "new file mode");
+		map.put(ModificationKind.DELETED, "deleted file mode");
+		map.put(ModificationKind.DEFAULT, "nothing");
+	}
+	
 	public List<DiffData> parse(String diff) {
 		List<DiffData> allDiffs = new ArrayList<DiffData>();
 
@@ -51,7 +60,7 @@ public class GitDiffParser {
 		int modeLine = findDiffStart(lines) - 2;
 		
 		for(ModificationKind st : EnumSet.allOf(ModificationKind.class)) {
-			if(lines.get(modeLine).startsWith(st.getPattern())) return st;
+			if(lines.get(modeLine).startsWith(map.get(st))) return st;
 		}
 		
 		return ModificationKind.DEFAULT;
