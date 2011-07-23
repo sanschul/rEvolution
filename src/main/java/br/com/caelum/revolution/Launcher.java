@@ -7,14 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.revolution.analyzers.AnalyzerFactory;
-import br.com.caelum.revolution.analyzers.AnalyzerRunner;
-import br.com.caelum.revolution.analyzers.Error;
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.config.PropertiesConfig;
 
 
-public class Runner {
-	private static Logger log = LoggerFactory.getLogger(Runner.class);
+public class Launcher {
+	private static Logger log = LoggerFactory.getLogger(Launcher.class);
 	
 	public static void main(String[] args) throws Exception {
 		if(args.length==0) throw new Exception("missing config file");

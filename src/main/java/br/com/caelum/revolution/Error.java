@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.analyzers;
+package br.com.caelum.revolution;
 
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.scm.changesets.ChangeSet;

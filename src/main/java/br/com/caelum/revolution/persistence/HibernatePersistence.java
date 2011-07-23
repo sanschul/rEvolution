@@ -48,16 +48,16 @@ public class HibernatePersistence {
 		}
 		
 		sessionFactory = configuration.buildSessionFactory();
-		
-		session = sessionFactory.openSession();
 	}
 	
 	public void beginTransaction() {
+		session = sessionFactory.openSession();
 		session.beginTransaction();
 	}
 	
 	public void commit() {
 		session.getTransaction().commit();
+		session.close();
 	}
 	
 	public Session getSession() {
@@ -65,12 +65,12 @@ public class HibernatePersistence {
 	}
 
 	public void end() {
-		session.close();
 		sessionFactory.close();
 	}
 
 	public void rollback() {
 		session.getTransaction().rollback();
+		session.close();
 	}
 	
 }

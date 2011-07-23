@@ -85,7 +85,7 @@
 		<jar jarFile="${dist}/rEvolution-${DSTAMP}.jar" basedir="${bin}">
 			<fileset dir="${resources}"/>
 			<manifest>
-				<attribute name="Main-Class" value="br.com.caelum.revolution.Runner" />
+				<attribute name="Main-Class" value="br.com.caelum.revolution.Launcher" />
 				<attribute name="Class-Path" value="${manifest.classpath}" />
 			</manifest>
 		</jar>

@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.caelum.revolution.Error;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Commit;

@@ -34,13 +34,14 @@ public class GitDiffParser {
 			String content = findContent(lines);
 			String name = extractFileNameIn(lines.get(0));
 			ModificationKind status = findStatusIn(lines);
+			
 			allDiffs.add(new DiffData(name, content, status, content.isEmpty() ?  ArtifactKind.BINARY : ArtifactKind.CODE));
 		}
 
 		return allDiffs;
 	}
 
-	private int findDiffStart(List<String> lines) {
+	private int findTheLineWhereDiffStarts(List<String> lines) {
 		int start = 0;
 		for(String line : lines) {
 			start++;
@@ -50,7 +51,9 @@ public class GitDiffParser {
 	}
 	
 	private String findContent(List<String> lines) {
-		int lineDiffsStarts = findDiffStart(lines);
+		int lineDiffsStarts = findTheLineWhereDiffStarts(lines);
+		if(lineDiffsStarts == lines.size()) return "";
+		
 		if(!lines.get(lineDiffsStarts).startsWith("Binary files")) {
 			return transformInStringTheList(lines.subList(lineDiffsStarts+2, lines.size()));
 		}
@@ -59,7 +62,8 @@ public class GitDiffParser {
 
 	private ModificationKind findStatusIn(List<String> lines) {
 		
-		int modeLine = findDiffStart(lines) - 2;
+		int diffStarts = findTheLineWhereDiffStarts(lines);
+		int modeLine = diffStarts == lines.size() ? 1 : diffStarts - 2;
 		
 		for(ModificationKind st : EnumSet.allOf(ModificationKind.class)) {
 			if(lines.get(modeLine).startsWith(map.get(st))) return st;

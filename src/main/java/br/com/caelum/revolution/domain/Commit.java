@@ -25,6 +25,7 @@ public class Commit {
 	@ManyToOne
 	private Author author;
 	private Calendar date;
+	@Type(type="text")
 	private String message;
 	@Type(type="text")
 	private String diff;

@@ -131,4 +131,19 @@ public class GitDiffParserTests {
 		
 		assertEquals(0, diffs.size());
 	}
+	
+	@Test
+	public void shouldTreatNewFilesWithNoDiff() {
+		String log = "diff --git a/src/main/webapp/WEB-INF/jsp/comercial/turma/atualiza.invalid.jsp "+
+					"b/src/main/webapp/WEB-INF/jsp/comercial/turma/atuaa.invalid.jsp\r\n"+
+					"new file mode 100644" +
+					"index 0000000..e69de29";
+		
+		List<DiffData> diffs = new GitDiffParser().parse(log);
+
+		assertEquals(ModificationKind.NEW, diffs.get(0).getModificationKind());
+		assertEquals("", diffs.get(0).getDiff());
+
+		
+	}
 }

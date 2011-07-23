@@ -2,6 +2,7 @@ package br.com.caelum.revolution.analyzers;
 
 import java.util.List;
 
+import br.com.caelum.revolution.AnalyzerRunner;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildFactory;
 import br.com.caelum.revolution.config.Config;
@@ -25,7 +26,7 @@ public class AnalyzerFactory {
 		
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, tools, new PersistedCommitConverter(), new HibernatePersistence(config));
 		
-		return new AnalyzerRunner(analyzer, collection);
+		return new DefaultAnalyzerRunner(analyzer, collection);
 	}
 
 }
