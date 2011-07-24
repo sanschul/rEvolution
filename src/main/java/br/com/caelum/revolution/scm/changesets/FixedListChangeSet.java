@@ -1,9 +1,7 @@
-package br.com.caelum.revolution.scm;
+package br.com.caelum.revolution.scm.changesets;
 
 import java.util.List;
 
-import br.com.caelum.revolution.scm.changesets.ChangeSet;
-import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
 
 public class FixedListChangeSet implements ChangeSetCollection {
 

@@ -6,53 +6,40 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Lists;
+
 import br.com.caelum.revolution.AnalyzerRunner;
 import br.com.caelum.revolution.analyzers.Analyzer;
-import br.com.caelum.revolution.scm.FixedListChangeSet;
 import br.com.caelum.revolution.scm.changesets.ChangeSet;
 import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
+import br.com.caelum.revolution.scm.changesets.FixedListChangeSet;
 
 public class ThreadedAnalyzerRunner implements AnalyzerRunner {
 
 	private final List<Analyzer> analyzers;
-	private List<ChangeSet> allCs;
+	private List<List<ChangeSet>> partition;
+	private static Logger log = LoggerFactory.getLogger(ThreadedAnalyzerRunner.class);
 
 	public ThreadedAnalyzerRunner(List<Analyzer> analyzers, ChangeSetCollection allCs) {
 		this.analyzers = analyzers;
-		this.allCs = allCs.get();
+		List<ChangeSet> x = allCs.get();
+		this.partition = Lists.partition(x, analyzers.size());
 	}
 	
 	public void start() {
-		BlockingQueue<Runnable> worksQueue = new ArrayBlockingQueue<Runnable>(2);
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(3, 3, 10, TimeUnit.SECONDS, worksQueue);
+		BlockingQueue<Runnable> worksQueue = new ArrayBlockingQueue<Runnable>(5);
+		ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 30, TimeUnit.SECONDS, worksQueue);
 		executor.allowCoreThreadTimeOut(true);
 
-		for(Analyzer analyzer : analyzers) {
-			ChangeSetCollection splittedCs = splitChangeSetsABitMore();
-			executor.execute(new RunnableAnalyzer(analyzer, splittedCs));
-		}
-		
-	}
-
-	private ChangeSetCollection splitChangeSetsABitMore() {
-		if(allCs.size() > analyzers.size()) {
-			return new FixedListChangeSet(getAPiece());
-		}
-		else {
-			return new FixedListChangeSet(allCs);
+		for(int i = 0; i < analyzers.size(); i++) {
+			log.info("Starting thread " + i);
+			ChangeSetCollection splittedCs = new FixedListChangeSet(partition.get(i));
+			executor.execute(new RunnableAnalyzer(analyzers.get(i), splittedCs));
 		}
 	}
-
-	private List<ChangeSet> getAPiece() {
-		List<ChangeSet> list = allCs.subList(0, analyzers.size());
-		allCs.removeAll(list);
-		return list;
-	}
-
-	public List<Error> getErrors() {
-		return null;
-	}
-
 }
 
 class RunnableAnalyzer implements Runnable {

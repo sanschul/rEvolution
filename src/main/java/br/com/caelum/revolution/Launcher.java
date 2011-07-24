@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.revolution.analyzers.AnalyzerFactory;
+import br.com.caelum.revolution.analyzers.threaded.ThreadedAnalyzerFactory;
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.config.PropertiesConfig;
 
@@ -22,8 +23,14 @@ public class Launcher {
 		
 		log.info("rEvolution");
 		log.info("starting...");
-
-		AnalyzerRunner rev = new AnalyzerFactory().basedOn(config);
+		
+		AnalyzerRunner rev;
+		if(args.length == 2 && "--threaded".equals(args[1])) {
+			rev = new ThreadedAnalyzerFactory().basedOn(config);
+		}
+		else {
+			rev = new AnalyzerFactory().basedOn(config);
+		}
 		rev.start();
 		
 		log.info("FINISHED!");

@@ -30,5 +30,6 @@
 	<classpathentry kind="lib" path="lib/xstream-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-sources.jar"/>
 	<classpathentry kind="lib" path="lib/xstream.jar"/>
+	<classpathentry kind="lib" path="lib/guava.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

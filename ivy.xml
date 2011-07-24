@@ -16,6 +16,9 @@
 		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.1"/>
 		<dependency org="mysql" name="mysql-connector-java" rev="5.1.13"/>
 		<dependency org="commons-io" name="commons-io" rev="2.0.1"/>
+		<dependency org="com.google.guava" name="guava" rev="r09"/>
+		<dependency org="c3p0" name="c3p0" rev="0.9.1" conf="default" />
+		<dependency org="org.hibernate" name="hibernate-c3p0" rev="3.6.3.Final" conf="default" />
 				
 		<!-- Test dependencies -->
 		<dependency org="junit" name="junit" rev="4.8.2" conf="test->default" />
