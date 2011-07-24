@@ -34,9 +34,9 @@ public class Git implements SCM, ThreadableSCM {
 
 	public String goTo(String id) {
 		try {
-			exec.execute("git checkout master", repository);
-			exec.execute("git branch --no-track -f revolution " + id, repository + repositoryNumber);
-			exec.execute("git checkout revolution ", repository);
+			exec.execute("git checkout master -f", getRepoPath());
+			exec.execute("git branch --no-track -f revolution " + id, getRepoPath());
+			exec.execute("git checkout revolution ", getRepoPath());
 		} catch (Exception e) {
 			throw new SCMException(e);
 		}
@@ -44,9 +44,14 @@ public class Git implements SCM, ThreadableSCM {
 		return repository;
 	}
 
+	private String getRepoPath() {
+		return repository + repositoryNumber;
+	}
+
 	public List<ChangeSet> getChangeSets() {
 		try {
-			String output = exec.execute("git log --format=medium --date=iso --reverse", repository + repositoryNumber);
+			exec.execute("git checkout master -f", getRepoPath());
+			String output = exec.execute("git log --format=medium --date=iso --reverse", getRepoPath());
 			return logParser.parse(output);
 		} catch (Exception e) {
 			throw new SCMException(e);
@@ -61,7 +66,7 @@ public class Git implements SCM, ThreadableSCM {
 		try {
 			String response = exec.execute("git show "
 					+ id
-					+ " --pretty=format:<Commit><commitId>%H</commitId><author>%an</author><email>%ae</email><date>%ai</date><message><![CDATA[%s]]></message></Commit>", repository + repositoryNumber);
+					+ " --pretty=format:<Commit><commitId>%H</commitId><author><![CDATA[%an]]</author><email>%ae</email><date>%ai</date><message><![CDATA[%s]]></message></Commit>", getRepoPath());
 			XStream xs = new XStream(new DomDriver());
 			xs.alias("Commit", CommitData.class);
 
@@ -69,7 +74,7 @@ public class Git implements SCM, ThreadableSCM {
 					response.indexOf("</Commit>") + 9));
 			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));
 			
-			String priorCommit = exec.execute("git log " + id + "^1 --pretty=format:%H -n 1", repository + repositoryNumber);
+			String priorCommit = exec.execute("git log " + id + "^1 --pretty=format:%H -n 1", getRepoPath());
 			parsedCommit.setPriorCommit(priorCommit.trim());
 			
 			for(DiffData diffData : diffParser.parse(parsedCommit.getDiff())) {
@@ -83,7 +88,7 @@ public class Git implements SCM, ThreadableSCM {
 	}
 	
 	public String blameCurrent(String file, int line) {
-		String response = exec.execute("git blame " + file + " -L " + line + "," + line + " -l", repository + repositoryNumber);
+		String response = exec.execute("git blame " + file + " -L " + line + "," + line + " -l", getRepoPath());
 		return blameParser.getHash(response);
 	}
 
