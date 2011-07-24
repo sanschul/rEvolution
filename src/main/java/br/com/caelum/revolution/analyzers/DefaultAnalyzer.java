@@ -6,7 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.caelum.revolution.Error;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildResult;
 import br.com.caelum.revolution.domain.Commit;
@@ -24,7 +23,6 @@ public class DefaultAnalyzer implements Analyzer {
 
 	private final Build sourceBuilder;
 	private final List<Tool> tools;
-	private final List<Error> errors;
 	private final SCM scm;
 	private final HibernatePersistence persistence;
 	private static Logger log = LoggerFactory.getLogger(DefaultAnalyzer.class);
@@ -37,12 +35,10 @@ public class DefaultAnalyzer implements Analyzer {
 		this.tools = tools;
 		this.convert = convert;
 		this.persistence = persistence;
-		this.errors = new ArrayList<Error>();
 	}
 
 	public void start(ChangeSetCollection collection) {
 		startPersistenceEngine();
-		giveSessionToTools();
 		giveSCMToTools();
 
 		for (ChangeSet changeSet : collection.get()) {
@@ -50,6 +46,7 @@ public class DefaultAnalyzer implements Analyzer {
 				log.info("--------------------------");
 				log.info("Starting analyzing changeset " + changeSet.getId());
 				persistence.beginTransaction();
+				giveSessionToTools();
 
 				CommitData data = scm.detail(changeSet.getId());
 				Commit commit = convert.toDomain(data, persistence.getSession());
@@ -63,7 +60,6 @@ public class DefaultAnalyzer implements Analyzer {
 			} catch (Exception e) {
 				persistence.rollback();
 				log.warn("Something went wrong in changeset " + changeSet.getId(), e);
-				errors.add(new Error(changeSet, e));
 			}
 		}
 
@@ -106,17 +102,13 @@ public class DefaultAnalyzer implements Analyzer {
 
 	}
 
-	public List<Error> getErrors() {
-		return errors;
-	}
-
 	private void runTools(Commit commit, BuildResult currentBuild) {
 		for (Tool tool : tools) {
 			try {
 				log.info("running tool: " + tool.getName());
 				tool.calculate(commit, currentBuild);
 			} catch (Exception e) {
-				errors.add(new Error(tool, commit, e));
+				log.error("error in tool " + tool.getName(), e);
 			}
 		}
 	}

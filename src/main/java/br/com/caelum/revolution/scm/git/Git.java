@@ -59,7 +59,7 @@ public class Git implements SCM {
 		try {
 			String response = exec.execute("git show "
 					+ id
-					+ " --pretty=format:<Commit><commitId>%H</commitId><author>%an</author><email>%ae</email><date>%ai</date><message>%s</message></Commit>", repository);
+					+ " --pretty=format:<Commit><commitId>%H</commitId><author>%an</author><email>%ae</email><date>%ai</date><message><![CDATA[%s]]></message></Commit>", repository);
 			XStream xs = new XStream(new DomDriver());
 			xs.alias("Commit", CommitData.class);
 

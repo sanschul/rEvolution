@@ -1,9 +1,6 @@
 package br.com.caelum.revolution.analyzers;
 
-import java.util.List;
-
 import br.com.caelum.revolution.AnalyzerRunner;
-import br.com.caelum.revolution.Error;
 import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
 
 
@@ -21,8 +18,4 @@ public class DefaultAnalyzerRunner implements AnalyzerRunner {
 		analyzer.start(collection);
 	}
 	
-	public List<Error> getErrors() {
-		return analyzer.getErrors();
-	}
-
 }

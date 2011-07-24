@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import br.com.caelum.revolution.AnalyzerRunner;
-import br.com.caelum.revolution.Error;
 import br.com.caelum.revolution.analyzers.Analyzer;
 import br.com.caelum.revolution.scm.FixedListChangeSet;
 import br.com.caelum.revolution.scm.changesets.ChangeSet;

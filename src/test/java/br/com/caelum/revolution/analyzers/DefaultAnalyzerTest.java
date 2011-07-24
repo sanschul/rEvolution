@@ -1,8 +1,6 @@
 package br.com.caelum.revolution.analyzers;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -143,30 +141,7 @@ public class DefaultAnalyzerTest {
 		
 		verify(scm).detail("123");
 	}
-	@Test
-	public void shouldGenerateAErrorIfAToolFails() throws ToolException {
-		Tool failedTool = mock(Tool.class);
-		when(failedTool.getName()).thenReturn("bad tool");
-		
-		CommitData commit = aCommitDataWithId("123");
-		when(scm.detail("123")).thenReturn(commit);
-		doThrow(new ToolException(new Exception())).when(failedTool).calculate(any(Commit.class), any(BuildResult.class));
-		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(failedTool), converter, persistence);
-		analyzer.start(changeSets);
-		
-		assertEquals(1, analyzer.getErrors().size());
-	}
 	
-	@Test
-	public void shouldGenerateAErrorIfSomethingFailsInChangeset() throws BuildException {
-		when(build.build(any(String.class))).thenThrow(new BuildException(new Exception()));
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), converter, persistence);
-		analyzer.start(changeSets);
-		
-		assertEquals(1, analyzer.getErrors().size());
-	}
-
 	private List<Tool> aToolListWith(Tool tool) {
 		List<Tool> tools = new ArrayList<Tool>();
 		tools.add(tool);

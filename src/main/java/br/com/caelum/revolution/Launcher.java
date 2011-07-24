@@ -27,10 +27,5 @@ public class Launcher {
 		rev.start();
 		
 		log.info("FINISHED!");
-		log.info("errors: " + rev.getErrors().size());
-		for(Error e : rev.getErrors()) {
-			log.info("====================================================");
-			log.info(e.getError());
-		}
 	}
 }
