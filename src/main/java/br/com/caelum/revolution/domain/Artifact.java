@@ -26,10 +26,14 @@ public class Artifact {
 	@OneToMany(mappedBy="artifact", cascade=CascadeType.ALL)
 	private List<Modification> modifications;
 	
+	public Artifact() {
+		modifications = new ArrayList<Modification>();
+	}
+	
 	public Artifact(String name, ArtifactKind kind) {
+		this();
 		this.name = name;
 		this.kind = kind;
-		modifications = new ArrayList<Modification>();
 	}
 
 	public int getId() {
