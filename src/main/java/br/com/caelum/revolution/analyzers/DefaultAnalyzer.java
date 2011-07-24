@@ -45,7 +45,6 @@ public class DefaultAnalyzer implements Analyzer {
 		giveSessionToTools();
 		giveSCMToTools();
 
-		Commit commit = null;
 		for (ChangeSet changeSet : collection.get()) {
 			try {
 				log.info("--------------------------");
@@ -53,7 +52,7 @@ public class DefaultAnalyzer implements Analyzer {
 				persistence.beginTransaction();
 
 				CommitData data = scm.detail(changeSet.getId());
-				commit = convert.toDomain(data, persistence.getSession(), commit);
+				Commit commit = convert.toDomain(data, persistence.getSession());
 				log.info("Author: " + commit.getAuthor().getName() + " on " + commit.getDate().getTime() + " with " + commit.getArtifacts().size() + " artifacts");
 
 				String path = scm.goTo(changeSet.getId());
@@ -63,7 +62,6 @@ public class DefaultAnalyzer implements Analyzer {
 				persistence.commit();
 			} catch (Exception e) {
 				persistence.rollback();
-				commit = null;
 				log.warn("Something went wrong in changeset " + changeSet.getId(), e);
 				errors.add(new Error(changeSet, e));
 			}

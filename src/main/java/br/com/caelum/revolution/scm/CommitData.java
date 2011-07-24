@@ -12,6 +12,7 @@ public class CommitData {
 	private String message;
 	private String diff;
 	private List<DiffData> diffs;
+	private String priorCommit; 
 	
 	public CommitData() {
 		diffs = new ArrayList<DiffData>();
@@ -62,6 +63,14 @@ public class CommitData {
 
 	public List<DiffData> getDiffs() {
 		return (diffs == null ? new ArrayList<DiffData>() : diffs);
+	}
+
+	public String getPriorCommit() {
+		return priorCommit;
+	}
+
+	public void setPriorCommit(String priorCommit) {
+		this.priorCommit = priorCommit;
 	}
 
 

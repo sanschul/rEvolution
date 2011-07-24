@@ -39,11 +39,6 @@ public class SearchBugOriginToolTest {
 		tool.setSCM(scm);
 	}
 	
-	private Commit aCommitWithId(String id) {
-		Commit commit = new Commit();
-		commit.setCommitId(id);
-		return commit;
-	}
 	@Test
 	public void shouldIdentifyLineNumbersInTheMiddleOfTheDiff() throws ToolException {
 		String diff = "+ line added\r\n" 
@@ -65,7 +60,7 @@ public class SearchBugOriginToolTest {
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		commit.setPriorCommit(aCommitWithId("prior-commit"));
+		commit.setPriorCommit("prior-commit");
 		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a bug was fixed here");
 		commit.addArtifact(artifact);
@@ -116,7 +111,7 @@ public class SearchBugOriginToolTest {
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		commit.setPriorCommit(aCommitWithId("prior-commit"));
+		commit.setPriorCommit("prior-commit");
 		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a bug was fixed here");
 		commit.addArtifact(artifact);
@@ -158,7 +153,7 @@ public class SearchBugOriginToolTest {
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		commit.setPriorCommit(aCommitWithId("prior-commit"));
+		commit.setPriorCommit("prior-commit");
 		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a bug was fixed here");
 		commit.addArtifact(artifact);

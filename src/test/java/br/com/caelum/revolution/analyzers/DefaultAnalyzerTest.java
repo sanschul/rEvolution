@@ -57,7 +57,7 @@ public class DefaultAnalyzerTest {
 		when(persistence.getSession()).thenReturn(session);
 		
 		commit = new Commit("123", new Author("John Doe", "email@email.com"), Calendar.getInstance(), "commit message", "all diff", null);
-		when(converter.toDomain(any(CommitData.class), any(Session.class), any(Commit.class))).thenReturn(commit);
+		when(converter.toDomain(any(CommitData.class), any(Session.class))).thenReturn(commit);
 	}
 	
 	@Test

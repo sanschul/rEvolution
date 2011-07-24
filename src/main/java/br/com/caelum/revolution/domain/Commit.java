@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Type;
 
@@ -33,18 +32,17 @@ public class Commit {
 	private List<Artifact> artifacts;
 	@OneToMany(mappedBy="commit", cascade=CascadeType.ALL)
 	private List<Modification> modifications;
-	@OneToOne
-	private Commit priorCommit;
+	private String priorCommitId;
 	
 	public Commit(String commitId, Author author, Calendar date,
-			String message, String diff, Commit priorCommit) {
+			String message, String diff, String priorCommitId) {
 		this();
 		this.commitId = commitId;
 		this.author = author;
 		this.date = date;
 		this.message = message;
 		this.diff = diff;
-		this.priorCommit = priorCommit;
+		this.priorCommitId = priorCommitId;
 	}
 
 	public Commit() {
@@ -116,15 +114,12 @@ public class Commit {
 		modifications.add(modification);
 	}
 
-	public Commit getPriorCommit() {
-		return priorCommit;
+	public String  getPriorCommitId() {
+		return priorCommitId;
 	}
 
-	public void setPriorCommit(Commit priorCommit) {
-		this.priorCommit = priorCommit;
+	public void setPriorCommit(String priorCommitId) {
+		this.priorCommitId = priorCommitId;
 	}
 
-
-	
-	
 }

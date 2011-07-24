@@ -13,7 +13,7 @@ import br.com.caelum.revolution.scm.DiffData;
 
 public class PersistedCommitConverter {
 
-	public Commit toDomain(CommitData data, Session session, Commit priorCommit) throws ParseException {
+	public Commit toDomain(CommitData data, Session session) throws ParseException {
 		
 		Author author = searchForPreviouslySavedAuthor(data.getAuthor(), session);
 		if(author == null) {
@@ -21,7 +21,7 @@ public class PersistedCommitConverter {
 			session.save(author);
 		}
 		
-		Commit commit = new Commit(data.getCommitId(), author, convertDate(data), data.getMessage(), data.getDiff(), priorCommit);
+		Commit commit = new Commit(data.getCommitId(), author, convertDate(data), data.getMessage(), data.getDiff(), data.getPriorCommit());
 		session.save(commit);
 		
 		for (DiffData diff : data.getDiffs()) {

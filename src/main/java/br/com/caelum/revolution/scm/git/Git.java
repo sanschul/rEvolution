@@ -67,6 +67,9 @@ public class Git implements SCM {
 					response.indexOf("</Commit>") + 9));
 			parsedCommit.setDiff(response.substring(response.indexOf("</Commit>") + 9));
 			
+			String priorCommit = exec.execute("git log " + id + " --pretty=format:%H -n 1", repository);
+			parsedCommit.setPriorCommit(priorCommit.trim());
+			
 			for(DiffData diffData : diffParser.parse(parsedCommit.getDiff())) {
 				parsedCommit.addDiff(diffData);
 			}

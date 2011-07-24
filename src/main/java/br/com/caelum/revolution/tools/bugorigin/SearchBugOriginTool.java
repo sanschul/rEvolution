@@ -55,8 +55,8 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists,
 		for (Modification modification : commit.getModifications()) {
 			List<Integer> lines = findLinesToBeBlamedIn(modification);
 
-			log.info("Comming back to prior commit: " + modification.getCommit().getPriorCommit().getCommitId());
-			scm.goTo(modification.getCommit().getPriorCommit().getCommitId());
+			log.info("Comming back to prior commit: " + modification.getCommit().getPriorCommitId());
+			scm.goTo(modification.getCommit().getPriorCommitId());
 
 			for (Integer buggedLine : lines) {
 				
