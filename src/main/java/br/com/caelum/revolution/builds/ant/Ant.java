@@ -11,16 +11,14 @@ public class Ant implements Build {
 	private final CommandExecutor executor;
 	private final String task;
 	private final String buildPath;
-	private final SCM scm;
 
-	public Ant(SCM scm, CommandExecutor executor, String task, String buildPath) {
-		this.scm = scm;
+	public Ant(CommandExecutor executor, String task, String buildPath) {
 		this.executor = executor;
 		this.task = task;
 		this.buildPath = buildPath;
 	}
 
-	public BuildResult build(String commitId) throws BuildException {
+	public BuildResult build(String commitId, SCM scm) throws BuildException {
 		try {
 			String path = scm.goTo(commitId);
 			executor.execute("ant " + task, path);

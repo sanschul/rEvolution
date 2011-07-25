@@ -23,6 +23,7 @@ public class ThreadedAnalyzerFactory {
 
 	public AnalyzerRunner basedOn(Config config) {
 		ChangeSetCollection globalCollection = null;
+		Build build = new BuildFactory().basedOn(config);
 		List<Tool> tools = new ToolsFactory().basedOn(config);
 		
 		List<Analyzer> all = new ArrayList<Analyzer>();
@@ -32,7 +33,6 @@ public class ThreadedAnalyzerFactory {
 			ThreadableSCM threadableScm = (ThreadableSCM)specificScm;
 			threadableScm.setRepositoryNumber(i+1);
 			
-			Build build = new BuildFactory().basedOn(config, specificScm);
 			
 			all.add(new DefaultAnalyzer(specificScm, build, tools, new PersistedCommitConverter(), new HibernatePersistence(config)));
 			

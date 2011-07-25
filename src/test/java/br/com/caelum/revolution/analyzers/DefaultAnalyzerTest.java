@@ -64,7 +64,7 @@ public class DefaultAnalyzerTest {
 		
 		analyzer.start(changeSets);
 		
-		verify(build).build("123");
+		verify(build).build("123", scm);
 	}
 	
 	@Test

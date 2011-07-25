@@ -29,7 +29,7 @@ public class AntTest {
 		
 		executor = mock(CommandExecutor.class);
 		scm = mock(SCM.class);
-		ant = new Ant(scm, executor, task, buildPath);
+		ant = new Ant(executor, task, buildPath);
 	}
 	
 	@Test
@@ -39,14 +39,14 @@ public class AntTest {
 		
 		when(scm.goTo(commitId)).thenReturn(path);
 		
-		ant.build(commitId);
+		ant.build(commitId, scm);
 		
 		verify(executor).execute("ant " + task, path);
 	}
 	
 	@Test
 	public void shouldReturnBuildPath() throws Exception {
-		BuildResult result = ant.build("123");
+		BuildResult result = ant.build("123", scm);
 		when(scm.goTo("123")).thenReturn("some/path");
 		
 		assertEquals(buildPath, result.getDirectory());

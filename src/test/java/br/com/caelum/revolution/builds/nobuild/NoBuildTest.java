@@ -13,6 +13,6 @@ public class NoBuildTest {
 	@Test
 	public void shouldReturnNothing() throws BuildException {
 		NoBuild noBuild = new NoBuild();
-		assertNull(noBuild.build("any-path"));
+		assertNull(noBuild.build("any-path", null));
 	}
 }

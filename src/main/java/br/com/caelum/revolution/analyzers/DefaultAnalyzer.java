@@ -46,7 +46,7 @@ public class DefaultAnalyzer implements Analyzer {
 				log.info("--------------------------");
 				log.info("Starting analyzing changeset " + changeSet.getId());
 				CommitData data = scm.detail(changeSet.getId());
-				BuildResult currentBuild = sourceBuilder.build(changeSet.getId());
+				BuildResult currentBuild = sourceBuilder.build(changeSet.getId(), scm);
 
 				persistence.beginTransaction();
 				Commit commit = convert.toDomain(data, persistence.getSession());
