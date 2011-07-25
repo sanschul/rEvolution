@@ -45,16 +45,14 @@ public class DefaultAnalyzer implements Analyzer {
 			try {
 				log.info("--------------------------");
 				log.info("Starting analyzing changeset " + changeSet.getId());
-				persistence.beginTransaction();
-				giveSessionToTools();
-
 				CommitData data = scm.detail(changeSet.getId());
+				BuildResult currentBuild = sourceBuilder.build(changeSet.getId());
+
+				persistence.beginTransaction();
 				Commit commit = convert.toDomain(data, persistence.getSession());
 				log.info("Author: " + commit.getAuthor().getName() + " on " + commit.getDate().getTime() + " with " + commit.getArtifacts().size() + " artifacts");
 
-				String path = scm.goTo(changeSet.getId());
-				BuildResult currentBuild = sourceBuilder.build(path);
-
+				giveSessionToTools();
 				runTools(commit, currentBuild);
 				persistence.commit();
 			} catch (Exception e) {

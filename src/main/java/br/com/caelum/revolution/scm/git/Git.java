@@ -22,7 +22,8 @@ public class Git implements SCM, ThreadableSCM {
 	private final GitDiffParser diffParser;
 	private final GitBlameParser blameParser;
 	private String repositoryNumber;
-
+	private String currentPosition;
+	
 	public Git(String repository, GitLogParser logParser, GitDiffParser diffParser, GitBlameParser blameParser, CommandExecutor exec) {
 		this.repository = repository;
 		this.logParser = logParser;
@@ -33,12 +34,16 @@ public class Git implements SCM, ThreadableSCM {
 	}
 
 	public String goTo(String id) {
-		try {
-			exec.execute("git checkout master -f", getRepoPath());
-			exec.execute("git branch --no-track -f revolution " + id, getRepoPath());
-			exec.execute("git checkout revolution ", getRepoPath());
-		} catch (Exception e) {
-			throw new SCMException(e);
+		if(!id.equals(currentPosition)) {
+			try {
+				exec.execute("git checkout master -f", getRepoPath());
+				exec.execute("git branch --no-track -f revolution " + id, getRepoPath());
+				exec.execute("git checkout revolution ", getRepoPath());
+			} catch (Exception e) {
+				throw new SCMException(e);
+			}
+			
+			currentPosition = id;
 		}
 
 		return repository;
@@ -66,7 +71,7 @@ public class Git implements SCM, ThreadableSCM {
 		try {
 			String response = exec.execute("git show "
 					+ id
-					+ " --pretty=format:<Commit><commitId>%H</commitId><author><![CDATA[%an]]</author><email>%ae</email><date>%ai</date><message><![CDATA[%s]]></message></Commit>", getRepoPath());
+					+ " --pretty=format:<Commit><commitId>%H</commitId><author><![CDATA[%an]]></author><email>%ae</email><date>%ai</date><message><![CDATA[%s]]></message></Commit>", getRepoPath());
 			XStream xs = new XStream(new DomDriver());
 			xs.alias("Commit", CommitData.class);
 
@@ -87,8 +92,9 @@ public class Git implements SCM, ThreadableSCM {
 		}
 	}
 	
-	public String blameCurrent(String file, int line) {
-		String response = exec.execute("git blame " + file + " -L " + line + "," + line + " -l", getRepoPath());
+	public String blame(String commitId, String file, int line) {
+		goTo(commitId);
+		String response = exec.execute("git blame " + file + " -L " + line + "," + line + " -l ", getRepoPath());
 		return blameParser.getHash(response);
 	}
 

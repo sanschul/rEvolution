@@ -20,7 +20,7 @@ public class AnalyzerFactory {
 
 	public AnalyzerRunner basedOn(Config config) {
 		SCM scm = new SCMFactory().basedOn(config);
-		Build build = new BuildFactory().basedOn(config);
+		Build build = new BuildFactory().basedOn(config, scm);
 		List<Tool> tools = new ToolsFactory().basedOn(config);
 		ChangeSetCollection collection = new ChangeSetCollectionFactory(scm).basedOn(config);
 		

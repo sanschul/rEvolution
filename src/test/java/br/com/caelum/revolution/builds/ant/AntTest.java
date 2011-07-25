@@ -3,14 +3,15 @@ package br.com.caelum.revolution.builds.ant;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildResult;
-import br.com.caelum.revolution.builds.ant.Ant;
 import br.com.caelum.revolution.executor.CommandExecutor;
+import br.com.caelum.revolution.scm.SCM;
 
 
 public class AntTest {
@@ -19,6 +20,7 @@ public class AntTest {
 	private CommandExecutor executor;
 	private String task;
 	private String buildPath;
+	private SCM scm;
 
 	@Before
 	public void setUp() {
@@ -26,20 +28,26 @@ public class AntTest {
 		buildPath = "/build/path";
 		
 		executor = mock(CommandExecutor.class);
-		ant = new Ant(executor, task, buildPath);
+		scm = mock(SCM.class);
+		ant = new Ant(scm, executor, task, buildPath);
 	}
 	
 	@Test
 	public void shouldCallAnt() throws Exception {
 		String path = "some/path";
-		ant.build(path);
+		String commitId = "123";
+		
+		when(scm.goTo(commitId)).thenReturn(path);
+		
+		ant.build(commitId);
 		
 		verify(executor).execute("ant " + task, path);
 	}
 	
 	@Test
 	public void shouldReturnBuildPath() throws Exception {
-		BuildResult result = ant.build("some/path");
+		BuildResult result = ant.build("123");
+		when(scm.goTo("123")).thenReturn("some/path");
 		
 		assertEquals(buildPath, result.getDirectory());
 	}

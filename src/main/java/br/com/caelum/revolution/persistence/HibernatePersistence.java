@@ -41,6 +41,8 @@ public class HibernatePersistence {
 				configuration.setProperty("hibernate.c3p0.max_statements", "0");
 				configuration.setProperty("hibernate.c3p0.min_size", "5");
 				configuration.setProperty("hibernate.c3p0.timeout", "1800");
+				
+				configuration.setProperty("hibernate.connection.isolation", "1");
 		
 				
 				configuration.addAnnotatedClass(Commit.class);

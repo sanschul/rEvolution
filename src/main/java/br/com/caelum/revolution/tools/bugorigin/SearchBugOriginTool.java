@@ -55,12 +55,9 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists,
 		for (Modification modification : commit.getModifications()) {
 			List<Integer> lines = findLinesToBeBlamedIn(modification);
 
-			log.info("Comming back to prior commit: " + modification.getCommit().getPriorCommitId());
-			scm.goTo(modification.getCommit().getPriorCommitId());
-
 			for (Integer buggedLine : lines) {
 				
-				String hash = scm.blameCurrent(modification.getArtifact().getName(), buggedLine);
+				String hash = scm.blame(modification.getCommit().getPriorCommitId(), modification.getArtifact().getName(), buggedLine);
 				log.info("Bugged hash for line " + buggedLine + ": " + hash);
 
 				if (!commitsAlreadyAdded.contains(hash)) {

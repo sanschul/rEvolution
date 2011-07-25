@@ -62,12 +62,9 @@ public class DefaultAnalyzerTest {
 	public void shouldBuildAllChangeSets() throws BuildException {		
 		Analyzer analyzer = new DefaultAnalyzer(scm, build, someMetricTools(), converter, persistence);
 		
-		String path = "/repo/path";
-		when(scm.goTo(changeSet.getId())).thenReturn(path);
 		analyzer.start(changeSets);
 		
-		verify(scm).goTo(changeSet.getId());
-		verify(build).build(path);
+		verify(build).build("123");
 	}
 	
 	@Test

@@ -55,12 +55,12 @@ public class SearchBugOriginToolTest {
 		when(criteria.uniqueResult()).thenReturn(buggedCommit);
 
 		// blame returning the bugged hash
-		when(scm.blameCurrent("file 1", 10)).thenReturn("bugged hash");
+		when(scm.blame("123", "file 1", 10)).thenReturn("bugged hash");
 		
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		commit.setPriorCommit("prior-commit");
+		commit.setPriorCommit("123");
 		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a bug was fixed here");
 		commit.addArtifact(artifact);
@@ -74,8 +74,7 @@ public class SearchBugOriginToolTest {
 		BugOrigin value = argument.getValue();
 		assertSame(buggedCommit, value.getBuggedCommit());
 		
-		verify(scm).blameCurrent("file 1", 10);
-		verify(scm).goTo("prior-commit");
+		verify(scm).blame("123", "file 1", 10);
 		
 	}
 	
@@ -105,13 +104,13 @@ public class SearchBugOriginToolTest {
 		when(criteria.uniqueResult()).thenReturn(buggedCommit);
 
 		// blame returning the bugged hash
-		when(scm.blameCurrent("file 1", 2)).thenReturn("bugged hash");
-		when(scm.blameCurrent("file 1", 3)).thenReturn("bugged hash");
+		when(scm.blame("123", "file 1", 2)).thenReturn("bugged hash");
+		when(scm.blame("123", "file 1", 3)).thenReturn("bugged hash");
 		
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		commit.setPriorCommit("prior-commit");
+		commit.setPriorCommit("123");
 		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a bug was fixed here");
 		commit.addArtifact(artifact);
@@ -125,8 +124,8 @@ public class SearchBugOriginToolTest {
 		BugOrigin value = argument.getValue();
 		
 		assertSame(buggedCommit, value.getBuggedCommit());
-		verify(scm).blameCurrent("file 1", 2);
-		verify(scm).blameCurrent("file 1", 3);
+		verify(scm).blame("123", "file 1", 2);
+		verify(scm).blame("123", "file 1", 3);
 	}
 	
 	@Test
@@ -147,13 +146,13 @@ public class SearchBugOriginToolTest {
 		when(criteria.uniqueResult()).thenReturn(buggedCommit);
 
 		// blame returning the bugged hash
-		when(scm.blameCurrent("file 1", 2)).thenReturn("bugged hash");
-		when(scm.blameCurrent("file 1", 3)).thenReturn("bugged hash");
+		when(scm.blame("123", "file 1", 2)).thenReturn("bugged hash");
+		when(scm.blame("123", "file 1", 3)).thenReturn("bugged hash");
 		
 		// creating current artifact
 		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		commit.setPriorCommit("prior-commit");
+		commit.setPriorCommit("123");
 		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
 		commit.setMessage("a bug was fixed here");
 		commit.addArtifact(artifact);
@@ -167,8 +166,8 @@ public class SearchBugOriginToolTest {
 		BugOrigin value = argument.getValue();
 		
 		assertSame(buggedCommit, value.getBuggedCommit());
-		verify(scm).blameCurrent("file 1", 2);
-		verify(scm).blameCurrent("file 1", 3);
+		verify(scm).blame("123", "file 1", 2);
+		verify(scm).blame("123", "file 1", 3);
 	}
 	
 	

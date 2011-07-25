@@ -1,6 +1,7 @@
 package br.com.caelum.revolution.scm.git;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -18,10 +19,6 @@ import org.junit.Test;
 import br.com.caelum.revolution.executor.CommandExecutor;
 import br.com.caelum.revolution.scm.SCMException;
 import br.com.caelum.revolution.scm.changesets.ChangeSet;
-import br.com.caelum.revolution.scm.git.Git;
-import br.com.caelum.revolution.scm.git.GitBlameParser;
-import br.com.caelum.revolution.scm.git.GitDiffParser;
-import br.com.caelum.revolution.scm.git.GitLogParser;
 
 
 public class GitTest {
@@ -50,9 +47,9 @@ public class GitTest {
 		
 		List<ChangeSet> retrievedList = new Git(repository, logParser, diffParser, blameParser, exec).getChangeSets();
 		
-		assertEquals(retrievedList, csList);
+		assertSame(retrievedList, csList);
 		verify(logParser).parse(output);
-		verify(exec).execute(any(String.class), any(String.class));
+		verify(exec, times(2)).execute(any(String.class), any(String.class));
 	}
 	
 	@Test(expected=SCMException.class)
