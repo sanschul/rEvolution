@@ -1,5 +1,6 @@
 package br.com.caelum.revolution.persistence;
 
+import java.sql.Connection;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -19,7 +20,7 @@ public class HibernatePersistence {
 	private Session session;
 	private final Config config;
 	private static SessionFactory sessionFactory;
-	private static Integer lock = new Integer(0);
+	private static Integer lock = new Integer(3000);
 	
 	public HibernatePersistence(Config config) {
 		this.config = config;
@@ -41,6 +42,8 @@ public class HibernatePersistence {
 			configuration.setProperty("hibernate.c3p0.max_statements", "0");
 			configuration.setProperty("hibernate.c3p0.min_size", "5");
 			configuration.setProperty("hibernate.c3p0.timeout", "1800");
+			
+			configuration.setProperty("hibernate.connection.isolation", String.valueOf(Connection.TRANSACTION_READ_COMMITTED));
 			
 			configuration.addAnnotatedClass(Commit.class);
 			configuration.addAnnotatedClass(Artifact.class);
