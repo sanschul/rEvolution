@@ -28,7 +28,7 @@ public class Commit {
 	private String message;
 	@Type(type="text")
 	private String diff;
-	@ManyToMany(cascade=CascadeType.ALL, mappedBy="commits")
+	@ManyToMany(cascade=CascadeType.ALL)
 	private List<Artifact> artifacts;
 	@OneToMany(mappedBy="commit", cascade=CascadeType.ALL)
 	private List<Modification> modifications;

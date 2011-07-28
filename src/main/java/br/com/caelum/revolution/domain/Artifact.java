@@ -21,7 +21,7 @@ public class Artifact {
 	private String name;
 	@Enumerated(EnumType.STRING)
 	private ArtifactKind kind;
-	@ManyToMany
+	@ManyToMany(mappedBy="artifacts")
 	private List<Commit> commits;
 	@OneToMany(mappedBy="artifact", cascade=CascadeType.ALL)
 	private List<Modification> modifications;
