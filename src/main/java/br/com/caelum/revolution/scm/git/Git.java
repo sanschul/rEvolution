@@ -38,7 +38,7 @@ public class Git implements SCM, ThreadableSCM {
 			try {
 				exec.execute("git checkout master -f", getRepoPath());
 				exec.execute("git branch --no-track -f revolution " + id, getRepoPath());
-				exec.execute("git checkout revolution ", getRepoPath());
+				exec.execute("git checkout revolution -f", getRepoPath());
 			} catch (Exception e) {
 				throw new SCMException(e);
 			}

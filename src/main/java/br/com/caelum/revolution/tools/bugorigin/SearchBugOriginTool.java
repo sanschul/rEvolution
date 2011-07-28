@@ -58,7 +58,7 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists,
 			for (Integer buggedLine : lines) {
 				
 				String hash = scm.blame(modification.getCommit().getPriorCommitId(), modification.getArtifact().getName(), buggedLine);
-				log.info("Bugged hash for line " + buggedLine + ": " + hash);
+				log.info("Bugged hash for line " + buggedLine + ": (" + hash + ")");
 
 				if (!commitsAlreadyAdded.contains(hash)) {
 
@@ -67,8 +67,13 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists,
 							.add(Restrictions.eq("commitId", hash))
 							.uniqueResult();
 
-					BugOrigin origin = new BugOrigin(buggedCommit, modification);
-					session.save(origin);
+					if(buggedCommit == null) {
+						log.error("Commit " + hash + " mentioned, but not existant! WTF!?");
+					}
+					else {
+						BugOrigin origin = new BugOrigin(buggedCommit, modification);
+						session.save(origin);
+					}
 
 					commitsAlreadyAdded.add(hash);
 				}
