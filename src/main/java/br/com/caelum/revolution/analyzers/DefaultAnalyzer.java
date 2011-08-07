@@ -79,8 +79,8 @@ public class DefaultAnalyzer implements Analyzer {
 
 		for (Tool tool : tools) {
 			if (tool instanceof ToolThatPersists) {
-				ToolThatPersists x = (ToolThatPersists) tool;
-				for (Class<?> clazz : x.classesToPersist()) {
+				ToolThatPersists theTool = (ToolThatPersists) tool;
+				for (Class<?> clazz : theTool.classesToPersist()) {
 					classes.add(clazz);
 				}
 			}
@@ -93,8 +93,8 @@ public class DefaultAnalyzer implements Analyzer {
 
 		for (Tool tool : tools) {
 			if (tool instanceof ToolThatPersists) {
-				ToolThatPersists x = (ToolThatPersists) tool;
-				x.setSession(persistence.getSession());
+				ToolThatPersists theTool = (ToolThatPersists) tool;
+				theTool.setSession(persistence.getSession());
 			}
 		}
 
