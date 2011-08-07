@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.tools.junitcounter;
+package br.com.caelum.revolution.tools.diffwordcount;
 
 import org.hibernate.Session;
 
@@ -9,17 +9,19 @@ import br.com.caelum.revolution.persistence.ToolThatPersists;
 import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
-public class JUnitTestCounterTool implements Tool, ToolThatPersists {
+public class DiffWordCountTool implements Tool, ToolThatPersists {
 
 	private Session session;
 	private final String[] extensions;
+	private final String[] patterns;
 
-	public JUnitTestCounterTool(String[] extensions) {
+	public DiffWordCountTool(String[] extensions, String[] patterns) {
 		this.extensions = extensions;
+		this.patterns = patterns;
 	}
 
 	public Class<?>[] classesToPersist() {
-		return new Class<?>[] { JUnitTestQuantity.class };
+		return new Class<?>[] { DiffWordCount.class };
 	}
 
 	public void setSession(Session session) {
@@ -32,14 +34,14 @@ public class JUnitTestCounterTool implements Tool, ToolThatPersists {
 		for (Modification modification : commit.getModifications()) {
 
 			if (matches(modification)) {
-				JUnitTestQuantity qty = new JUnitTestQuantity();
+				DiffWordCount qty = new DiffWordCount();
 				for (String line : modification.getDiff().replace("\r", "")
 						.split("\n")) {
-					if (line.startsWith("+") && line.contains("@Test")) {
-						qty.setTestsAdded(qty.getTestsAdded() + 1);
+					if (line.startsWith("+") && containsAnyPatternIn(line)) {
+						qty.setAdded(qty.getAdded() + 1);
 					}
-					if (line.startsWith("-") && line.contains("@Test")) {
-						qty.setTestsRemoved(qty.getTestsRemoved() + 1);
+					if (line.startsWith("-") && containsAnyPatternIn(line)) {
+						qty.setRemoved(qty.getRemoved() + 1);
 					}
 				}
 
@@ -48,6 +50,13 @@ public class JUnitTestCounterTool implements Tool, ToolThatPersists {
 				session.save(qty);
 			}
 		}
+	}
+
+	private boolean containsAnyPatternIn(String line) {
+		for (String pattern : patterns) {
+			if(line.contains(pattern)) return true;
+		}
+		return false;
 	}
 
 	private boolean matches(Modification modification) {

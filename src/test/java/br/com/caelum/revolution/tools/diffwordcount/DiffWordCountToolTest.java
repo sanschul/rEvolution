@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.tools.junitcounter;
+package br.com.caelum.revolution.tools.diffwordcount;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -19,16 +19,18 @@ import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.domain.Modification;
 import br.com.caelum.revolution.domain.ModificationKind;
 import br.com.caelum.revolution.tools.ToolException;
+import br.com.caelum.revolution.tools.diffwordcount.DiffWordCountTool;
+import br.com.caelum.revolution.tools.diffwordcount.DiffWordCount;
 
-public class JUnitTestCounterToolTest {
+public class DiffWordCountToolTest {
 
-	private JUnitTestCounterTool tool;
+	private DiffWordCountTool tool;
 	private Session session;
 
 	@Before
 	public void setUp() {
 		session = mock(Session.class);
-		tool = new JUnitTestCounterTool(new String[] { "Test.java", "Tests.java"});
+		tool = new DiffWordCountTool(new String[] { "Test.java", "Tests.java"}, new String[] { "@Test"});
 		tool.setSession(session);
 	}
 
@@ -54,13 +56,13 @@ public class JUnitTestCounterToolTest {
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
-		ArgumentCaptor<JUnitTestQuantity> argument = ArgumentCaptor
-				.forClass(JUnitTestQuantity.class);
+		ArgumentCaptor<DiffWordCount> argument = ArgumentCaptor
+				.forClass(DiffWordCount.class);
 		verify(session).save(argument.capture());
 
-		JUnitTestQuantity value = argument.getValue();
+		DiffWordCount value = argument.getValue();
 
-		assertEquals(2, value.getTestsAdded());
+		assertEquals(2, value.getAdded());
 	}
 
 	@Test
@@ -85,13 +87,13 @@ public class JUnitTestCounterToolTest {
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
-		ArgumentCaptor<JUnitTestQuantity> argument = ArgumentCaptor
-				.forClass(JUnitTestQuantity.class);
+		ArgumentCaptor<DiffWordCount> argument = ArgumentCaptor
+				.forClass(DiffWordCount.class);
 		verify(session).save(argument.capture());
 
-		JUnitTestQuantity value = argument.getValue();
+		DiffWordCount value = argument.getValue();
 
-		assertEquals(2, value.getTestsRemoved());
+		assertEquals(2, value.getRemoved());
 	}
 
 	@Test
@@ -113,14 +115,14 @@ public class JUnitTestCounterToolTest {
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
-		ArgumentCaptor<JUnitTestQuantity> argument = ArgumentCaptor
-				.forClass(JUnitTestQuantity.class);
+		ArgumentCaptor<DiffWordCount> argument = ArgumentCaptor
+				.forClass(DiffWordCount.class);
 		verify(session).save(argument.capture());
 
-		JUnitTestQuantity value = argument.getValue();
+		DiffWordCount value = argument.getValue();
 
-		assertEquals(0, value.getTestsRemoved());
-		assertEquals(0, value.getTestsAdded());
+		assertEquals(0, value.getRemoved());
+		assertEquals(0, value.getAdded());
 	}
 
 	@Test
@@ -136,11 +138,11 @@ public class JUnitTestCounterToolTest {
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
-		ArgumentCaptor<JUnitTestQuantity> argument = ArgumentCaptor
-				.forClass(JUnitTestQuantity.class);
+		ArgumentCaptor<DiffWordCount> argument = ArgumentCaptor
+				.forClass(DiffWordCount.class);
 		verify(session).save(argument.capture());
 
-		JUnitTestQuantity value = argument.getValue();
+		DiffWordCount value = argument.getValue();
 		assertSame(artifact, value.getArtifact());
 		assertSame(commit, value.getCommit());
 	}

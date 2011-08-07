@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.tools.junitcounter;
+package br.com.caelum.revolution.tools.diffwordcount;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +9,7 @@ import br.com.caelum.revolution.domain.Artifact;
 import br.com.caelum.revolution.domain.Commit;
 
 @Entity
-public class JUnitTestQuantity {
+public class DiffWordCount {
 
 	@Id @GeneratedValue
 	private int id;
@@ -17,8 +17,9 @@ public class JUnitTestQuantity {
 	private Commit commit;
 	@ManyToOne
 	private Artifact artifact;
-	private int testsAdded;
-	private int testsRemoved;
+	private int added;
+	private int removed;
+	private String pattern;
 	
 	public Commit getCommit() {
 		return commit;
@@ -32,20 +33,26 @@ public class JUnitTestQuantity {
 	public void setArtifact(Artifact artifact) {
 		this.artifact = artifact;
 	}
-	public int getTestsAdded() {
-		return testsAdded;
+	public int getAdded() {
+		return added;
 	}
-	public void setTestsAdded(int testsAdded) {
-		this.testsAdded = testsAdded;
+	public void setAdded(int added) {
+		this.added = added;
 	}
-	public int getTestsRemoved() {
-		return testsRemoved;
+	public int getRemoved() {
+		return removed;
 	}
-	public void setTestsRemoved(int testsRemoved) {
-		this.testsRemoved = testsRemoved;
+	public void setRemoved(int removed) {
+		this.removed = removed;
 	}
 	public int getId() {
 		return id;
+	}
+	public String getPattern() {
+		return pattern;
+	}
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 	
 	
