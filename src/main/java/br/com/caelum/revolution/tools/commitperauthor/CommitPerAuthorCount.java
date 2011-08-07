@@ -13,12 +13,20 @@ public class CommitPerAuthorCount {
 
 	@Id @GeneratedValue
 	private int id;
-	
 	@OneToOne
 	private Artifact artifact;
 	@OneToOne
 	private Author author;
 	private int count;
+	
+	protected CommitPerAuthorCount() {}
+	
+	public CommitPerAuthorCount(Artifact artifact, Author author) {
+		this.artifact = artifact;
+		this.author = author;
+		this.count=1;
+	}
+	
 	public Artifact getArtifact() {
 		return artifact;
 	}
