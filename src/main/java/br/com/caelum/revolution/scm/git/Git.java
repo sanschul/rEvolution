@@ -94,7 +94,7 @@ public class Git implements SCM, ThreadableSCM {
 	
 	public String blame(String commitId, String file, int line) {
 		goTo(commitId);
-		String response = exec.execute("git blame " + file + " -L " + line + "," + line + " -l ", getRepoPath());
+		String response = exec.execute("git blame " + file + " -L " + line + "," + line + " -l", getRepoPath());
 		return blameParser.getHash(response);
 	}
 

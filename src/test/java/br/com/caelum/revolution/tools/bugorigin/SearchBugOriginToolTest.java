@@ -79,6 +79,51 @@ public class SearchBugOriginToolTest {
 	}
 	
 	@Test
+	public void shouldIgnoreEmptyLines() throws ToolException {
+		String diff = "+ line added\r\n" 
+			+ "@@ -10, 8 @@ bla bla\r\n" +
+			"- line removed\r\n"+
+			"-     \r\n"+
+			"-	\r\n"+
+			"-\r\n"+
+			"common line\r\n" 
+			+ "+line added";
+		
+		// bugged commit
+		Commit buggedCommit = new Commit();
+		Criteria criteria = mock(Criteria.class);
+		when(session.createCriteria(Commit.class)).thenReturn(criteria);
+		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
+		when(criteria.uniqueResult()).thenReturn(buggedCommit);
+
+		// blame returning the bugged hash
+		when(scm.blame("123", "file 1", 10)).thenReturn("bugged hash");
+		
+		// creating current artifact
+		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
+		Commit commit = new Commit();
+		commit.setPriorCommit("123");
+		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
+		commit.setMessage("a bug was fixed here");
+		commit.addArtifact(artifact);
+		commit.addModification(modification);
+		
+		tool.calculate(commit, new BuildResult("any path"));
+		
+		ArgumentCaptor<BugOrigin> argument = ArgumentCaptor.forClass(BugOrigin.class);
+		verify(session).save(argument.capture());
+		
+		BugOrigin value = argument.getValue();
+		assertSame(buggedCommit, value.getBuggedCommit());
+		
+		verify(scm).blame("123", "file 1", 10);
+		verify(scm, times(0)).blame("123", "file 1", 11);
+		verify(scm, times(0)).blame("123", "file 1", 12);
+		verify(scm, times(0)).blame("123", "file 1", 13);
+		
+	}
+	
+	@Test
 	public void shouldIgnoreCommitMessagesThatDoNotContainKeywords() throws ToolException {
 		Commit commit = new Commit();
 		commit.setMessage("no matched keyword here");

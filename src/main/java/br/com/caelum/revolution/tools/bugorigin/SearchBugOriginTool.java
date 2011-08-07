@@ -92,7 +92,7 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists,
 			if (itRepresentsALineNumber(lines[i])) {
 				currentLine = getLineNumberItGitDiffNotation(lines[i]);
 			}
-			if (itRepresentsCodeThatWasRemoved(lines[i])) {
+			if (itRepresentsCodeThatWasRemoved(lines[i]) && isNotEmpty(lines[i])) {
 				linesToBeBlamed.add(currentLine);
 			}
 			if (itRepresentsCodeThatWasAdded(lines[i])) {
@@ -101,6 +101,10 @@ public class SearchBugOriginTool implements Tool, ToolThatPersists,
 		}
 
 		return linesToBeBlamed;
+	}
+
+	private boolean isNotEmpty(String line) {
+		return line.substring(1, line.length()).replace("\t", "").trim().length() > 0;
 	}
 
 	private int getLineNumberItGitDiffNotation(String line) {
