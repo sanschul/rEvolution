@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.scm.changesets;
+package br.com.caelum.revolution.changesets;
 
 import java.util.ArrayList;
 import java.util.Calendar;

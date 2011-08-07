@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import br.com.caelum.revolution.scm.changesets.ChangeSet;
+import br.com.caelum.revolution.changesets.ChangeSet;
 import br.com.caelum.revolution.scm.git.GitLogParser;
 
 

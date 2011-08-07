@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.scm.changesets;
+package br.com.caelum.revolution.changesets;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import br.com.caelum.revolution.changesets.AllChangeSets;
+import br.com.caelum.revolution.changesets.ChangeSet;
 import br.com.caelum.revolution.scm.SCM;
 
 

@@ -13,9 +13,9 @@ import com.google.common.collect.Lists;
 
 import br.com.caelum.revolution.AnalyzerRunner;
 import br.com.caelum.revolution.analyzers.Analyzer;
-import br.com.caelum.revolution.scm.changesets.ChangeSet;
-import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
-import br.com.caelum.revolution.scm.changesets.FixedListChangeSet;
+import br.com.caelum.revolution.changesets.ChangeSet;
+import br.com.caelum.revolution.changesets.ChangeSetCollection;
+import br.com.caelum.revolution.changesets.FixedListChangeSet;
 
 public class ThreadedAnalyzerRunner implements AnalyzerRunner {
 

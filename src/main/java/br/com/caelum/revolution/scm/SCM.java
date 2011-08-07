@@ -2,7 +2,7 @@ package br.com.caelum.revolution.scm;
 
 import java.util.List;
 
-import br.com.caelum.revolution.scm.changesets.ChangeSet;
+import br.com.caelum.revolution.changesets.ChangeSet;
 
 
 public interface SCM {

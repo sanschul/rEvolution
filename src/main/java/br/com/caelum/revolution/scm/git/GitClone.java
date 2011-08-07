@@ -2,11 +2,11 @@ package br.com.caelum.revolution.scm.git;
 
 import java.util.List;
 
+import br.com.caelum.revolution.changesets.ChangeSet;
 import br.com.caelum.revolution.executor.CommandExecutor;
 import br.com.caelum.revolution.scm.CommitData;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.SCMException;
-import br.com.caelum.revolution.scm.changesets.ChangeSet;
 
 
 public class GitClone implements SCM{

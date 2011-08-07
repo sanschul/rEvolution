@@ -19,14 +19,14 @@ import org.junit.Test;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildException;
 import br.com.caelum.revolution.builds.BuildResult;
+import br.com.caelum.revolution.changesets.ChangeSet;
+import br.com.caelum.revolution.changesets.ChangeSetCollection;
 import br.com.caelum.revolution.domain.Author;
 import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.domain.PersistedCommitConverter;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.scm.CommitData;
 import br.com.caelum.revolution.scm.SCM;
-import br.com.caelum.revolution.scm.changesets.ChangeSet;
-import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
 import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 

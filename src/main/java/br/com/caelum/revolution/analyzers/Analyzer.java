@@ -1,6 +1,6 @@
 package br.com.caelum.revolution.analyzers;
 
-import br.com.caelum.revolution.scm.changesets.ChangeSetCollection;
+import br.com.caelum.revolution.changesets.ChangeSetCollection;
 
 
 public interface Analyzer {
