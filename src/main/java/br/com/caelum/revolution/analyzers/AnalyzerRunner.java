@@ -1,4 +1,4 @@
-package br.com.caelum.revolution;
+package br.com.caelum.revolution.analyzers;
 
 
 

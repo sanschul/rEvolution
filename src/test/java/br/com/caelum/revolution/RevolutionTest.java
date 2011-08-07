@@ -3,6 +3,7 @@ package br.com.caelum.revolution;
 import org.junit.Test;
 
 import br.com.caelum.revolution.analyzers.Analyzer;
+import br.com.caelum.revolution.analyzers.AnalyzerRunner;
 import br.com.caelum.revolution.analyzers.DefaultAnalyzerRunner;
 import br.com.caelum.revolution.changesets.ChangeSetCollection;
 import static org.mockito.Mockito.*;

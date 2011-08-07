@@ -2,7 +2,6 @@ package br.com.caelum.revolution.analyzers;
 
 import java.util.List;
 
-import br.com.caelum.revolution.AnalyzerRunner;
 import br.com.caelum.revolution.builds.Build;
 import br.com.caelum.revolution.builds.BuildFactory;
 import br.com.caelum.revolution.changesets.ChangeSetCollection;

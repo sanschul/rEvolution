@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.revolution.analyzers.AnalyzerFactory;
+import br.com.caelum.revolution.analyzers.AnalyzerRunner;
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.config.PropertiesConfig;
 
