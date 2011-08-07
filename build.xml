@@ -82,7 +82,7 @@
 	<target name="dist" depends="compile">
 		<mkdir dir="${dist}" />
 
-		<jar jarFile="${dist}/rEvolution-${DSTAMP}.jar" basedir="${bin}">
+		<jar jarFile="${dist}/rEvolution-${version}.jar" basedir="${bin}">
 			<fileset dir="${resources}"/>
 			<manifest>
 				<attribute name="Main-Class" value="br.com.caelum.revolution.Launcher" />
