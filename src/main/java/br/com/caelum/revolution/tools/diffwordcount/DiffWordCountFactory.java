@@ -6,16 +6,16 @@ import br.com.caelum.revolution.tools.Tool;
 
 public class DiffWordCountFactory implements SpecificToolFactory{
 
-	public Tool build(Config config, String prefix) {
-		return new DiffWordCountTool(extensions(config, prefix), patterns(config, prefix));
+	public Tool build(Config config) {
+		return new DiffWordCountTool(extensions(config), patterns(config));
 	}
 
-	private String[] patterns(Config config, String prefix) {
-		return config.get(prefix + ".patterns").split(";");
+	private String[] patterns(Config config) {
+		return config.get("patterns").split(";");
 	}
 	
-	private String[] extensions(Config config, String prefix) {
-		return config.get(prefix + ".extensions").split(";");
+	private String[] extensions(Config config) {
+		return config.get("extensions").split(";");
 	}
 
 }

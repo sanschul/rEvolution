@@ -7,11 +7,11 @@ import br.com.caelum.revolution.tools.Tool;
 
 public class JDependFactory implements SpecificToolFactory {
 
-	public Tool build(Config config, String prefix) {
+	public Tool build(Config config) {
 		return new JDependTool(
 				new SimpleCommandExecutor(),  
 				new DefaultJDependXMLInterpreter(),
-				config.get(prefix + ".jDependPath"));
+				config.get("jDependPath"));
 	}
 
 }

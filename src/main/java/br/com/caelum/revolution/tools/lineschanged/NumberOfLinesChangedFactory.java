@@ -6,7 +6,7 @@ import br.com.caelum.revolution.tools.Tool;
 
 public class NumberOfLinesChangedFactory implements SpecificToolFactory{
 
-	public Tool build(Config config, String prefix) {
+	public Tool build(Config config) {
 		return new NumberOfLinesChangedTool();
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.caelum.revolution.config.Config;
+import br.com.caelum.revolution.config.PrefixedConfig;
 
 public class ToolsFactory {
 
@@ -14,7 +15,7 @@ public class ToolsFactory {
 		while(config.contains(toolConfigName(counter))) {
 			String toolName = config.get(toolConfigName(counter));
 			SpecificToolFactory toolFactory = getToolFactory(toolName);
-			tools.add(toolFactory.build(config, toolConfigName(counter)));
+			tools.add(toolFactory.build(new PrefixedConfig(config, toolConfigName(counter))));
 			
 			counter++;
 		}

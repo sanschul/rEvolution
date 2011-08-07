@@ -6,8 +6,8 @@ import br.com.caelum.revolution.tools.Tool;
 
 public class NumberOfFilesFactory implements SpecificToolFactory {
 
-	public Tool build(Config config, String prefix) {
-		return new NumberOfFilesTool(config.get(prefix + ".extension"));
+	public Tool build(Config config) {
+		return new NumberOfFilesTool(config.get("extension"));
 	}
 
 }
