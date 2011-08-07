@@ -19,7 +19,7 @@ public class DiffWordCount {
 	private Artifact artifact;
 	private int added;
 	private int removed;
-	private String pattern;
+	private String name;
 	
 	public Commit getCommit() {
 		return commit;
@@ -48,11 +48,11 @@ public class DiffWordCount {
 	public int getId() {
 		return id;
 	}
-	public String getPattern() {
-		return pattern;
+	public String getName() {
+		return name;
 	}
-	public void setPattern(String pattern) {
-		this.pattern = pattern;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

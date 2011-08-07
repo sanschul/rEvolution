@@ -7,7 +7,7 @@ import br.com.caelum.revolution.tools.Tool;
 public class DiffWordCountFactory implements SpecificToolFactory{
 
 	public Tool build(Config config) {
-		return new DiffWordCountTool(extensions(config), patterns(config));
+		return new DiffWordCountTool(extensions(config), patterns(config), config.get("name"));
 	}
 
 	private String[] patterns(Config config) {

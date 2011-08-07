@@ -30,29 +30,52 @@ public class DiffWordCountToolTest {
 	@Before
 	public void setUp() {
 		session = mock(Session.class);
-		tool = new DiffWordCountTool(new String[] { "Test.java", "Tests.java"}, new String[] { "@Test"});
+		tool = new DiffWordCountTool(
+				new String[] { "Test.java", "Tests.java" },
+				new String[] { "@Test" },
+				"my-count-name");
 		tool.setSession(session);
+	}
+
+	@Test
+	public void shouldGetPatternName() throws ToolException {
+		String code = "@@ -1,17 +1,23 @@\r\n"
+				+ "package edu.usp.ime.revolution.builds;\r\n" + "+@Test\r\n"
+				+ "+public void test() {\r\n" + "+ xxx\r\n" + "+}\r\n"
+				+ "+@Test\r\n" + "+public void test2() {\r\n" + "+ xxx\r\n"
+				+ "+}\r\n";
+
+		Artifact artifact = new Artifact("fileTest.java", ArtifactKind.CODE);
+		Commit commit = new Commit();
+		Modification modification = new Modification(code, commit, artifact,
+				ModificationKind.DEFAULT);
+		commit.addArtifact(artifact);
+		commit.addModification(modification);
+
+		tool.calculate(commit, new BuildResult("any dir"));
+
+		ArgumentCaptor<DiffWordCount> argument = ArgumentCaptor
+				.forClass(DiffWordCount.class);
+		verify(session).save(argument.capture());
+		
+		assertEquals("my-count-name", argument.getValue().getName());
+
 	}
 
 	@Test
 	public void shouldCountTestsAdded() throws ToolException {
 		String code = "@@ -1,17 +1,23 @@\r\n"
-				+ "package edu.usp.ime.revolution.builds;\r\n"
-				+ "+@Test\r\n"
-				+ "+public void test() {\r\n"
-				+ "+ xxx\r\n"
-				+ "+}\r\n"
-				+ "+@Test\r\n"
-				+ "+public void test2() {\r\n"
-				+ "+ xxx\r\n"
+				+ "package edu.usp.ime.revolution.builds;\r\n" + "+@Test\r\n"
+				+ "+public void test() {\r\n" + "+ xxx\r\n" + "+}\r\n"
+				+ "+@Test\r\n" + "+public void test2() {\r\n" + "+ xxx\r\n"
 				+ "+}\r\n";
 
 		Artifact artifact = new Artifact("fileTest.java", ArtifactKind.CODE);
 		Commit commit = new Commit();
-		Modification modification = new Modification(code, commit, artifact, ModificationKind.DEFAULT);
+		Modification modification = new Modification(code, commit, artifact,
+				ModificationKind.DEFAULT);
 		commit.addArtifact(artifact);
 		commit.addModification(modification);
-
 
 		tool.calculate(commit, new BuildResult("any dir"));
 
@@ -68,14 +91,9 @@ public class DiffWordCountToolTest {
 	@Test
 	public void shouldCountTestsRemoved() throws ToolException {
 		String code = "@@ -1,17 +1,23 @@\r\n"
-				+ "package edu.usp.ime.revolution.builds;\r\n" 
-				+ "-@Test\r\n"
-				+ "-public void test() {\r\n" 
-				+ "- xxx\r\n" 
-				+ "-}\r\n"
-				+ "-@Test\r\n"
-				+ "-public void test() {\r\n" 
-				+ "- xxx\r\n" 
+				+ "package edu.usp.ime.revolution.builds;\r\n" + "-@Test\r\n"
+				+ "-public void test() {\r\n" + "- xxx\r\n" + "-}\r\n"
+				+ "-@Test\r\n" + "-public void test() {\r\n" + "- xxx\r\n"
 				+ "-}\r\n";
 
 		Artifact artifact = new Artifact("fileTest.java", ArtifactKind.CODE);
@@ -146,7 +164,6 @@ public class DiffWordCountToolTest {
 		assertSame(artifact, value.getArtifact());
 		assertSame(commit, value.getCommit());
 	}
-	
 
 	@Test
 	public void shouldIgnoreFilesThatDoNotMatch() throws ToolException {

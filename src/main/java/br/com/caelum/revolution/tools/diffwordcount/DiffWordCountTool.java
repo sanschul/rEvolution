@@ -14,10 +14,12 @@ public class DiffWordCountTool implements Tool, ToolThatPersists {
 	private Session session;
 	private final String[] extensions;
 	private final String[] patterns;
+	private final String name;
 
-	public DiffWordCountTool(String[] extensions, String[] patterns) {
+	public DiffWordCountTool(String[] extensions, String[] patterns, String name) {
 		this.extensions = extensions;
 		this.patterns = patterns;
+		this.name = name;
 	}
 
 	public Class<?>[] classesToPersist() {
@@ -47,6 +49,7 @@ public class DiffWordCountTool implements Tool, ToolThatPersists {
 
 				qty.setCommit(commit);
 				qty.setArtifact(modification.getArtifact());
+				qty.setName(name);
 				session.save(qty);
 			}
 		}
