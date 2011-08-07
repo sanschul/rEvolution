@@ -47,24 +47,10 @@ public class SearchBugOriginToolTest {
 			+ "common line\r\n" 
 			+ "+line added";
 		
-		// bugged commit
-		Commit buggedCommit = new Commit();
-		Criteria criteria = mock(Criteria.class);
-		when(session.createCriteria(Commit.class)).thenReturn(criteria);
-		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
-		when(criteria.uniqueResult()).thenReturn(buggedCommit);
+		Commit buggedCommit = buggedCommit();
+		Commit commit = currentCommit(diff);
 
-		// blame returning the bugged hash
 		when(scm.blame("123", "file 1", 10)).thenReturn("bugged hash");
-		
-		// creating current artifact
-		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
-		Commit commit = new Commit();
-		commit.setPriorCommit("123");
-		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
-		commit.setMessage("a bug was fixed here");
-		commit.addArtifact(artifact);
-		commit.addModification(modification);
 		
 		tool.calculate(commit, new BuildResult("any path"));
 		
@@ -77,7 +63,7 @@ public class SearchBugOriginToolTest {
 		verify(scm).blame("123", "file 1", 10);
 		
 	}
-	
+
 	@Test
 	public void shouldIgnoreEmptyLines() throws ToolException {
 		String diff = "+ line added\r\n" 
@@ -89,24 +75,10 @@ public class SearchBugOriginToolTest {
 			"common line\r\n" 
 			+ "+line added";
 		
-		// bugged commit
-		Commit buggedCommit = new Commit();
-		Criteria criteria = mock(Criteria.class);
-		when(session.createCriteria(Commit.class)).thenReturn(criteria);
-		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
-		when(criteria.uniqueResult()).thenReturn(buggedCommit);
-
-		// blame returning the bugged hash
-		when(scm.blame("123", "file 1", 10)).thenReturn("bugged hash");
+		Commit buggedCommit = buggedCommit();
+		Commit commit = currentCommit(diff);
 		
-		// creating current artifact
-		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
-		Commit commit = new Commit();
-		commit.setPriorCommit("123");
-		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
-		commit.setMessage("a bug was fixed here");
-		commit.addArtifact(artifact);
-		commit.addModification(modification);
+		when(scm.blame("123", "file 1", 10)).thenReturn("bugged hash");
 		
 		tool.calculate(commit, new BuildResult("any path"));
 		
@@ -141,25 +113,12 @@ public class SearchBugOriginToolTest {
 			+ "common line\r\n" 
 			+ "+line added";
 		
-		// bugged commit
-		Commit buggedCommit = new Commit();
-		Criteria criteria = mock(Criteria.class);
-		when(session.createCriteria(Commit.class)).thenReturn(criteria);
-		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
-		when(criteria.uniqueResult()).thenReturn(buggedCommit);
+		Commit buggedCommit = buggedCommit();
+		Commit commit = currentCommit(diff);
 
-		// blame returning the bugged hash
 		when(scm.blame("123", "file 1", 2)).thenReturn("bugged hash");
 		when(scm.blame("123", "file 1", 3)).thenReturn("bugged hash");
 		
-		// creating current artifact
-		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
-		Commit commit = new Commit();
-		commit.setPriorCommit("123");
-		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
-		commit.setMessage("a bug was fixed here");
-		commit.addArtifact(artifact);
-		commit.addModification(modification);
 		
 		tool.calculate(commit, new BuildResult("any path"));
 		
@@ -183,25 +142,12 @@ public class SearchBugOriginToolTest {
 			+ "common line\r\n" 
 			+ "+line added";
 		
-		// bugged commit
-		Commit buggedCommit = new Commit();
-		Criteria criteria = mock(Criteria.class);
-		when(session.createCriteria(Commit.class)).thenReturn(criteria);
-		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
-		when(criteria.uniqueResult()).thenReturn(buggedCommit);
+		Commit buggedCommit = buggedCommit();
+		Commit commit = currentCommit(diff);
 
-		// blame returning the bugged hash
 		when(scm.blame("123", "file 1", 2)).thenReturn("bugged hash");
 		when(scm.blame("123", "file 1", 3)).thenReturn("bugged hash");
 		
-		// creating current artifact
-		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
-		Commit commit = new Commit();
-		commit.setPriorCommit("123");
-		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
-		commit.setMessage("a bug was fixed here");
-		commit.addArtifact(artifact);
-		commit.addModification(modification);
 		
 		tool.calculate(commit, new BuildResult("any path"));
 		
@@ -215,6 +161,26 @@ public class SearchBugOriginToolTest {
 		verify(scm).blame("123", "file 1", 3);
 	}
 	
-	
+
+	private Commit currentCommit(String diff) {
+		Artifact artifact = new Artifact("file 1", ArtifactKind.CODE);
+		Commit commit = new Commit();
+		commit.setPriorCommit("123");
+		Modification modification = new Modification(diff, commit, artifact, ModificationKind.DEFAULT);
+		commit.setMessage("a bug was fixed here");
+		commit.addArtifact(artifact);
+		commit.addModification(modification);
+		return commit;
+	}
+
+	private Commit buggedCommit() {
+		Commit buggedCommit = new Commit();
+		Criteria criteria = mock(Criteria.class);
+		when(session.createCriteria(Commit.class)).thenReturn(criteria);
+		when(criteria.add(any(Criterion.class))).thenReturn(criteria);
+		when(criteria.uniqueResult()).thenReturn(buggedCommit);
+		return buggedCommit;
+	}
+		
 	
 }
