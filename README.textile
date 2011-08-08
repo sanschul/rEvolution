@@ -1,0 +1,81 @@
+h1. rEvolution
+
+A simple mining software repository tool that extracts information
+from a source code repository and then allows you to query it using
+plain old SQL! ;)
+
+h2. FAQ
+
+*What informations does it collect?*
+
+It retrieves repository information such as commit author, date, message, file diffs, and source code;
+
+*How does the configuration work?*
+
+You should write a .properties configuration file. In this file, you will configure things like repository, repository's path, build mechanism (if needed), and all
+metric tools you want to run together.
+
+You have an example in /config-examples folder.
+
+*How does it persist information?*
+
+It uses Hibernate to persist information. It means that rEvolution can save data in any database. You configure it at the .properties file.
+
+It is also easy to create a new metric. The persistence mechanism will recognize your new plugin and will automatically persist the data from your own metric tool.
+
+*My tool needs to build the source code. How can I do it?*
+
+rEvolution currently supports "ant" builds. All you have to do is to configure your ant task.
+
+*How can I create a new metric tool?*
+
+Create a class that implements the _Tool_ interface. You will be required to implement a _calculate_ method.
+
+If your tool will persist information (most of them do), all you have to do is to implement _ToolThatPersists_. It will give you a Hibernate Session object which allows
+you to save your objects.
+
+*What about logs?*
+
+It uses log4j to log stuff, so you can redirect it to anywhere you want.
+
+*Is there any visualizations up to now?*
+
+No, but you can check a few queries that are already prepared. 
+
+I will share it in a moment.
+
+h2. Current metrics
+
+Besides getting basic information from the repository, it also calculates the following:
+
+* Number of files per commit
+* JDepend metrics
+* Word count in Diff (it allows you to measure how many "@Test" or "TODO" were written, for example)
+* Number of added/removed lines per commit
+* Bugged commits [1]
+
+[1] It tries to predict bugged commits by looking to the commit message. If the commit message says something about
+"bug fixed", it then starts looking all removed lines in the diff, and search for the first commit that added that line.
+As soon as it finds it, it marks this commit as a "bugged". The algorithm was based on this paper: http://patricklam.ca/papers/11.msr.time-of-day.pdf)
+
+h2. Configuring it
+
+All you have to do is to have a .properties file, and then use: java -jar rEvolution.jar my-configs.properties
+
+h2. Developing it
+
+* Download the source code.
+* Resolve dependencies: ant resolve
+* Change the code
+* Build a dist: ant dist
+
+h2. Next steps?
+
+I wrote this README in the Agile 2011 Conference. It is not enough to fully understand all
+metrics, and parameters you can use. You still need to look at the code. However, the configuration
+example is very helpful and will help you at least get started with the tool.
+
+My next steps are:
+* Write a manual
+* Implement agile metrics
+* Implement SVN access
