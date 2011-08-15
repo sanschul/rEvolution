@@ -1,8 +1,8 @@
-package br.com.caelum.revolution.visualization.statistic;
+package br.com.caelum.visualization.common;
 
 import java.math.BigInteger;
 
-public class CommitPerDeveloperTuple {
+public class GroupedDataTuple {
 
 	private BigInteger qty;
 	private String name;
