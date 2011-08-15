@@ -15,7 +15,7 @@ public class SCMFactoryTest {
 	@Test
 	public void shouldBuildGit() {
 		Config config = mock(Config.class);
-		when(config.get(Configs.SCM)).thenReturn("br.com.caelum.revolution.scm.git.GitFactory");
+		when(config.asString(Configs.SCM)).thenReturn("br.com.caelum.revolution.scm.git.GitFactory");
 		
 		assertTrue(new SCMFactory().basedOn(config).getClass() == Git.class);
 	}
@@ -23,7 +23,7 @@ public class SCMFactoryTest {
 	@Test(expected=SCMNotFoundException.class)
 	public void shouldWarnIfInvalidSCM() {
 		Config config = mock(Config.class);
-		when(config.get(Configs.SCM)).thenReturn("invalid-scm");
+		when(config.asString(Configs.SCM)).thenReturn("invalid-scm");
 		
 		new SCMFactory().basedOn(config);		
 	}

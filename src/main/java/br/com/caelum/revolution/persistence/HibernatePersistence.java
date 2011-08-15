@@ -29,11 +29,11 @@ public class HibernatePersistence {
 	public void initMechanism(List<Class<?>> classes) {
 		synchronized(lock) {
 			Configuration configuration = new Configuration();
-			configuration.setProperty("hibernate.connection.driver_class", config.get("driver_class"));
-			configuration.setProperty("hibernate.connection.url", config.get("connection_string"));
-			configuration.setProperty("hibernate.dialect", config.get("dialect"));
-			configuration.setProperty("hibernate.connection.username", config.get("db_user"));
-			configuration.setProperty("hibernate.connection.password", config.get("db_pwd"));
+			configuration.setProperty("hibernate.connection.driver_class", config.asString("driver_class"));
+			configuration.setProperty("hibernate.connection.url", config.asString("connection_string"));
+			configuration.setProperty("hibernate.dialect", config.asString("dialect"));
+			configuration.setProperty("hibernate.connection.username", config.asString("db_user"));
+			configuration.setProperty("hibernate.connection.password", config.asString("db_pwd"));
 			configuration.setProperty("hibernate.jdbc.batch_size", "20");
 			
 			configuration.setProperty("hibernate.c3p0.acquire_increment", "5");
@@ -54,7 +54,7 @@ public class HibernatePersistence {
 				configuration.addAnnotatedClass(clazz);
 			}
 			
-			if(config.get("create_tables").equals("true")) {
+			if(config.asString("create_tables").equals("true")) {
 				SchemaExport se = new SchemaExport(configuration);
 				se.create(false, true);
 			}
@@ -64,14 +64,18 @@ public class HibernatePersistence {
 	}
 	
 	public void beginTransaction() {
-		session = sessionFactory.openSession();
+		openSession();
 		session.beginTransaction();
+	}
+
+	public void openSession() {
+		session = sessionFactory.openSession();
 	}
 	
 	public void commit() {
 		session.flush();
 		session.getTransaction().commit();
-		session.close();
+		close();
 	}
 	
 	public Session getSession() {
@@ -84,6 +88,10 @@ public class HibernatePersistence {
 
 	public void rollback() {
 		session.getTransaction().rollback();
+		close();
+	}
+
+	public void close() {
 		session.close();
 	}
 	

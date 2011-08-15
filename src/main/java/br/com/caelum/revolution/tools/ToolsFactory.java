@@ -13,7 +13,7 @@ public class ToolsFactory {
 		
 		int counter = 1;
 		while(config.contains(toolConfigName(counter))) {
-			String toolName = config.get(toolConfigName(counter));
+			String toolName = config.asString(toolConfigName(counter));
 			SpecificToolFactory toolFactory = getToolFactory(toolName);
 			tools.add(toolFactory.build(new PrefixedConfig(config, toolConfigName(counter))));
 			

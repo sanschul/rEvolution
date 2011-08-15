@@ -16,7 +16,7 @@ public class BuildFactoryTest {
 	public void shouldBuildAnt() {
 		Config config = mock(Config.class);
 		
-		when(config.get(Configs.BUILD)).thenReturn("br.com.caelum.revolution.builds.ant.AntFactory");
+		when(config.asString(Configs.BUILD)).thenReturn("br.com.caelum.revolution.builds.ant.AntFactory");
 		
 		assertTrue(new BuildFactory().basedOn(config).getClass() == Ant.class);
 	}
@@ -25,7 +25,7 @@ public class BuildFactoryTest {
 	public void shouldWarnIfInvalidBuild() {
 		Config config = mock(Config.class);
 		
-		when(config.get(Configs.BUILD)).thenReturn("invalid-build");
+		when(config.asString(Configs.BUILD)).thenReturn("invalid-build");
 		
 		new BuildFactory().basedOn(config);		
 	}

@@ -9,10 +9,10 @@ public class GitCloneFactory implements SpecificSCMFactory {
 
 	public SCM build(Config config) {
 		return new GitClone(
-				config.get("scm.remoteRepository"),
-				config.get("scm.repository"),
+				config.asString("scm.remoteRepository"),
+				config.asString("scm.repository"),
 				new SimpleCommandExecutor(),
-				new Git(config.get("scm.repository"), new GitLogParser(), new GitDiffParser(), new GitBlameParser(), new SimpleCommandExecutor())
+				new Git(config.asString("scm.repository"), new GitLogParser(), new GitDiffParser(), new GitBlameParser(), new SimpleCommandExecutor())
 			);
 	}
 

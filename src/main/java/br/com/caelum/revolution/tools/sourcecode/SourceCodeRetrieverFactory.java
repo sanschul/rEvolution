@@ -7,7 +7,7 @@ import br.com.caelum.revolution.tools.Tool;
 public class SourceCodeRetrieverFactory implements SpecificToolFactory {
 
 	public Tool build(Config config) {
-		return new SourceCodeRetrieverTool(config.get("extensions").split(";"));
+		return new SourceCodeRetrieverTool(config.asString("extensions").split(";"));
 	}
 
 }

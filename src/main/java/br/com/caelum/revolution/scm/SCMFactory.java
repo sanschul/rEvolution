@@ -6,7 +6,7 @@ import br.com.caelum.revolution.config.Configs;
 public class SCMFactory {
 
 	public SCM basedOn(Config config) {
-		SpecificSCMFactory scmFactory = getToolFactory(config.get(Configs.SCM));
+		SpecificSCMFactory scmFactory = getToolFactory(config.asString(Configs.SCM));
 		return scmFactory.build(config);		
 	}
 

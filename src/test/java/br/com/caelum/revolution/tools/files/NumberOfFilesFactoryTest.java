@@ -15,11 +15,11 @@ public class NumberOfFilesFactoryTest {
 	@Test
 	public void shouldBuildNumberOfTilesTool() {
 		Config config = mock(Config.class);
-		when(config.get("extension")).thenReturn("java");
+		when(config.asString("extension")).thenReturn("java");
 		
 		Tool tool = new NumberOfFilesFactory().build(config);
 		
-		verify(config).get("extension");
+		verify(config).asString("extension");
 		assertEquals(tool.getClass(), NumberOfFilesTool.class);
 	}
 }

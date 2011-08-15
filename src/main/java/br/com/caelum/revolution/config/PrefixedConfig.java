@@ -10,11 +10,15 @@ public class PrefixedConfig implements Config{
 		this.prefix = prefix + ".";
 	}
 
-	public String get(String key) {
-		return cfg.get(prefix + key);
+	public String asString(String key) {
+		return cfg.asString(prefix + key);
 	}
 
 	public boolean contains(String key) {
 		return cfg.contains(prefix + key);
+	}
+
+	public int asInt(String key) {
+		return cfg.asInt(prefix + key);
 	}
 }

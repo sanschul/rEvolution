@@ -10,8 +10,8 @@ public class AntFactory implements SpecificBuildFactory {
 	public Build build(Config config) {
 		return new Ant(
 				new SimpleCommandExecutor(), 
-				config.get("ant.task"),
-				config.get("ant.buildPath"));
+				config.asString("ant.task"),
+				config.asString("ant.buildPath"));
 	}
 
 }

@@ -10,6 +10,8 @@ import br.com.caelum.revolution.analyzers.AnalyzerFactory;
 import br.com.caelum.revolution.analyzers.AnalyzerRunner;
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.config.PropertiesConfig;
+import br.com.caelum.revolution.visualization.VisualizationFactory;
+import br.com.caelum.revolution.visualization.VisualizationRunner;
 
 
 public class Launcher {
@@ -23,9 +25,16 @@ public class Launcher {
 		
 		log.info("rEvolution");
 		log.info("starting...");
+
+		if(args.length >= 3 && args[2] != null && !args[2].equals("--only-visualization")) {
+			AnalyzerRunner analyzerRunner = new AnalyzerFactory().basedOn(config);
+			analyzerRunner.start();
+		}
 		
-		AnalyzerRunner rev = new AnalyzerFactory().basedOn(config);
-		rev.start();
+		if(args.length >= 2 && args[1] != null && args[1].length() > 0) {
+			VisualizationRunner visualizationRunner = new VisualizationFactory().basedOn(config, args[1]);
+			visualizationRunner.start();
+		}
 		
 		log.info("FINISHED!");
 	}

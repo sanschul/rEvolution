@@ -11,7 +11,7 @@ public class JDependFactory implements SpecificToolFactory {
 		return new JDependTool(
 				new SimpleCommandExecutor(),  
 				new DefaultJDependXMLInterpreter(),
-				config.get("jDependPath"));
+				config.asString("jDependPath"));
 	}
 
 }

@@ -25,8 +25,8 @@ public class ChangeSetsInPeriodFactoryTest {
 	
 	@Test(expected=ChangeSetNotFoundException.class)
 	public void shouldThrownAnExceptionIfConfigIsNotFound() {
-		when(config.get("changesets.all.startPeriod")).thenReturn("no-date-here");
-		when(config.get("changesets.all.endPeriod")).thenReturn("2009-10-10 10:00:00");
+		when(config.asString("changesets.all.startPeriod")).thenReturn("no-date-here");
+		when(config.asString("changesets.all.endPeriod")).thenReturn("2009-10-10 10:00:00");
 		
 		ChangeSetsInPeriodFactory factory = new ChangeSetsInPeriodFactory();
 		factory.build(scm, config);
@@ -34,8 +34,8 @@ public class ChangeSetsInPeriodFactoryTest {
 	
 	@Test
 	public void shouldSetStartAndEndPeriod() {		
-		when(config.get("changesets.all.startPeriod")).thenReturn("2008-10-10 10:00:00");
-		when(config.get("changesets.all.endPeriod")).thenReturn("2009-10-10 11:00:00");
+		when(config.asString("changesets.all.startPeriod")).thenReturn("2008-10-10 10:00:00");
+		when(config.asString("changesets.all.endPeriod")).thenReturn("2009-10-10 11:00:00");
 		
 		ChangeSetsInPeriodFactory factory = new ChangeSetsInPeriodFactory();
 		ChangeSetsInPeriod cs = (ChangeSetsInPeriod) factory.build(scm, config);

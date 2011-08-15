@@ -18,11 +18,11 @@ public class PrefixedConfigTests {
 	
 	@Test
 	public void shouldPutAPrefixInAnything() {
-		when(cfg.get("prefix.suffix")).thenReturn("found it");
+		when(cfg.asString("prefix.suffix")).thenReturn("found it");
 		
 		PrefixedConfig prefixedConfig = new PrefixedConfig(cfg, "prefix");
 		
-		assertEquals("found it", prefixedConfig.get("suffix"));
+		assertEquals("found it", prefixedConfig.asString("suffix"));
 	}
 	
 	@Test

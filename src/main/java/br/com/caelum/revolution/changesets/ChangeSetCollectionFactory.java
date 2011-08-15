@@ -13,7 +13,7 @@ public class ChangeSetCollectionFactory {
 	}
 
 	public ChangeSetCollection basedOn(Config config) {
-		SpecificChangeSetFactory factory = getConfigFactory(config.get(Configs.CHANGESETS));
+		SpecificChangeSetFactory factory = getConfigFactory(config.asString(Configs.CHANGESETS));
 		return factory.build(scm, config);
 	}
 

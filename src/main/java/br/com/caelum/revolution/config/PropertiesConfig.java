@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-
 public class PropertiesConfig implements Config {
 
 	private Properties props;
@@ -14,7 +13,7 @@ public class PropertiesConfig implements Config {
 		props.load(stream);
 	}
 
-	public String get(String key) {
+	public String asString(String key) {
 		String value = props.getProperty(key);
 		if(value == null) throw new ConfigNotFoundException("config not found: " + key);
 		
@@ -23,6 +22,10 @@ public class PropertiesConfig implements Config {
 
 	public boolean contains(String key) {
 		return props.getProperty(key) != null;
+	}
+
+	public int asInt(String key) {
+		return Integer.parseInt(asString(key));
 	}
 
 }

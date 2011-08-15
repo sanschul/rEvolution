@@ -15,9 +15,9 @@ public class ToolsFactoryTest {
 	public void shouldAddAllToolsInConfig() {
 		Config config = mock(Config.class);
 		when(config.contains("tools.1")).thenReturn(true);
-		when(config.get("tools.1")).thenReturn("br.com.caelum.revolution.tools.files.NumberOfFilesFactory");
+		when(config.asString("tools.1")).thenReturn("br.com.caelum.revolution.tools.files.NumberOfFilesFactory");
 		when(config.contains("tools.2")).thenReturn(true);
-		when(config.get("tools.2")).thenReturn("br.com.caelum.revolution.tools.files.NumberOfFilesFactory");
+		when(config.asString("tools.2")).thenReturn("br.com.caelum.revolution.tools.files.NumberOfFilesFactory");
 		when(config.contains("tools.3")).thenReturn(false);
 		
 		List<Tool> tools = new ToolsFactory().basedOn(config);
@@ -29,12 +29,12 @@ public class ToolsFactoryTest {
 	public void shouldLoadConfig() {
 		Config config = mock(Config.class);
 		when(config.contains("tools.1")).thenReturn(true);
-		when(config.get("tools.1")).thenReturn("br.com.caelum.revolution.tools.files.NumberOfFilesFactory");
-		when(config.get("tools.1.extension")).thenReturn("java");
+		when(config.asString("tools.1")).thenReturn("br.com.caelum.revolution.tools.files.NumberOfFilesFactory");
+		when(config.asString("tools.1.extension")).thenReturn("java");
 		when(config.contains("tools.2")).thenReturn(false);
 		
 		new ToolsFactory().basedOn(config);
 		
-		verify(config).get("tools.1.extension");
+		verify(config).asString("tools.1.extension");
 	}
 }

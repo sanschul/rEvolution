@@ -18,9 +18,9 @@ public class ChangeSetsInPeriodFactory implements SpecificChangeSetFactory {
 	public ChangeSetCollection build(SCM scm, Config config) {
 		try {
 			Calendar startPeriod = Calendar.getInstance();
-			startPeriod.setTime(sdf.parse(config.get("changesets.all.startPeriod")));
+			startPeriod.setTime(sdf.parse(config.asString("changesets.all.startPeriod")));
 			Calendar endPeriod = Calendar.getInstance();
-			endPeriod.setTime(sdf.parse(config.get("changesets.all.endPeriod")));
+			endPeriod.setTime(sdf.parse(config.asString("changesets.all.endPeriod")));
 			
 			return new ChangeSetsInPeriod(scm, startPeriod, endPeriod);
 		}

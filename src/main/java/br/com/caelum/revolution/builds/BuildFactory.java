@@ -6,7 +6,7 @@ import br.com.caelum.revolution.config.Configs;
 public class BuildFactory {
 
 	public Build basedOn(Config config) {
-		SpecificBuildFactory buildFactory = getBuildFactory(config.get(Configs.BUILD));
+		SpecificBuildFactory buildFactory = getBuildFactory(config.asString(Configs.BUILD));
 		return buildFactory.build(config);
 	}
 

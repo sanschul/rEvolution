@@ -8,20 +8,18 @@ import br.com.caelum.revolution.scm.CommitData;
 import br.com.caelum.revolution.scm.DiffData;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.SCMException;
-import br.com.caelum.revolution.scm.ThreadableSCM;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 
-public class Git implements SCM, ThreadableSCM {
+public class Git implements SCM {
 
 	private final String repository;
 	private final GitLogParser logParser;
 	private final CommandExecutor exec;
 	private final GitDiffParser diffParser;
 	private final GitBlameParser blameParser;
-	private String repositoryNumber;
 	private String currentPosition;
 	
 	public Git(String repository, GitLogParser logParser, GitDiffParser diffParser, GitBlameParser blameParser, CommandExecutor exec) {
@@ -30,7 +28,6 @@ public class Git implements SCM, ThreadableSCM {
 		this.diffParser = diffParser;
 		this.blameParser = blameParser;
 		this.exec = exec;
-		repositoryNumber = "";
 	}
 
 	public String goTo(String id) {
@@ -50,7 +47,7 @@ public class Git implements SCM, ThreadableSCM {
 	}
 
 	private String getRepoPath() {
-		return repository + repositoryNumber;
+		return repository;
 	}
 
 	public List<ChangeSet> getChangeSets() {
@@ -102,7 +99,4 @@ public class Git implements SCM, ThreadableSCM {
 		return repository;
 	}
 
-	public void setRepositoryNumber(int number) {
-		this.repositoryNumber = number + "/";
-	}
 }

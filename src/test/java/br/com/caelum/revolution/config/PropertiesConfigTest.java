@@ -19,14 +19,14 @@ public class PropertiesConfigTest {
 	public void shouldFindConfig() throws IOException {
 		PropertiesConfig config = new PropertiesConfig(basedOnConfig());
 		
-		assertEquals("git", config.get(Configs.SCM));
+		assertEquals("git", config.asString(Configs.SCM));
 	}
 	
 	@Test(expected=ConfigNotFoundException.class)
 	public void shouldWarnWhenConfigWasNotFound() throws IOException {
 		PropertiesConfig config = new PropertiesConfig(basedOnConfig());
 		
-		config.get("inexistent-config");
+		config.asString("inexistent-config");
 	}
 	
 	@Test

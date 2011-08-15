@@ -7,7 +7,7 @@ import br.com.caelum.revolution.tools.Tool;
 public class SearchBugOriginFactory implements SpecificToolFactory {
 
 	public Tool build(Config config) {
-		return new SearchBugOriginTool(config.get("keywords").split(";"));
+		return new SearchBugOriginTool(config.asString("keywords").split(";"));
 	}
 
 }
