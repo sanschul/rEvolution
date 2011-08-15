@@ -1,4 +1,4 @@
-package br.com.caelum.visualization.common;
+package br.com.caelum.revolution.visualization.common;
 
 import java.math.BigInteger;
 

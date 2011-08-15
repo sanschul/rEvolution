@@ -5,8 +5,8 @@ import java.io.File;
 import br.com.caelum.revolution.config.Config;
 import br.com.caelum.revolution.visualization.SpecificVisualizationFactory;
 import br.com.caelum.revolution.visualization.Visualization;
-import br.com.caelum.visualization.common.GroupedDataVisualization;
-import br.com.caelum.visualization.common.PieChart;
+import br.com.caelum.revolution.visualization.common.GroupedDataVisualization;
+import br.com.caelum.revolution.visualization.common.PieChart;
 
 public class BuggedArtifactsFactory implements SpecificVisualizationFactory{
 

@@ -1,4 +1,4 @@
-package br.com.caelum.visualization.common;
+package br.com.caelum.revolution.visualization.common;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.hibernate.transform.Transformers;
 
 import br.com.caelum.revolution.persistence.VisualizationThatQueries;
 import br.com.caelum.revolution.visualization.Visualization;
-import br.com.caelum.visualization.common.KeyValueChartExporter;
+import br.com.caelum.revolution.visualization.common.KeyValueChartExporter;
 
 public class GroupedDataVisualization implements Visualization,
 		VisualizationThatQueries {
