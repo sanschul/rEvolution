@@ -33,7 +33,7 @@ public class ToolsFactory {
 			Class theClass = Class.forName(tool);
 			return (SpecificToolFactory)theClass.newInstance();
 		} catch (Exception e) {
-			throw new ToolNotFoundException();
+			throw new ToolNotFoundException(tool);
 		}
 	}
 

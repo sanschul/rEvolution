@@ -26,16 +26,18 @@ public class Launcher {
 		log.info("rEvolution");
 		log.info("starting...");
 
-		if(args.length >= 3 && args[2] != null && !args[2].equals("--only-visualization")) {
+		if(onlyVisualizations(args)) {
 			AnalyzerRunner analyzerRunner = new AnalyzerFactory().basedOn(config);
 			analyzerRunner.start();
 		}
 		
-		if(args.length >= 2 && args[1] != null && args[1].length() > 0) {
-			VisualizationRunner visualizationRunner = new VisualizationFactory().basedOn(config, args[1]);
-			visualizationRunner.start();
-		}
+		VisualizationRunner visualizationRunner = new VisualizationFactory().basedOn(config);
+		visualizationRunner.start();
 		
 		log.info("FINISHED!");
+	}
+
+	private static boolean onlyVisualizations(String[] args) {
+		return args.length == 1 || (args.length >= 2 && !args[1].equals("--only-visualization"));
 	}
 }
