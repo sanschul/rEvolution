@@ -9,7 +9,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
-public class PieChart implements KeyValueChart {
+public class PieChart implements Chart {
 
 	private final String title;
 	private final File file;

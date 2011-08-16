@@ -1,19 +1,19 @@
 package br.com.caelum.revolution.visualization.common;
 
-import java.math.BigInteger;
 
-public class GroupedDataTuple {
+public class GroupedDataTuple<T extends Number> {
 
-	private BigInteger qty;
+	private T qty;
 	private String name;
 	
-	public int getQty() {
-		return qty.intValue();
+	public T getQty() {
+		return qty;
 	}
+	
 	public String getName() {
 		return name;
 	}
-	public void setQty(BigInteger qty) {
+	public void setQty(T qty) {
 		this.qty = qty;
 	}
 	public void setName(String name) {

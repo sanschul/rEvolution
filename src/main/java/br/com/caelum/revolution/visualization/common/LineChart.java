@@ -10,16 +10,16 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-public class BarChart implements Chart {
+public class LineChart implements Chart {
 
-	private final String title;
-	private final File file;
-	private final int height;
-	private final int width;
-	private final String yTitle;
-	private final String xTitle;
-	
-	public BarChart(String title, String xTitle, String yTitle, File file, int width, int height) {
+	private String title;
+	private String xTitle;
+	private String yTitle;
+	private File file;
+	private int width;
+	private int height;
+
+	public LineChart(String title, String xTitle, String yTitle, File file, int width, int height) {
 		this.title = title;
 		this.xTitle = xTitle;
 		this.yTitle = yTitle;
@@ -29,7 +29,7 @@ public class BarChart implements Chart {
 	}
 	
 	public void build(Map<Object, Double> data) {
-		JFreeChart chart = ChartFactory.createBarChart(title, xTitle, yTitle, dataset(data), PlotOrientation.VERTICAL, true, false, false);
+		JFreeChart chart = ChartFactory.createLineChart(title, xTitle, yTitle, dataset(data), PlotOrientation.VERTICAL, true, false, false);
 		
 		try {
 			ChartUtilities.saveChartAsJPEG(file, chart, width, height);
@@ -50,4 +50,5 @@ public class BarChart implements Chart {
 		return ds;
 	}
 
+	
 }
