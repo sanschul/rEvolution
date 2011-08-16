@@ -1,4 +1,4 @@
-package br.com.caelum.revolution.visualization.statistic;
+package br.com.caelum.revolution.visualization.evolution;
 
 import java.io.File;
 
