@@ -9,12 +9,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
-public class PieChart implements KeyValueChartExporter {
+public class PieChart implements KeyValueChart {
 
 	private final String title;
 	private final File file;
-	private int height;
-	private int width;
+	private final int height;
+	private final int width;
 	
 	public PieChart(String title, File file, int width, int height) {
 		this.title = title;

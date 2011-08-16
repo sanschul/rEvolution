@@ -1,6 +1,6 @@
 package br.com.caelum.revolution.visualization.common;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,17 +10,16 @@ import org.hibernate.transform.Transformers;
 
 import br.com.caelum.revolution.persistence.VisualizationThatQueries;
 import br.com.caelum.revolution.visualization.Visualization;
-import br.com.caelum.revolution.visualization.common.KeyValueChartExporter;
 
-public class GroupedDataVisualization implements Visualization,
+public class ThresholdGroupedDataVisualization implements Visualization,
 		VisualizationThatQueries {
 
 	private Session session;
-	private final KeyValueChartExporter chart;
+	private final KeyValueChart chart;
 	private final int threshold;
 	private final String sql;
 
-	public GroupedDataVisualization(KeyValueChartExporter chart, int threshold, String sql) {
+	public ThresholdGroupedDataVisualization(KeyValueChart chart, int threshold, String sql) {
 		this.chart = chart;
 		this.threshold = threshold;
 		this.sql = sql;
@@ -38,7 +37,7 @@ public class GroupedDataVisualization implements Visualization,
 
 	private Map<Object, Double> convertTo(List<GroupedDataTuple> results) {
 
-		Map<Object, Double> map = new HashMap<Object, Double>();
+		Map<Object, Double> map = new LinkedHashMap<Object, Double>();
 
 		for (GroupedDataTuple tuple : results) {
 			map.put(tuple.getName(), new Double(tuple.getQty()));
