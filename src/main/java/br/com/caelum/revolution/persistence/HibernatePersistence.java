@@ -87,12 +87,16 @@ public class HibernatePersistence {
 	}
 
 	public void rollback() {
-		session.getTransaction().rollback();
+		if(session!=null && session.getTransaction()!=null) {
+			session.getTransaction().rollback();
+		}
 		close();
 	}
 
 	public void close() {
-		session.close();
+		if(session!=null) {
+			session.close();
+		}
 	}
 	
 }
