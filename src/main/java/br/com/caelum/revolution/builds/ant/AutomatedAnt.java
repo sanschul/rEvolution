@@ -53,11 +53,11 @@ public class AutomatedAnt implements Build {
 		for(String classpath : classpaths){
 			FileSet fs = new FileSet();
 			fs.setDir(new File(classpath));
+			fs.setIncludes("**/*.jar");
 			path.addFileset(fs);
 		}
 		
 		javac.setClasspath(path);
-
 		javac.execute();
 
 		return new BuildResult(destDir);

@@ -30,7 +30,6 @@ import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
-
 public class DefaultAnalyzerTest {
 
 	private ChangeSet changeSet;
@@ -49,96 +48,115 @@ public class DefaultAnalyzerTest {
 		build = mock(Build.class);
 		scm = mock(SCM.class);
 		converter = mock(PersistedCommitConverter.class);
-		
+
 		session = mock(Session.class);
 		persistence = mock(HibernatePersistence.class);
 		when(persistence.getSession()).thenReturn(session);
-		
-		commit = new Commit("123", new Author("John Doe", "email@email.com"), Calendar.getInstance(), "commit message", "all diff", null);
-		when(converter.toDomain(any(CommitData.class), any(Session.class))).thenReturn(commit);
+
+		commit = new Commit("123", new Author("John Doe", "email@email.com"),
+				Calendar.getInstance(), "commit message", "all diff", null);
+		when(converter.toDomain(any(CommitData.class), any(Session.class)))
+				.thenReturn(commit);
 	}
-	
+
 	@Test
-	public void shouldBuildAllChangeSets() throws BuildException {		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, someMetricTools(), converter, persistence);
-		
+	public void shouldBuildAllChangeSets() throws BuildException {
+		Analyzer analyzer = new DefaultAnalyzer(scm, build, someMetricTools(),
+				converter, persistence);
+
 		analyzer.start(changeSets);
-		
+
 		verify(build).build("123", scm);
 	}
-	
+
 	@Test
 	public void shouldCalculateAllMetrics() throws ToolException {
 		Tool tool = mock(Tool.class);
-		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(tool), converter, persistence);
+
+		Analyzer analyzer = new DefaultAnalyzer(scm, build,
+				aToolListWith(tool), converter, persistence);
 		analyzer.start(changeSets);
-		
+
 		verify(tool).calculate(any(Commit.class), any(BuildResult.class));
 	}
-	
-	@Test @Ignore
+
+	@Test
+	@Ignore
 	public void shouldGiveSessionToTools() {
-		
+
 	}
 
-	@Test @Ignore
+	@Test
+	@Ignore
 	public void shouldGiveScmToTools() {
-		
+
 	}
 
-	
-	@Test @Ignore
+	@Test
+	@Ignore
 	public void shouldStartPersistEngine() {
-		
+
 	}
 
-	@Test @Ignore
+	@Test
+	@Ignore
 	public void shouldConfigurePersistentClasses() {
-		
+
 	}
 
-	@Test @Ignore
+	@Test
+	@Ignore
 	public void shouldPersistCurrentCommit() {
-		
+
 	}
-	
-	@Test @Ignore
+
+	@Test
+	@Ignore
 	public void shouldEndPersistenceEngine() {
-		
+
 	}
-	
-	@Test @Ignore
+
+	@Test
+	@Ignore
 	public void shouldOpenAndCommitTransaction() {
-		
+
 	}
 
-	@Test @Ignore
+	@Test
+	@Ignore
 	public void shouldRollbackIfSometingHappens() {
-		
-	}
-	
-	@Test @Ignore
-	public void shouldConvertScmDataToCommit() {
-		
+
 	}
 
-	@Test @Ignore
-	public void shouldResetPriorCommitIfSomethingHappens() {
-		
+	@Test
+	@Ignore
+	public void shouldConvertScmDataToCommit() {
+
 	}
-	
+
+	@Test
+	@Ignore
+	public void shouldResetPriorCommitIfSomethingHappens() {
+
+	}
+
+	@Test
+	@Ignore
+	public void shouldContinueEvenIfBuildFails() {
+	}
+
 	@Test
 	public void shouldDetailACommit() {
 		CommitData commit = aCommitDataWithId("123");
 		when(scm.detail("123")).thenReturn(commit);
-		
-		Analyzer analyzer = new DefaultAnalyzer(scm, build, aToolListWith(mock(Tool.class)), converter,  persistence);
+
+		Analyzer analyzer = new DefaultAnalyzer(scm, build,
+				aToolListWith(mock(Tool.class)), converter, persistence);
 		analyzer.start(changeSets);
-		
+
 		verify(scm).detail("123");
 	}
-	
+
 	private List<Tool> aToolListWith(Tool tool) {
 		List<Tool> tools = new ArrayList<Tool>();
 		tools.add(tool);
@@ -150,8 +168,7 @@ public class DefaultAnalyzerTest {
 		tools.add(mock(Tool.class));
 		return tools;
 	}
-	
-	
+
 	private CommitData aCommitDataWithId(String id) {
 		CommitData c = mock(CommitData.class);
 		when(c.getCommitId()).thenReturn(id);
