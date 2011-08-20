@@ -72,7 +72,7 @@ public class GitDiffParser {
 		return ModificationKind.DEFAULT;
 	}
 
-	public String extractFileNameIn(String line) {
+	private String extractFileNameIn(String line) {
 		return line.substring(2, line.indexOf(" "));
 	}
 
