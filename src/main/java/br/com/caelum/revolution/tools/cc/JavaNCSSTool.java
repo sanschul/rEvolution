@@ -47,7 +47,7 @@ public class JavaNCSSTool implements Tool, ToolThatPersists, ToolThatUsesSCM {
 			Artifact artifact = (Artifact) session
 					.createCriteria(Artifact.class)
 					.add(Restrictions.like("name",
-							object.getName().replace(".", "/"))).uniqueResult();
+							"%"+object.getName().replace(".", "/")+ "%")).uniqueResult();
 			
 			CyclomaticComplexity cc = new CyclomaticComplexity();
 			cc.setArtifact(artifact);
