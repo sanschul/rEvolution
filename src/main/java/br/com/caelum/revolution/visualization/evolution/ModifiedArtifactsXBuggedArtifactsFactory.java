@@ -12,7 +12,7 @@ public class ModifiedArtifactsXBuggedArtifactsFactory implements
 
 	public Visualization build(Config config) {
 		return new ModifiedArtifactsXBuggedArtifacts(
-				new ScatterPlot("Modifications x Number of Bugs", "Number of Bugs", "Artifact", new File(config.asString("file")), 1500, 1500),
+				new ScatterPlot("Modifications x Number of Bugs", "Number of Bugs", "Number of modifications", new File(config.asString("file")), 1500, 1500),
 				config.asInt("threshold"));
 	}
 }
