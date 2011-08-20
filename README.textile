@@ -52,9 +52,9 @@ Besides getting basic information from the repository, it also calculates the fo
 * JDepend metrics
 * Word count in Diff (it allows you to measure how many "@Test" or "TODO" were written, for example)
 * Number of added/removed lines per commit
-* Bugged commits [1]
+* Bugged commits _1_
 
-[1] It tries to predict bugged commits by looking to the commit message. If the commit message says something about
+_1_ It tries to predict bugged commits by looking to the commit message. If the commit message says something about
 "bug fixed", it then starts looking all removed lines in the diff, and search for the first commit that added that line.
 As soon as it finds it, it marks this commit as a "bugged". The algorithm was based on this paper: http://patricklam.ca/papers/11.msr.time-of-day.pdf)
 
