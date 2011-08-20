@@ -28,9 +28,9 @@ public class ParsedJavaNCSS {
 	public List<ParsedJavaNCSSObject> getObjects() {
 		return objects;
 	}
-	public void setObjects(List<ParsedJavaNCSSObject> objects) {
-		this.objects = objects;
+
+	public void addObject(ParsedJavaNCSSObject obj) {
+		this.objects.add(obj);
 	}
-	
 	
 }
