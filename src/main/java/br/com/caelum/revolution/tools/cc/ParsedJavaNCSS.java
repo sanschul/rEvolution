@@ -1,5 +1,6 @@
 package br.com.caelum.revolution.tools.cc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParsedJavaNCSS {
@@ -7,6 +8,10 @@ public class ParsedJavaNCSS {
 	private String date;
 	private String time;
 	private List<ParsedJavaNCSSObject> objects;
+	
+	public ParsedJavaNCSS() {
+		objects = new ArrayList<ParsedJavaNCSSObject>();
+	}
 	
 	public String getDate() {
 		return date;
