@@ -15,6 +15,7 @@ import br.com.caelum.revolution.domain.PersistedCommitConverter;
 import br.com.caelum.revolution.persistence.HibernatePersistence;
 import br.com.caelum.revolution.persistence.ToolThatPersists;
 import br.com.caelum.revolution.scm.CommitData;
+import br.com.caelum.revolution.scm.GoToChangeSet;
 import br.com.caelum.revolution.scm.SCM;
 import br.com.caelum.revolution.scm.ToolThatUsesSCM;
 import br.com.caelum.revolution.tools.Tool;
@@ -79,8 +80,8 @@ public class DefaultAnalyzer implements Analyzer {
 	private void giveSCMToTools() {
 		for (Tool tool : tools) {
 			if (tool instanceof ToolThatUsesSCM) {
-				ToolThatUsesSCM x = (ToolThatUsesSCM) tool;
-				x.setSCM(scm);
+				ToolThatUsesSCM theTool = (ToolThatUsesSCM) tool;
+				theTool.setSCM(scm);
 			}
 		}
 	}
@@ -114,6 +115,11 @@ public class DefaultAnalyzer implements Analyzer {
 	private void runTools(Commit commit, BuildResult currentBuild) {
 		for (Tool tool : tools) {
 			try {
+				
+				if(tool.getClass().isAnnotationPresent(GoToChangeSet.class)) {
+					scm.goTo(commit.getCommitId());
+				}
+				
 				log.info("running tool: " + tool.getName());
 				tool.calculate(commit, currentBuild);
 			} catch (Exception e) {

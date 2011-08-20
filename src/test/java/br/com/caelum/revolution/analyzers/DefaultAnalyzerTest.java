@@ -139,6 +139,10 @@ public class DefaultAnalyzerTest {
 	public void shouldResetPriorCommitIfSomethingHappens() {
 
 	}
+	
+	@Test
+	@Ignore
+	public void shouldGoToChangeSetIfToolSaysThat() {}
 
 	@Test
 	@Ignore

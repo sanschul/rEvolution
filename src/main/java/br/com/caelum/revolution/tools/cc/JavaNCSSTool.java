@@ -9,10 +9,12 @@ import br.com.caelum.revolution.domain.Commit;
 import br.com.caelum.revolution.executor.CommandExecutor;
 import br.com.caelum.revolution.persistence.ToolThatPersists;
 import br.com.caelum.revolution.scm.SCM;
+import br.com.caelum.revolution.scm.GoToChangeSet;
 import br.com.caelum.revolution.scm.ToolThatUsesSCM;
 import br.com.caelum.revolution.tools.Tool;
 import br.com.caelum.revolution.tools.ToolException;
 
+@GoToChangeSet
 public class JavaNCSSTool implements Tool, ToolThatPersists, ToolThatUsesSCM {
 
 	private Session session;
